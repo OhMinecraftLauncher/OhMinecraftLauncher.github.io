@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kards' Cards</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- 适配移动端 -->
+    <link rel="stylesheet" type="text/css" href="css/html.css">
+	<link rel="stylesheet" type="text/css" href="css/button.css">
+	<link rel="stylesheet" type="text/css" href="css/listFilter.css">
+	<link rel="stylesheet" type="text/css" href="css/deck.css">
+	<link rel="stylesheet" type="text/css" href="css/sidebar.css">
+	<link rel="stylesheet" type="text/css" href="css/tips.css">
+	<link rel="stylesheet" type="text/css" href="css/finish.css">
+	<link rel="stylesheet" type="text/css" href="css/import.css">
+    <script src="script/loadCards.js" defer></script>
+    <script src="script/setFilters.js" defer></script>
+    <script src="script/listFilter.js" defer></script>
+    <script src="script/sidebar.js" defer></script>
+    <script src="script/tips.js" defer></script>
+    <script src="script/finish.js" defer></script>
+    <script src="script/import.js" defer></script>
+    <script src="script/deck.js" defer></script>
+</head>
+
+<body>
+    <div class="cards-container">  <!-- 新增外层容器 -->
+        <div class="image-grid" id="image-container"></div>
+        <div class="sentinel"></div>  <!-- 哨兵移到网格外 -->
+    </div>
+    <div class="fixed-top">
+        <h1>简易Kards卡组编辑器</h1>
+        <span>主国：</span>
+        <select id="Main" onchange="onMainChanged(this.value)">
+          <option value="0">---</option>
+          <option value="1">德国</option>
+          <option value="2">英国</option>
+          <option value="3">日本</option>
+          <option value="4">苏联</option>
+          <option value="5">美国</option>
+        </select>
+        <span>盟国：</span>
+        <select id="Ally" onchange="onAllyChanged(this.value)">
+          <option value="0">---</option>
+          <option value="1">德国</option>
+          <option value="2">英国</option>
+          <option value="3">日本</option>
+          <option value="4">苏联</option>
+          <option value="5">美国</option>
+          <option value="6">法国</option>
+          <option value="7">意大利</option>
+          <option value="8">波兰</option>
+          <option value="9">芬兰</option>
+        </select>
+        <span>花费：</span>
+		<input id="ReditsInput" type="number" min="-1" max="20" onchange="onReditsChanged(this.value)"/>
+        <span>卡池：</span>
+        <select id="Reserved" onchange="onReservedChanged(this.value)">
+          <option value="0">全部</option>
+          <option value="1">活跃</option>
+          <option value="2">预备</option>
+          <option value="3">衍生</option>
+        </select>
+		<span>稀有度：</span>
+        <select id="Rarity" onchange="onRarityChanged(this.value)">
+		  <option value="All">全部</option>
+          <option value="Standard">普通</option>
+          <option value="Limited">限定</option>
+          <option value="Special">特殊</option>
+          <option value="Elite">精英</option>
+        </select>
+		<span>类型：</span>
+        <select id="Type" onchange="onTypeChanged(this.value)">
+		  <option value="All">全部</option>
+          <option value="infantry">步兵</option>
+          <option value="tank">坦克</option>
+          <option value="artillery">炮兵</option>
+          <option value="fighter">战斗机</option>
+          <option value="bomber">轰炸机</option>
+          <option value="order">指令</option>
+          <option value="countermeasure">反制</option>
+        </select>
+		<span>搜索：</span>
+		<input id="Search" type="text" style="width: 160px" onchange="onSearchChanged(this.value)" placeholder="搜索标题和卡面描述文本">
+		<button class="action-btn delete-btn" type="button" onclick="onSearchClick()">清空</button>
+		<br>
+		<button id="showArraysBtn" class="action-btn edit-btn" type="button">查看筛选器列表</button>
+		<button class="action-btn delete-btn" type="button" onclick="onRemoveAllFilterClick()">清空所有筛选器</button>
+    </div>
+	
+    <div class="sidebar" id="sidebar">
+		<button class="button exportbutton" onclick="onExportClick()">生成卡组导入码</button>
+		<br>
+		<button style="margin-top: 5px" class="button exportbutton" onclick="onImportClicked()">从导入码导入卡组</button>
+		<br>
+		<input id="allowError" type="checkbox" onclick="onAllowErrorClicked(this)">允许不正确的卡组
+		<h3 id="Deck_Card_Count">0 / 39</h3>
+		<div id="deck">
+		</div>
+		<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
+	</div>
+	
+	    <!-- 手机上的侧边栏触发器 -->
+    <div class="sidebar-trigger" id="sidebarTrigger">
+		←
+		<div style="display: none;" class="sidebar-badge" id="sidebarBadge"></div>
+	</div>
+    
+    <!-- 模态框 -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+			<div id="modal-sidebar" class="modal-body">
+			</div>
+        </div>
+    </div>
+	
+	<!-- 模态框背景，用于点击外部关闭 -->
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    
+    <!-- 数组显示模态框 -->
+    <div id="arrayDisplayModal">
+        <h2>筛选器数组内容</h2>
+        <div class="add-filter-buttons">
+			<button id="addOrFilterBtn" class="add-btn">添加或筛选器</button>
+			<button id="addAndFilterBtn" class="add-btn">添加与筛选器</button>
+		</div>
+        <h3>或筛选器</h3>
+        <table id="orFilterTable">
+            <thead>
+                <tr>
+                    <th>组</th>
+                    <th>路径</th>
+                    <th>值</th>
+                    <th>包含</th>
+                    <th>否</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        <h3>与筛选器</h3>
+        <table id="andFilterTable">
+            <thead>
+                <tr>
+                    <th>路径</th>
+                    <th>值</th>
+                    <th>包含</th>
+                    <th>否</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    
+    <!-- 编辑模态框 -->
+    <div class="edit-modal" id="editModal">
+        <h3>编辑过滤器项</h3>
+        <form id="editForm">
+            <div class="form-group" id="groupField">
+                <label for="editGroup">组</label>
+                <input type="text" id="editGroup" name="group">
+            </div>
+            <div class="form-group">
+                <label for="editPath">路径</label>
+                <input type="text" id="editPath" name="path" required>
+            </div>
+            <div class="form-group">
+                <label for="editValue">值</label>
+                <input type="text" id="editValue" name="value" required>
+            </div>
+            <div class="form-group">
+                <label for="editContain">包含</label>
+                <select id="editContain" name="contain">
+                    <option value="true">true</option>
+                    <option value="false" selected>false</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editNo">否</label>
+                <select id="editNo" name="no">
+                    <option value="true">true</option>
+                    <option value="false" selected>false</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn" id="cancelEdit">取消</button>
+                <button type="submit" class="save-btn">保存</button>
+            </div>
+        </form>
+    </div>
+	
+	<div id="copyModal" class="modal">
+        <div class="modal-content">
+            <span id="closeBtn2" class="close-btn">&times;</span>
+            <div class="modal-body">
+                <h2>卡组导入码</h2>
+                <p class="modal-text">以下是您的卡组的导入码：</p>
+                <div class="copy-container">
+                    <input type="text" id="copyText" class="copy-input" readonly>
+                    <button id="copyBtn" class="copy-btn">复制</button>
+                </div>
+                <p class="modal-text"><small>恭喜你，你被恭喜了</small></p>
+            </div>
+        </div>
+    </div>
+	
+	<!-- 模态框结构 -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeBtn3">&times;</span>
+            <div class="modal-body">
+                <h2>从卡组码导入卡组</h2>
+                <p>在下面的输入框中输入卡组导入码：</p>
+                <input type="text" class="modal-input" id="importInput" placeholder="%%XX|XX...;XX...;XX...;XX...">
+                <div class="modal-actions">
+                    <button id="confirmBtn" class="action-btn save-btn">确认</button>
+                    <button id="cancelBtn" class="action-btn delete-btn" >取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <div id="temporary-message"></div>
+</body>
+
+</html>

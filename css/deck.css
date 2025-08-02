@@ -1,0 +1,71 @@
+#deck {
+	width: 80%;
+	height: auto;
+	margin: auto;
+}
+
+.deck-card-kredits-board {
+	width: 23px;
+	height: 23px;
+	background-color: #31332d;
+	border: 1px solid #c4c2ab;
+}
+
+.deck-card-count-board {
+	width: 23px;
+	height: 23px;
+	border: 1px solid #c4c2ab;
+	color: white;
+}
+
+.deck-card-kredits-subp {
+	color: white;
+	display: inline-flex;
+	flex-direction: column;
+	vertical-align: middle;
+	line-height: 0.6;
+	font-size: 75%;
+}
+
+.deck-card-kredits-text {
+	color: white;
+	display: flex;
+}
+
+.K-text {
+	font-size: 8px;
+	color: gold;
+}
+
+.op-text {
+	font-size: 8px;
+}
+
+.deck-card-body-board {
+	height: 23px;
+	width: 166px;
+	border: 1px solid #c4c2ab;
+	color: white;
+	display: flex;
+}
+
+.deck-card-board {
+	border: 2px solid #c4c2ab;
+	display: flex;
+	width: 100%;
+	max-width: 240px;
+	margin: auto;
+}
+
+.deck-card-thumb {
+	height: 23px;
+	width: 23px;
+	border:1px solid #c4c2ab;
+}
+
+.deck-card-body-text {
+	width: 143px;
+	white-space: nowrap;   /* 禁止换行 */
+    overflow: hidden;      /* 隐藏超出部分 */
+    text-overflow: ellipsis; /* 显示省略号 */
+}

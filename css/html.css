@@ -1,0 +1,93 @@
+        /* 全局样式 */
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 图片自适应 */
+        img {
+            max-width: 100%;  /* 图片最大宽度不超过父容器 */
+            height: auto;     /* 高度自动调整，保持比例 */
+            display: block;    /* 防止图片下方有空白间隙 */
+        }
+
+        /* 图片容器（Grid 布局） */
+        .image-grid {
+            padding: 170px 10px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 默认 4 列 */
+            gap: 10px; /* 图片间距 */
+            width: 70%;
+        }
+
+        /* 右侧固定 *
+        .fixed-right {
+            position: fixed;
+            right: 0%;
+            top: 10%;
+            transform: translateY(-10%);
+            background: rgba(255, 255, 255, 0.8); /* 可选：增加背景色提高可读性 *
+            padding: 10px;
+            width: 25%;
+			text-align: center;
+			height: 500px
+        }
+		*/
+
+        /* 上方固定 */
+        .fixed-top {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            transform: translateY(0%);
+            background: rgba(255, 255, 255, 0.8); /* 可选：增加背景色提高可读性 */
+            padding: 15px;
+            width: 70%;
+        }
+
+        /* 响应式调整列数 */
+        @media (max-width: 1200px) {
+            .image-grid {
+                grid-template-columns: repeat(3, 1fr); /* 屏幕较小时 3 列 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: repeat(2, 1fr); /* 平板端 2 列 */
+            }
+        }
+
+/*
+        @media (max-width: 480px) {
+            .image-grid {
+                grid-template-columns: 1fr; /* 手机端 1 列 *
+            }
+        }
+		*/
+		
+		
+		
+		@media (max-width: 1200px) {
+            .image-grid {
+                width: 100%; /* 平板端 2 列 */
+            }
+			.fixed-top {
+				width: 100%
+			}
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .sentinel {
+            height: 10px;       /* 哨兵高度，不需要可见 */
+            position: absolute; /* 脱离文档流，避免影响布局 */
+            bottom: 0;          /* 放在容器底部 */
+        }
+        .cards-container {
+            position: relative;  /* 确保哨兵元素相对此容器定位 */
+        }

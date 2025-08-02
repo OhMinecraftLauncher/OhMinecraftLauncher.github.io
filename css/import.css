@@ -1,0 +1,17 @@
+/* 补充样式（如果需要的样式在已有CSS中没有） */
+        .modal-input {
+            width: 80%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .modal-actions {
+            margin-top: 20px;
+        }
+        
+        .modal-actions button {
+            margin: 0 10px;
+        }

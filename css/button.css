@@ -1,0 +1,24 @@
+
+		.button {
+		  border: none;
+		  color: white;
+		  padding: 16px 32px;
+		  text-align: center;
+		  text-decoration: none;
+		  display: inline-block;
+		  font-size: 16px;
+		  transition-duration: 0.4s;
+		  cursor: pointer;
+		}
+
+		.exportbutton {
+		  background-color: white;
+		  color: black;
+		  margin: auto;
+		  border: 2px solid #4CAF50;
+		}
+
+		.exportbutton:hover {
+		  background-color: #4CAF50;
+		  color: white;
+		}
