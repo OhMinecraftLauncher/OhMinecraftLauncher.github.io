@@ -9,12 +9,15 @@ let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 
+const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
+const contentLength = 3321822;
+
 document.addEventListener("DOMContentLoaded", function() {
     // 配置参数
 
     // 1. 加载 JSON 数据
 	modal.style.display = "block";
-    fetchWithProgress("Cards.json")
+    fetchWithProgress(CDN_URL + "/Cards.json")
 		/*
         .then(response => {
             if (!response.ok) throw new Error("网络请求失败");
@@ -276,7 +279,7 @@ function loadNextBatch() {
         if (!card.imageUrl || !card.json?.title?.["zh-Hans"]) return;
 
         const img = document.createElement("img");
-        img.src = card.imageUrl;
+        img.src = CDN_URL + card.imageUrl;
         img.alt = decodeUnicode(card.json.title["zh-Hans"]);
 		img.name = JSON.stringify(card);
 		img.addEventListener("click",function () {onCardsBeClicked(this.name);});
