@@ -1,11 +1,20 @@
 async function fetchWithProgress(url) {
+	const r = await fetch(url, {
+		method: 'HEAD',
+	  headers: {
+		'Accept-Encoding': 'identity' // 明确请求不压缩
+	  }
+	});
+  const contentLength = r.headers.get('Content-Length');
+  // 现在 Content-Length 应该是解压后的大小
+
   const response = await fetch(url);
   
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
   
-  const contentLength = response.headers.get('Content-Length');
+  //const contentLength = response.headers.get('Content-Length');
   const reader = response.body.getReader();
   let receivedLength = 0;
   let chunks = [];
