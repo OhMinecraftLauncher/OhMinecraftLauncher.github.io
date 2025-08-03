@@ -9,7 +9,8 @@ let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 
-const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
+//const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
+const CDN_URL = "https://testingcf.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/";
 const contentLength = 3321822;
 
 document.addEventListener("DOMContentLoaded", function() {
