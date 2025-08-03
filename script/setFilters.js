@@ -1,5 +1,6 @@
 let oldmain = "";
 let oldally = "";
+const allyandfilter = {"path":"json.rarity","value":"Elite","contain":false,"no":true};
 
 function onMainChanged(val)
 {
@@ -45,8 +46,8 @@ function onAllyChanged(val)
 {
 	if (oldally != "")
 	{
-		removeOrFilterByFilter("Country","json.faction",oldally);
-		removeOrFilterByFilter("Country","json.exile",oldally);
+		removeOrFilterByFilter("Country","json.faction",oldally,false,false,allyandfilter);
+		removeOrFilterByFilter("Country","json.exile",oldally,false,false,allyandfilter);
 	}
 	switch(val)
 	{
@@ -54,48 +55,48 @@ function onAllyChanged(val)
 			oldally = "";
 			break;
 		case "1":
-			addOrFilter("Country","json.faction","Germany");
-			addOrFilter("Country","json.exile","Germany");
+			addOrFilter("Country","json.faction","Germany",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Germany",false,false,allyandfilter);
 			oldally = "Germany";
 			break;
 		case "2":
-			addOrFilter("Country","json.faction","Britain");
-			addOrFilter("Country","json.exile","Britain");
+			addOrFilter("Country","json.faction","Britain",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Britain",false,false,allyandfilter);
 			oldally = "Britain";
 			break;
 		case "3":
-			addOrFilter("Country","json.faction","Japan");
-			addOrFilter("Country","json.exile","Japan");
+			addOrFilter("Country","json.faction","Japan",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Japan",false,false,allyandfilter);
 			oldally = "Japan";
 			break;
 		case "4":
-			addOrFilter("Country","json.faction","Soviet");
-			addOrFilter("Country","json.exile","Soviet");
+			addOrFilter("Country","json.faction","Soviet",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Soviet",false,false,allyandfilter);
 			oldally = "Soviet";
 			break;
 		case "5":
-			addOrFilter("Country","json.faction","USA");
-			addOrFilter("Country","json.exile","USA");
+			addOrFilter("Country","json.faction","USA",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","USA",false,false,allyandfilter);
 			oldally = "USA";
 			break;
 		case "6":
-			addOrFilter("Country","json.faction","France");
-			addOrFilter("Country","json.exile","France");
+			addOrFilter("Country","json.faction","France",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","France",false,false,allyandfilter);
 			oldally = "France";
 			break;
 		case "7":
-			addOrFilter("Country","json.faction","Italy");
-			addOrFilter("Country","json.exile","Italy");
+			addOrFilter("Country","json.faction","Italy",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Italy",false,false,allyandfilter);
 			oldally = "Italy";
 			break;
 		case "8":
-			addOrFilter("Country","json.faction","Poland");
-			addOrFilter("Country","json.exile","Poland");
+			addOrFilter("Country","json.faction","Poland",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Poland",false,false,allyandfilter);
 			oldally = "Poland";
 			break;
 		case "9":
-			addOrFilter("Country","json.faction","Finland");
-			addOrFilter("Country","json.exile","Finland");
+			addOrFilter("Country","json.faction","Finland",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Finland",false,false,allyandfilter);
 			oldally = "Finland";
 			break;
 	}

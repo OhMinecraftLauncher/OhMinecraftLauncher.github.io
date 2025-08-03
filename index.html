@@ -87,32 +87,69 @@
 		<button class="action-btn delete-btn" type="button" onclick="onRemoveAllFilterClick()">清空所有筛选器</button>
     </div>
 	
-    <div class="sidebar" id="sidebar">
-		<button class="button exportbutton" onclick="onExportClick()">生成卡组导入码</button>
-		<br>
-		<button style="margin-top: 5px" class="button exportbutton" onclick="onImportClicked()">从导入码导入卡组</button>
-		<br>
-		<input id="allowError" type="checkbox" onclick="onAllowErrorClicked(this)">允许不正确的卡组
-		<h3 id="Deck_Card_Count">0 / 39</h3>
-		<div id="deck">
-		</div>
-		<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
-	</div>
-	
 	    <!-- 手机上的侧边栏触发器 -->
     <div class="sidebar-trigger" id="sidebarTrigger">
 		←
 		<div style="display: none;" class="sidebar-badge" id="sidebarBadge"></div>
 	</div>
+	
+	<div class="modal" id="exim-modal" style="z-index: 1003;">
+        <div id="import-modal" class="modal-content">
+        <span class="close-btn" id="closeBtn">&times;</span>
+            <div class="modal-body">
+                <h2>从卡组码导入卡组</h2>
+                <p>在下面的输入框中输入卡组导入码：</p>
+                <textarea type="text" class="modal-input" id="importInput" placeholder="%%XX|XX...;XX...;XX...;XX..."></textarea>
+                <div class="modal-actions">
+                    <button id="confirmBtn" class="action-btn save-btn">确认</button>
+                    <button id="cancelBtn" class="action-btn delete-btn" >取消</button>
+                </div>
+            </div>
+        </div>
+		
+        <div id="export-modal" class="modal-content">
+            <span id="closeBtn2" class="close-btn">&times;</span>
+            <div class="modal-body">
+                <h2>卡组导入码</h2>
+                <p class="modal-text">以下是您的卡组的导入码：</p>
+                <div class="copy-container">
+                    <input type="text" id="copyText" class="copy-input" readonly>
+                    <button id="copyBtn" class="copy-btn">复制</button>
+                </div>
+                <p class="modal-text"><small>恭喜你，你被恭喜了</small></p>
+            </div>
+        </div>
+	</div>
+	
+	<div class="modal" id="modal"></div>
+	
+	<div class="sidebar" id="sidebar">
+		<div class="sidebar-content">
+			<button class="button exportbutton" onclick="onExportClick()">生成卡组导入码</button>
+			<br>
+			<button style="margin-top: 5px" class="button exportbutton" onclick="onImportClicked()">从导入码导入卡组</button>
+			<br>
+			<input id="allowError" type="checkbox" onclick="onAllowErrorClicked(this)">允许不正确的卡组
+			<h3 id="Deck_Card_Count">1 / 40</h3>
+			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
+				<span style="margin: auto;">
+					总部
+				</span>
+			</div>
+			<div id="deck">
+			</div>
+			<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
+		</div>
+	</div>
     
-    <!-- 模态框 -->
+    <!-- 模态框 --
     <div class="modal" id="modal">
         <div class="modal-content">
             <span class="close-btn" id="closeBtn">&times;</span>
 			<div id="modal-sidebar" class="modal-body">
 			</div>
         </div>
-    </div>
+    </div>-->
 	
 	<!-- 模态框背景，用于点击外部关闭 -->
     <div class="modal-backdrop" id="modalBackdrop"></div>
@@ -133,6 +170,7 @@
                     <th>值</th>
                     <th>包含</th>
                     <th>否</th>
+                    <th>内嵌与筛选器</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -184,42 +222,15 @@
                     <option value="false" selected>false</option>
                 </select>
             </div>
+            <div class="form-group" id="groupAnd">
+                <label for="editAnd">内嵌与筛选器</label>
+                <input type="text" id="editAnd" name="and">
+            </div>
             <div class="form-actions">
                 <button type="button" class="cancel-btn" id="cancelEdit">取消</button>
                 <button type="submit" class="save-btn">保存</button>
             </div>
         </form>
-    </div>
-	
-	<div id="copyModal" class="modal">
-        <div class="modal-content">
-            <span id="closeBtn2" class="close-btn">&times;</span>
-            <div class="modal-body">
-                <h2>卡组导入码</h2>
-                <p class="modal-text">以下是您的卡组的导入码：</p>
-                <div class="copy-container">
-                    <input type="text" id="copyText" class="copy-input" readonly>
-                    <button id="copyBtn" class="copy-btn">复制</button>
-                </div>
-                <p class="modal-text"><small>恭喜你，你被恭喜了</small></p>
-            </div>
-        </div>
-    </div>
-	
-	<!-- 模态框结构 -->
-    <div id="importModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeBtn3">&times;</span>
-            <div class="modal-body">
-                <h2>从卡组码导入卡组</h2>
-                <p>在下面的输入框中输入卡组导入码：</p>
-                <input type="text" class="modal-input" id="importInput" placeholder="%%XX|XX...;XX...;XX...;XX...">
-                <div class="modal-actions">
-                    <button id="confirmBtn" class="action-btn save-btn">确认</button>
-                    <button id="cancelBtn" class="action-btn delete-btn" >取消</button>
-                </div>
-            </div>
-        </div>
     </div>
 	
     <div id="temporary-message"></div>

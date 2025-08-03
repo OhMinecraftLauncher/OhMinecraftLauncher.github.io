@@ -1,29 +1,31 @@
 // 获取DOM元素
-        const importModal = document.getElementById('importModal');
-        const closeBtn3 = document.getElementById('closeBtn3');
+        const import_modal = document.getElementById('import-modal');
+        const closeBtn = document.getElementById('closeBtn');
         const cancelBtn = document.getElementById('cancelBtn');
 		const importInput = document.getElementById('importInput');
         
         // 关闭模态框
         function closeModal() {
 			importInput.value = "";
-            importModal.style.display = 'none';
+            exim_modal.style.display = 'none';
         }
 		
 		
         function onImportClicked() {
-            importModal.style.display = 'block';
+            exim_modal.style.display = 'block';
+			import_modal.style.display = 'block';
+			export_modal.style.display = 'none';
         }
         
         // 点击关闭按钮
-        closeBtn3.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', closeModal);
         
         // 点击取消按钮
         cancelBtn.addEventListener('click', closeModal);
         
         // 点击模态框外部关闭
         window.addEventListener('click', function(event) {
-            if (event.target === importModal) {
+            if (event.target === exim_modal) {
                 closeModal();
             }
         });
@@ -53,46 +55,46 @@
 					var cCard_str = "";
 					var Card_count = 0;
 					var Cards_count = 0;
-					inputValue_cCardsCode.forEach((c) => {
-						if (c === ';')
-						{
-							Card_count++;
-							inputValue_cCards.forEach((cCard_impcode) => {
-								allCards.forEach((card) => {
-									if (card.importId === cCard_impcode)
-									{
-										if (cCards[JSON.stringify(card)] === undefined)
-										{
-											cCards[JSON.stringify(card)] = Card_count;
-										}
-										else
-										{
-											cCards[JSON.stringify(card)] += Card_count;
-										}
-										Cards_count += Card_count;
-									}
-								});
-							});
-							inputValue_cCards = [];
-						}
-						else if (c === ' ' || c === '\n' || c === '\r')
-						{
-							return;
-						}
-						else
-						{
-							if (cCard_str.length === 1)
+						inputValue_cCardsCode.forEach((c) => {
+							if (c === ';')
 							{
-								cCard_str += c;
-								inputValue_cCards.push(cCard_str);
-								cCard_str = "";
+								Card_count++;
+								inputValue_cCards.forEach((cCard_impcode) => {
+									allCards.forEach((card) => {
+										if (card.importId === cCard_impcode)
+										{
+											if (cCards[JSON.stringify(card)] === undefined)
+											{
+												cCards[JSON.stringify(card)] = Card_count;
+											}
+											else
+											{
+												cCards[JSON.stringify(card)] += Card_count;
+											}
+											Cards_count += Card_count;
+										}
+									});
+								});
+								inputValue_cCards = [];
+							}
+							else if (c === ' ' || c === '\n' || c === '\r')
+							{
+								return;
 							}
 							else
 							{
-								cCard_str += c;
+								if (cCard_str.length === 1)
+								{
+									cCard_str += c;
+									inputValue_cCards.push(cCard_str);
+									cCard_str = "";
+								}
+								else
+								{
+									cCard_str += c;
+								}
 							}
-						}
-					});
+						});
 					Main.value = inputValue_spiltbyone[2];
 					Ally.value = inputValue_spiltbyone[3];
 					if (!checkDeck())

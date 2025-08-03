@@ -60,12 +60,13 @@ editForm.addEventListener('submit', function(e) {
         path: formData.get('path'),
         value: formData.get('value'),
         contain: formData.get('contain') === 'true',
-        no: formData.get('no') === 'true'
+        no: formData.get('no') === 'true',
     };
     
     // 如果是orFilter，添加group属性
     if (currentEditItem.type === 'or') {
         editedItem.group = formData.get('group');
+		editedItem.and = JSON.parse(formData.get('and'));
     }
     
     // 更新或添加数组项
@@ -103,9 +104,16 @@ editForm.addEventListener('submit', function(e) {
                 const row = document.createElement('tr');
                 
                 // 添加数据单元格
-                ['group', 'path', 'value', 'contain', 'no'].forEach(column => {
+                ['group', 'path', 'value', 'contain', 'no','and'].forEach(column => {
                     const cell = document.createElement('td');
-                    cell.textContent = item[column] !== undefined ? item[column].toString() : '';
+					if (column === 'and')
+					{
+						cell.textContent = item[column] !== undefined ? JSON.stringify(item[column]) : '';
+					}
+					else
+					{
+						cell.textContent = item[column] !== undefined ? item[column].toString() : '';
+					}
                     row.appendChild(cell);
                 });
                 
@@ -170,8 +178,11 @@ editForm.addEventListener('submit', function(e) {
             if (type === 'or') {
                 groupField.style.display = 'block';
                 document.getElementById('editGroup').value = item.group || '';
+                groupAnd.style.display = 'block';
+                document.getElementById('editAnd').value = JSON.stringify(item.and);
             } else {
                 groupField.style.display = 'none';
+                groupAnd.style.display = 'none';
             }
             
             // 填充表单数据

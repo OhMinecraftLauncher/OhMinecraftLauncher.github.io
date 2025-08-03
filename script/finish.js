@@ -1,16 +1,17 @@
         // 获取DOM元素
-        const showModalBtn = document.getElementById('showModalBtn');
-        const copyModal = document.getElementById('copyModal');
+        //const showModalBtn = document.getElementById('showModalBtn');
+        const exim_modal = document.getElementById('exim-modal');
+        const export_modal = document.getElementById('export-modal');
         const closeBtn2 = document.getElementById('closeBtn2');
         const copyBtn = document.getElementById('copyBtn');
         const copyText = document.getElementById('copyText');
-        const tempMessage = document.getElementById('temporary-message');
+        //const tempMessage = document.getElementById('temporary-message');
 
 
         // 点击模态框外部关闭
         window.addEventListener('click', (event) => {
-            if (event.target === copyModal) {
-                copyModal.style.display = 'none';
+            if (event.target === exim_modal) {
+                exim_modal.style.display = 'none';
             }
         });
 
@@ -24,5 +25,5 @@
         });
 		        // 关闭模态框
         closeBtn2.addEventListener('click', () => {
-            copyModal.style.display = 'none';
+            exim_modal.style.display = 'none';
         });

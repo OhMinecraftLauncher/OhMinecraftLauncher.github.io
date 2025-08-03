@@ -25,26 +25,6 @@ function onCardsBeClicked(jsonText)
 		cCards[jsonText] = cCards[jsonText] + 1;
 	}
 	count++;
-	/*
-	if (factions.length === 0)
-	{
-		factions.push(j.json.faction);
-	}
-	else
-	{
-		var IsinFacArr = false;
-		factions.forEach((item) => {
-			if (item === j.json.faction)
-			{
-				IsinFacArr = true;
-			}
-		});
-		if (!IsinFacArr)
-		{
-			factions.push(j.json.faction);
-		}
-	}
-	*/
 	if (checkDeck())
 	{
 		old_cCards = JSON.parse(JSON.stringify(cCards));
@@ -71,6 +51,7 @@ function checkDeck()
 		{
 			var factions = [];
 			var elite_factions = [];
+			var AllyCardCount = 0;
 			keys.forEach((key) => {
 				if (cCards[key] <= 0)
 				{
@@ -81,33 +62,45 @@ function checkDeck()
 				{
 					throw new Error("HaveSpab");
 				}
-				var IsMainOrAllyCard = false;
+				var IsMainCard = false;
+				var IsAllyCard = false;
 				if (oldmain !== "")
 				{
 					if (oldmain === k.json.faction)
 					{
-						IsMainOrAllyCard = true;
+						IsMainCard = true;
 					}
 					if (oldmain === k.json.exile)
 					{
-						IsMainOrAllyCard = true;
+						IsMainCard = true;
 					}
 				}
 				if (oldally !== "")
 				{
 					if (oldally === k.json.faction)
 					{
-						IsMainOrAllyCard = true;
+						IsAllyCard = true;
 					}
 					if (oldally === k.json.exile)
 					{
-						IsMainOrAllyCard = true;
+						IsAllyCard = true;
 					}
 				}
-				if (oldmain === "" && oldally === "") IsMainOrAllyCard = true;
-				if (!IsMainOrAllyCard)
+				if (oldmain === "" && oldally === "") IsMainCard = true;
+				if (!IsMainCard && !IsAllyCard)
 				{
 					throw new Error("NotMACard");
+				}
+				else
+				{
+					if (!IsMainCard && IsAllyCard)
+					{
+						AllyCardCount += cCards[key];
+					}
+				}
+				if (AllyCardCount > 12)
+				{
+					throw new Error("MuchAlly");
 				}
 				switch (k.json.rarity)
 				{
@@ -206,6 +199,10 @@ function checkDeck()
 			{
 				showTemporaryMessage("卡组中的某些卡牌或所点击的卡牌不是所选主国的精英卡牌（卡组中不能有盟国的精英卡）","warning");
 			}
+			else if (e.message === "MuchAlly")
+			{
+				showTemporaryMessage("盟国卡太多（超过了12张）","warning");
+			}
 			else
 			{
 				throw e;
@@ -230,7 +227,7 @@ function onDeckCardsBeClicked(jsonText)
 
 function loadDeck()
 {
-	Deck_Card_Count.innerHTML = count + " / 39";
+	Deck_Card_Count.innerHTML = ( count + 1 ).toString() + " / 40";
 	updateBadge(count);
 	if (count > 0)
 	{
@@ -346,6 +343,7 @@ function loadDeck()
 		}
 		deck.appendChild(deck_card_board);
 	});
+	/*
 	modal_sidebar.innerHTML = sidebar.innerHTML;
 	var deck_childs = deck.childNodes;
 	var modal_childs = modal_sidebar.childNodes;
@@ -368,6 +366,7 @@ function loadDeck()
 			sidebar_childs[j].checked = allowE;
 		}
 	};
+	*/
 }
 
 function onDeckRemoveClick()
@@ -421,7 +420,9 @@ function onExportClick()
 		});
 		showTemporaryMessage("卡组导出成功");
 		copyText.value = "%%" + Main.value + Ally.value + "|" + one + ";" + two + ";" + three + ";" + four;
-		copyModal.style.display = "block";
+        exim_modal.style.display = 'block';
+		import_modal.style.display = 'none';
+		export_modal.style.display = 'block';
 	}
 }
 

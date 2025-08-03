@@ -45,9 +45,9 @@ function initIntersectionObserver() {
 }
 });
 
-function addOrFilter(group,path,value,contain = false,no = false)
+function addOrFilter(group,path,value,contain = false,no = false,and = null)
 {
-	orFilters.push({"group":group,"path":path,"value":value,"contain":contain,"no":no});
+	orFilters.push({"group":group,"path":path,"value":value,"contain":contain,"no":no,"and":and});
 	loadFilters();
 }
 
@@ -64,7 +64,7 @@ function removeAndFilter(path)
 	loadFilters();
 }
 
-function removeOrFilterByFilter(group,path,value,contain = false)
+function removeOrFilterByFilter(group,path,value,contain = false,no = false,and = null)
 {
 	var IsAlreadyRemoved = false;
 	orFilters = orFilters.filter((item) => 
@@ -72,7 +72,7 @@ function removeOrFilterByFilter(group,path,value,contain = false)
 		if (IsAlreadyRemoved) return true;
 		else
 		{
-			if (item.group === group && item.path === path && item.value === value && item.contain === contain)
+			if (item.group === group && item.path === path && item.value === value && item.contain === contain && item.no === no && item.and === and)
 			{
 				IsAlreadyRemoved = true;
 				return false;
@@ -155,15 +155,39 @@ function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
             const filtered = arr.filter(item => {
                 const pathValue = getValueByPath(item, filter.path);
 				if (pathValue === undefined) return false;
+				var filter_result = false;
 				if (!filter.no)
 				{
-					if (!filter.contain) return pathValue === filter.value;
-					else return pathValue.includes(filter.value);
+					if (!filter.contain) filter_result = (pathValue === filter.value);
+					else filter_result = pathValue.includes(filter.value);
 				}
 				else
 				{
-					if (!filter.contain) return pathValue !== filter.value;
-					else return !pathValue.includes(filter.value);
+					if (!filter.contain) filter_result = (pathValue !== filter.value);
+					else filter_result = (!pathValue.includes(filter.value));
+				}
+				if (!filter_result)
+				{
+					return false;
+				}
+				else if (filter.and === undefined || filter.and === null)
+				{
+					return true;
+				}
+				else
+				{
+					const pathValue_and = getValueByPath(item, filter.and.path);
+					if (pathValue_and === undefined) return false;
+					if (!filter.and.no)
+					{
+						if (!filter.and.contain) return pathValue_and === filter.and.value;
+						else return pathValue_and.includes(filter.and.value);
+					}
+					else
+					{
+						if (!filter.and.contain) return pathValue_and !== filter.and.value;
+						else return !pathValue_and.includes(filter.and.value);
+					}
 				}
             });
             groupResults = [...new Set([...groupResults, ...filtered])];
