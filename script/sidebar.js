@@ -42,8 +42,11 @@ updateBadge(count);
         // 点击模态框外部也隐藏模态框
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
-                modal.style.display = 'none';
-                sidebar.style.display = 'none';
+				if (!isJsonLoading)
+				{
+					modal.style.display = 'none';
+					sidebar.style.display = 'none';
+				}
             }
         });
         

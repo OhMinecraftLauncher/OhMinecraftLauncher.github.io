@@ -12,6 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="css/tips.css">
 	<link rel="stylesheet" type="text/css" href="css/finish.css">
 	<link rel="stylesheet" type="text/css" href="css/import.css">
+	<link rel="stylesheet" type="text/css" href="css/progressbar.css">
+    <script src="script/fetch.js" defer></script>
     <script src="script/loadCards.js" defer></script>
     <script src="script/setFilters.js" defer></script>
     <script src="script/listFilter.js" defer></script>
@@ -232,6 +234,11 @@
             </div>
         </form>
     </div>
+	
+	<div id="loading-container">
+		<div id="progress-bar"></div>
+		<div id="loading-text">正在加载 Cards.json ...</div>
+	</div>
 	
     <div id="temporary-message"></div>
 </body>

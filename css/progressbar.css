@@ -1,0 +1,12 @@
+#loading-container {
+	width:100%;
+	background:#f1f1f1;
+	position: fixed;
+	z-index: 1004;
+}
+
+#progress-bar {
+	height:4px;
+	width:0%;
+	background:#4CAF50;
+}

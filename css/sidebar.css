@@ -49,8 +49,8 @@
     left: 0;
     width: 100%;
     height: 100%;
+	z-index: 1003;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 997;
     overflow: auto; /* 允许整个模态框滚动 */
     padding: 20px 0; /* 添加上下内边距 */
 }

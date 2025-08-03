@@ -5,6 +5,7 @@ let currentCards = [];
 let j = null;
 var andFilters = [];
 var orFilters = [];
+let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 
@@ -12,11 +13,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // 配置参数
 
     // 1. 加载 JSON 数据
-    fetch("Cards.json")
+	modal.style.display = "block";
+    fetchWithProgress("Cards.json")
+		/*
         .then(response => {
             if (!response.ok) throw new Error("网络请求失败");
             return response.json();
         })
+		*/
         .then(data => {
             if (!data.cards || !Array.isArray(data.cards)) {
                 throw new Error("JSON 格式错误：缺少 cards 数组");
@@ -26,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function() {
             currentCards = data.cards;
             initIntersectionObserver(); // 初始化观察器
             loadNextBatch();          // 首次加载
+			isJsonLoading = false;
+			document.getElementById('loading-container').style.display = 'none';
+			modal.style.zIndex = "997";
+			modal.style.display = "none";
         })
         .catch(error => {
             console.error("加载失败:", error);
@@ -272,6 +280,9 @@ function loadNextBatch() {
         img.alt = decodeUnicode(card.json.title["zh-Hans"]);
 		img.name = JSON.stringify(card);
 		img.addEventListener("click",function () {onCardsBeClicked(this.name);});
+		img.onload = function () {
+			
+		};
         img.loading = "lazy";
         document.getElementById("image-container").appendChild(img);
     });
