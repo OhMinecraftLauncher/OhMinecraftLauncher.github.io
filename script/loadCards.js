@@ -10,7 +10,7 @@ let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
-const CDN_URL = "https://testingcf.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/";
+const CDN_URL = "https://testingcf.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
 const contentLength = 3321822;
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -278,17 +278,40 @@ function loadNextBatch() {
     const batch = currentCards.slice(currentIndex, currentIndex + BATCH_SIZE);
     batch.forEach(card => {
         if (!card.imageUrl || !card.json?.title?.["zh-Hans"]) return;
-
+		
+		const div = document.createElement("div");
+		div.className = "card-container";
+		
         const img = document.createElement("img");
         img.src = CDN_URL + card.imageUrl;
         img.alt = decodeUnicode(card.json.title["zh-Hans"]);
 		img.name = JSON.stringify(card);
 		img.addEventListener("click",function () {onCardsBeClicked(this.name);});
-		img.onload = function () {
-			
-		};
         img.loading = "lazy";
-        document.getElementById("image-container").appendChild(img);
+		img.onload = function () {
+			if (this.nextElementSibling !== undefined && this.nextElementSibling !== null)
+			{
+				this.nextElementSibling.style.display = "block";
+			}
+		};
+		div.appendChild(img);
+		
+		/*
+		*/
+		
+		if (card.json.reserved)
+		{
+			const reserved_board = document.createElement("div");
+			reserved_board.className = "reserved-board";
+			const reserved_img = document.createElement("img");
+			reserved_img.className = "reserved-img";
+			reserved_img.src = CDN_URL + "/images/icon/reserved.svg";
+			reserved_img.alt = "预";
+			reserved_board.appendChild(reserved_img);
+			div.appendChild(reserved_board);
+		}
+		
+        document.getElementById("image-container").appendChild(div);
     });
 
     currentIndex += BATCH_SIZE;

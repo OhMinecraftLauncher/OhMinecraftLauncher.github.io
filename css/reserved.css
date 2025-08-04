@@ -1,0 +1,30 @@
+.reserved-board {
+	position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 10%; /* 相对于父元素宽度的比例 */
+    height: 10%; /* 相对于父元素高度的比例 */
+    min-width: 30px; /* 最小宽度 */
+    min-height: 30px; /* 最小高度 */
+    background-color: rgba(5, 5, 5, 0.7);
+    border-radius: 0 5px 0 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+	color: white;
+}
+
+.card-container {
+    position: relative;
+}
+
+.reserved-img {
+	width: 60%;
+    height: 60%;
+	margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
