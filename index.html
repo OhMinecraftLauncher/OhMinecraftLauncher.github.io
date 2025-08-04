@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="css/import.css">
 	<link rel="stylesheet" type="text/css" href="css/progressbar.css">
 	<link rel="stylesheet" type="text/css" href="css/reserved.css">
+	<link rel="stylesheet" type="text/css" href="css/deck_show.css">
     <script src="script/fetch.js" defer></script>
     <script src="script/loadCards.js" defer></script>
     <script src="script/setFilters.js" defer></script>
@@ -23,6 +24,8 @@
     <script src="script/finish.js" defer></script>
     <script src="script/import.js" defer></script>
     <script src="script/deck.js" defer></script>
+    <script src="script/html2canvas.min.js" defer></script>
+    <script src="script/deck_show.js" defer></script>
 </head>
 
 <body>
@@ -142,6 +145,7 @@
 			<div id="deck">
 			</div>
 			<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
+			<button id="ShowDeck" style="margin-top: 5px; display: none;" class="action-btn save-btn" type="button" onclick="onDeckShowClick()">生成卡组图片</button>
 		</div>
 	</div>
     
@@ -242,6 +246,17 @@
 	</div>
 	
     <div id="temporary-message"></div>
+	
+    <div id="capture">
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<h1 style="margin: 0;">卡组码解析结果</h1>
+			<h1 style="margin: 0;" id="deck-show-card-count">0 / 39</h1>
+		</div>
+		<br>
+		<span id="deck-show-importcode"></span>
+        <div id="deck-show-grid">
+		</div>
+    </div>
 </body>
 
 </html>

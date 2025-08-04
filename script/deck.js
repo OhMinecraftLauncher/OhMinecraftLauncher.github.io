@@ -1,6 +1,7 @@
 const deck = document.getElementById("deck");
 const Deck_Card_Count = document.getElementById("Deck_Card_Count");
 const RemoveDeck = document.getElementById("RemoveDeck");
+const ShowDeck = document.getElementById("ShowDeck");
 const Main = document.getElementById('Main');
 const Ally = document.getElementById('Ally');
 
@@ -232,10 +233,12 @@ function loadDeck()
 	if (count > 0)
 	{
 		RemoveDeck.style.display = "";
+		ShowDeck.style.display = "";
 	}
 	else
 	{
 		RemoveDeck.style.display = "none";
+		ShowDeck.style.display = "none";
 	}
 	var childs = deck.childNodes;
 	for(var i = childs.length - 1; i >= 0; i--) { 
@@ -377,7 +380,7 @@ function onDeckRemoveClick()
 	loadDeck();
 }
 
-function onExportClick()
+function Export()
 {
 	if (oldmain === "" || oldally === "")
 	{
@@ -418,9 +421,19 @@ function onExportClick()
 				}
 			}
 		});
+		return "%%" + Main.value + Ally.value + "|" + one + ";" + two + ";" + three + ";" + four;
+	}
+	return "";
+}
+
+function onExportClick()
+{
+	const exportcode = Export();
+	if (exportcode !== "")
+	{
+		copyText.value = exportcode;
 		showTemporaryMessage("卡组导出成功");
-		copyText.value = "%%" + Main.value + Ally.value + "|" + one + ";" + two + ";" + three + ";" + four;
-        exim_modal.style.display = 'block';
+		exim_modal.style.display = 'block';
 		import_modal.style.display = 'none';
 		export_modal.style.display = 'block';
 	}

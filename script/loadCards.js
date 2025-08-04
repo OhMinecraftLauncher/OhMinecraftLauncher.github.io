@@ -296,9 +296,6 @@ function loadNextBatch() {
 		};
 		div.appendChild(img);
 		
-		/*
-		*/
-		
 		if (card.json.reserved)
 		{
 			const reserved_board = document.createElement("div");

@@ -1,0 +1,12 @@
+#deck-show-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px; /* 图片间距 */
+            width: 100%;
+			margin-top: 50px;
+        }
+		
+#capture {
+	display: none;
+	width: 100%;
+}
