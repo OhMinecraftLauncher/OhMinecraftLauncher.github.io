@@ -11,7 +11,7 @@ function onDeckShowClick()
 			deck_show_grid.removeChild(childs[i]); 
 		}
 		document.getElementById("deck-show-card-count").innerHTML = count + " / 39";
-		document.getElementById("deck-show-importcode").innerHTML = exportcode;
+		document.getElementById("deck-show-importcode").innerHTML = exportcode + "（主国：" + FactionEnglishToChinese(oldmain) + " 盟国：" + FactionEnglishToChinese(oldally) + "）";
 		Object.keys(cCards).forEach((key) => {
 			const card = JSON.parse(key);
 			for (var i = 1;i <= cCards[key];i++)
@@ -71,4 +71,31 @@ function dataURLtoBlob(dataurl) {
 		u8arr[n] = bstr.charCodeAt(n);
 	}
 	return new Blob([u8arr], {type:mime});
+}
+
+function FactionEnglishToChinese(faction)
+{
+	switch (faction)
+	{
+		case "Germany":
+			return "德国";
+		case "Britain":
+			return "英国";
+		case "Japan":
+			return "日本";
+		case "Soviet":
+			return "苏联";
+		case "USA":
+			return "美国";
+		case "France":
+			return "法国";
+		case "Italy":
+			return "意大利";
+		case "Poland":
+			return "波兰";
+		case "Finland":
+			return "芬兰";
+		default:
+			return "";
+	}
 }

@@ -302,7 +302,7 @@ function loadNextBatch() {
 			reserved_board.className = "reserved-board";
 			const reserved_img = document.createElement("img");
 			reserved_img.className = "reserved-img";
-			reserved_img.src = CDN_URL + "/images/icon/reserved.svg";
+			reserved_img.src = "images/icon/reserved.svg";
 			reserved_img.alt = "预";
 			reserved_board.appendChild(reserved_img);
 			div.appendChild(reserved_board);

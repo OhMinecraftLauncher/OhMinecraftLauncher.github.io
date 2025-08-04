@@ -307,69 +307,30 @@ function loadDeck()
 				countcolor = "#b57834";
 				break;
 		}
-		if (j.json.operationCost === undefined)
-		{
 			deck_card_board.innerHTML = 
 				"<div class=\"deck-card-kredits-board\"><span class=\"deck-card-kredits-text\">" + 
 				j.json.kredits +
-				"<sup><span class=\"K-text\">K</span></sup>" + 
-				"</span> </sub></span></span></div><div class=\"deck-card-body-board\" style=\"background-color: " + bodycolor + "\"><span class=\"deck-card-body-text\">" + 
+				(
+					j.json.operationCost === undefined ? 
+					"<sup><span class=\"K-text\">K</span></sup>"
+					: 
+					("<span class=\"deck-card-kredits-subp\"><sup><span class=\"K-text\">K</span></sup><sub><span class=\"op-text\">" + 
+					j.json.operationCost + 
+					"</span> </sub></span>")
+				) + 
+				"</span></div><div class=\"deck-card-body-board\" style=\"background-color: " + bodycolor + "\"><span class=\"deck-card-body-text\" style=\"width: " + (j.json.reserved ? "120" : "143") + "px\">" + 
 				j.json.title["zh-Hans"] + 
-				"</span><img src=\"" + 
+				"</span>" + (j.json.reserved ? "<img src=\"images/icon/reserved.svg\">" : "") + "<img src=\"" + 
 				"images/icon/" + j.json.faction.toLowerCase() + ".svg" + 
-				"\"/></div><div class=\"deck-card-thumb\"><img src=\"" + 
-				j.thumbUrl + 
+				"\"></div><div class=\"deck-card-thumb\"><img src=\"" + 
+				CDN_URL + j.thumbUrl + 
 				"\" alt=\"" + 
 				j.json.title["zh-Hans"] + 
-				"\"/></div><div class=\"deck-card-count-board\" style=\"background-color: " + countcolor + "\">" + 
+				"\"></div><div class=\"deck-card-count-board\" style=\"background-color: " + countcolor + "\">" + 
 				"x" + cCards[item] + 
 				"</div>";
-		}
-		else
-		{
-			deck_card_board.innerHTML = 
-				"<div class=\"deck-card-kredits-board\"><span class=\"deck-card-kredits-text\">" + 
-				j.json.kredits +
-				"<span class=\"deck-card-kredits-subp\"><sup><span class=\"K-text\">K</span></sup><sub><span class=\"op-text\">" + 
-				j.json.operationCost + 
-				"</span> </sub></span></span></div><div class=\"deck-card-body-board\" style=\"background-color: " + bodycolor + "\"><span class=\"deck-card-body-text\">" + 
-				j.json.title["zh-Hans"] + 
-				"</span><img src=\"" + 
-				"images/icon/" + j.json.faction.toLowerCase() + ".svg" + 
-				"\"/></div><div class=\"deck-card-thumb\"><img src=\"" + 
-				j.thumbUrl + 
-				"\" alt=\"" + 
-				j.json.title["zh-Hans"] + 
-				"\"/></div><div class=\"deck-card-count-board\" style=\"background-color: " + countcolor + "\">" + 
-				"x" + cCards[item] + 
-				"</div>";
-		}
 		deck.appendChild(deck_card_board);
 	});
-	/*
-	modal_sidebar.innerHTML = sidebar.innerHTML;
-	var deck_childs = deck.childNodes;
-	var modal_childs = modal_sidebar.childNodes;
-	var sidebar_childs = sidebar.childNodes;
-	for (var j = 0;j < modal_childs.length;j++)
-	{
-		if (modal_childs[j].id === "deck")
-		{
-			modal_deck = modal_childs[j];
-			var modal_deck_childs = modal_deck.childNodes;
-			for (var i = 0;i < modal_deck_childs.length;i++)
-			{
-				modal_deck_childs[i].name = deck_childs[i].name;
-				modal_deck_childs[i].onclick = deck_childs[i].onclick;
-			}
-		}
-		else if (modal_childs[j].id === "allowError")
-		{
-			modal_childs[j].checked = allowE;
-			sidebar_childs[j].checked = allowE;
-		}
-	};
-	*/
 }
 
 function onDeckRemoveClick()
@@ -385,7 +346,7 @@ function Export()
 	if (oldmain === "" || oldally === "")
 	{
 		showTemporaryMessage("请先选择主国和盟国","warning");
-		return;
+		return "";
 	}
 	if (checkDeck())
 	{
