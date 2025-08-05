@@ -118,6 +118,7 @@
 				showTemporaryMessage("导入卡组失败：卡组导入码错误。" + e.message,"error");
 				throw e;
 			}
+			old_cCards = JSON.parse(JSON.stringify(cCards));
 			loadDeck();
 			showTemporaryMessage("卡组导入成功");
             closeModal();

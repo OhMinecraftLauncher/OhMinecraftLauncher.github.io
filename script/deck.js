@@ -234,11 +234,13 @@ function loadDeck()
 	{
 		RemoveDeck.style.display = "";
 		ShowDeck.style.display = "";
+		ShowData.style.display = "";
 	}
 	else
 	{
 		RemoveDeck.style.display = "none";
 		ShowDeck.style.display = "none";
+		ShowData.style.display = "none";
 	}
 	var childs = deck.childNodes;
 	for(var i = childs.length - 1; i >= 0; i--) { 

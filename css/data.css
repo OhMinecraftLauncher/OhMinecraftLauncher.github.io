@@ -1,0 +1,32 @@
+.nav-bar {
+            display: flex;
+            background-color: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            justify-content: center;
+        }
+        
+        .nav-item {
+            padding: 0 15px;
+            color: #555;
+            cursor: pointer;
+            position: relative;
+            font-size: 16px;
+        }
+        
+        /* 竖线分隔符 */
+        .nav-item:not(:last-child):after {
+            content: "|";
+            position: absolute;
+            right: -3px;
+            color: #ccc;
+        }
+        
+        .nav-item:hover {
+            color: #3498db;
+        }
+        
+        .nav-item.active {
+            color: #3498db;
+            font-weight: bold;
+        }

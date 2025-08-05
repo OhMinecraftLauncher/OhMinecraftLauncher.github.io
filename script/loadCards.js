@@ -16,8 +16,11 @@ const contentLength = 3321822;
 document.addEventListener("DOMContentLoaded", function() {
     // 配置参数
 
+	RefreshContainerTopMargin();
+	window.addEventListener("resize",function() {
+		RefreshContainerTopMargin();
+	});
     // 1. 加载 JSON 数据
-	modal.style.display = "block";
     fetchWithProgress(CDN_URL + "/Cards.json")
 		/*
         .then(response => {
@@ -56,6 +59,11 @@ function initIntersectionObserver() {
     observer.observe(sentinel);
 }
 });
+
+function RefreshContainerTopMargin()
+{
+	container.style.marginTop = document.getElementById("fixed-top").offsetHeight + 10 + "px";
+}
 
 function addOrFilter(group,path,value,contain = false,no = false,and = null)
 {

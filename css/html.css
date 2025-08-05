@@ -14,7 +14,7 @@
 
         /* 图片容器（Grid 布局） */
         .image-grid {
-            padding: 170px 10px;
+            padding: 0px 10px;
             display: grid;
             grid-template-columns: repeat(4, 1fr); /* 默认 4 列 */
             gap: 10px; /* 图片间距 */

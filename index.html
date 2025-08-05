@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="css/progressbar.css">
 	<link rel="stylesheet" type="text/css" href="css/reserved.css">
 	<link rel="stylesheet" type="text/css" href="css/deck_show.css">
+	<link rel="stylesheet" type="text/css" href="css/data.css">
     <script src="script/fetch.js" defer></script>
     <script src="script/loadCards.js" defer></script>
     <script src="script/setFilters.js" defer></script>
@@ -25,6 +26,8 @@
     <script src="script/import.js" defer></script>
     <script src="script/deck.js" defer></script>
     <script src="script/html2canvas.min.js" defer></script>
+    <script src="script/echarts.min.js" defer></script>
+    <script src="script/data.js" defer></script>
     <script src="script/deck_show.js" defer></script>
 </head>
 
@@ -33,7 +36,7 @@
         <div class="image-grid" id="image-container"></div>
         <div class="sentinel"></div>  <!-- 哨兵移到网格外 -->
     </div>
-    <div class="fixed-top">
+    <div class="fixed-top" id="fixed-top">
         <h1>简易Kards卡组编辑器</h1>
         <span>主国：</span>
         <select id="Main" onchange="onMainChanged(this.value)">
@@ -159,6 +162,20 @@
         </div>
 	</div>
 	
+	<div class="modal" id="DataModal">
+		<div class="modal-content">
+        <span class="close-btn" id="closeBtn4">&times;</span>
+            <div class="modal-body">
+                <h2>卡组数据</h2>
+				<div class="nav-bar">
+					<div class="nav-item active" data-nav="type">卡牌类型</div>
+					<div class="nav-item" data-nav="rarity">卡牌稀有度</div>
+				</div>
+				<div id="datachart" style="height: 380px;width: 370px;"></div>
+            </div>
+        </div>
+	</div>
+	
 	<div class="modal" id="modal" style="display: block;"></div>
 	
 	<div class="sidebar" id="sidebar">
@@ -176,8 +193,9 @@
 			</div>
 			<div id="deck">
 			</div>
-			<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
+			<button id="ShowData" style="margin-top: 5px; display: none;" class="action-btn edit-btn" type="button" onclick="onDataShowClick()">查看卡组数据</button>
 			<button id="ShowDeck" style="margin-top: 5px; display: none;" class="action-btn save-btn" type="button" onclick="onDeckShowClick()">生成卡组图片</button>
+			<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
 		</div>
 	</div>
     

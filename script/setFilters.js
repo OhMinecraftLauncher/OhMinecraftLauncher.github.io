@@ -226,7 +226,6 @@ function onSetAttrButtonClicked()
 
 function closeAttrModal()
 {
-	loadFilters();
 	AttributeChooseModal.style.display = "none";
 }
 

@@ -12,6 +12,7 @@
 
 // 更新角标
 function updateBadge(c) {
+	c = c + 1;
 	let displayCount = c;
 	if (c > 99)
 	{
@@ -66,8 +67,8 @@ updateBadge(count);
         });
 		
 		function adjustSidebarHeight() {
-  const windowHeight = window.innerHeight;
-  sidebar.style.height = `${windowHeight}px`;
+		const windowHeight = window.innerHeight;
+		sidebar.style.height = `${windowHeight}px`;
 }
 
 // 初始调整
