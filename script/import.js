@@ -50,7 +50,8 @@
 					{
 						throw new Error("错误的盟国");
 					}
-					var inputValue_cCardsCode = (inputValue.split("|")[1] + ";").split("");
+					const inputValue_importCodes = inputValue.split("|")[1];
+					var inputValue_cCardsCode = (inputValue_importCodes.slice(0, inputValue_importCodes.search(/[^a-zA-Z0-9;]/)) + ";").split("");
 					var inputValue_cCards = [];
 					var cCard_str = "";
 					var Card_count = 0;
@@ -76,10 +77,6 @@
 									});
 								});
 								inputValue_cCards = [];
-							}
-							else if (c === ' ' || c === '\n' || c === '\r')
-							{
-								return;
 							}
 							else
 							{
