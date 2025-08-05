@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kards' Cards</title>
+    <title>简易Kards卡组编辑器</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- 适配移动端 -->
     <link rel="stylesheet" type="text/css" href="css/html.css">
@@ -85,6 +85,7 @@
           <option value="order">指令</option>
           <option value="countermeasure">反制</option>
         </select>
+		<button type="button" onclick="onSetAttrButtonClicked()">属性</button>
 		<span>搜索：</span>
 		<input id="Search" type="text" style="width: 160px" onchange="onSearchChanged(this.value)" placeholder="搜索标题和卡面描述文本">
 		<button class="action-btn delete-btn" type="button" onclick="onSearchClick()">清空</button>
@@ -123,6 +124,37 @@
                     <button id="copyBtn" class="copy-btn">复制</button>
                 </div>
                 <p class="modal-text"><small>恭喜你，你被恭喜了</small></p>
+            </div>
+        </div>
+	</div>
+	
+	<div class="modal" id="AttributeChooseModal">
+		<div class="modal-content">
+        <span class="close-btn" id="closeBtn3">&times;</span>
+            <div class="modal-body">
+                <h2>属性筛选</h2>
+				<input name="blitz" type="checkbox" onclick="onAttributesClicked(this)">闪击
+				<input name="smokescreen" type="checkbox" onclick="onAttributesClicked(this)">烟幕
+				<input name="fury" type="checkbox" onclick="onAttributesClicked(this)">奋战
+				<input name="salvage" type="checkbox" onclick="onAttributesClicked(this)">收缴
+				<input name="pincer" type="checkbox" onclick="onAttributesClicked(this)">钳击
+				<input name="guard" type="checkbox" onclick="onAttributesClicked(this)">守护
+				<br>
+				<input name="mobilize" type="checkbox" onclick="onAttributesClicked(this)">动员
+				<input name="alpine" type="checkbox" onclick="onAttributesClicked(this)">山地
+				<input name="shock" type="checkbox" onclick="onAttributesClicked(this)">冲击
+				<input name="intel1" type="checkbox" onclick="onAttributesClicked(this)">情报1
+				<input name="intel2" type="checkbox" onclick="onAttributesClicked(this)">情报2
+				<br>
+				<input name="intel3" type="checkbox" onclick="onAttributesClicked(this)">情报3
+				<input name="ambush" type="checkbox" onclick="onAttributesClicked(this)">伏击
+				<input name="covert" type="checkbox" onclick="onAttributesClicked(this)">隐蔽
+				<input name="heavyArmor1" type="checkbox" onclick="onAttributesClicked(this)">重甲1
+				<input name="heavyArmor2" type="checkbox" onclick="onAttributesClicked(this)">重甲2
+				<br>
+				<input name="heavyArmor3" type="checkbox" onclick="onAttributesClicked(this)">重甲3
+				<input name="BecomesVeteran" type="checkbox" onclick="onAttributesClicked(this)">可以升为老兵
+				<input name="VeteranOf" type="checkbox" onclick="onAttributesClicked(this)">老兵
             </div>
         </div>
 	</div>
@@ -229,7 +261,7 @@
                     <option value="false" selected>false</option>
                 </select>
             </div>
-            <div class="form-group" id="groupAnd">
+            <div class="form-group" id="andField">
                 <label for="editAnd">内嵌与筛选器</label>
                 <input type="text" id="editAnd" name="and">
             </div>

@@ -198,5 +198,44 @@ function onRemoveAllFilterClick()
 	onRarityChanged("All");
 	document.getElementById("Type").value = "All";
 	onTypeChanged("All");
+	orFilters = [];
+	andFilters = [];
 	onSearchClick();
 }
+
+function onAttributesClicked(val)
+{
+	if (val.checked)
+	{
+		addAndFilter("json.attributes",val.name,true,false,false);
+	}
+	else
+	{
+		removeAndFilter("json.attributes",val.name);
+	}
+}
+
+
+const AttributeChooseModal = document.getElementById("AttributeChooseModal");
+const closeBtn3 = document.getElementById("closeBtn3");
+
+function onSetAttrButtonClicked()
+{
+	AttributeChooseModal.style.display = "block";
+}
+
+function closeAttrModal()
+{
+	loadFilters();
+	AttributeChooseModal.style.display = "none";
+}
+
+closeBtn3.addEventListener("click",function() {
+	closeAttrModal();
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target === AttributeChooseModal) {
+		closeAttrModal();
+    }
+});

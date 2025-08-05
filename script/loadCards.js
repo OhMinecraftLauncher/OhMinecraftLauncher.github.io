@@ -63,16 +63,25 @@ function addOrFilter(group,path,value,contain = false,no = false,and = null)
 	loadFilters();
 }
 
-function addAndFilter(path,value,contain = false,no = false)
+function addAndFilter(path,value,contain = false,no = false,remove = true)
 {
-	removeAndFilter(path);
+	if (remove) removeAndFilter(path);
 	andFilters.push({"path":path,"value":value,"contain":contain,"no":no});
 	loadFilters();
 }
 
-function removeAndFilter(path)
+function removeAndFilter(path,value = null)
 {
-	andFilters = andFilters.filter((item) => {return item.path != path});
+	andFilters = andFilters.filter((item) => {
+		if (value === null)
+		{
+			return item.path !== path;
+		}
+		else
+		{
+			return (!(item.path === path && item.value === value));
+		}
+	});
 	loadFilters();
 }
 
@@ -171,12 +180,52 @@ function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
 				if (!filter.no)
 				{
 					if (!filter.contain) filter_result = (pathValue === filter.value);
-					else filter_result = pathValue.includes(filter.value);
+					else
+					{
+						filter_result = pathValue.includes(filter.value);
+						if (!filter_result && Array.isArray(pathValue))
+						{
+							try
+							{
+								pathValue.forEach((pathValue_item) => {
+									if (pathValue_item.includes(filter.value))
+									{
+										filter_result = true;
+										throw new Error("ELOP");
+									}
+								});
+							}
+							catch (e)
+							{
+								if (e.message !== "ELOP") throw e;
+							}
+						}
+					}
 				}
 				else
 				{
 					if (!filter.contain) filter_result = (pathValue !== filter.value);
-					else filter_result = (!pathValue.includes(filter.value));
+					else 
+					{
+						filter_result = (!pathValue.includes(filter.value));
+						if (!filter_result && Array.isArray(pathValue))
+						{
+							try
+							{
+								pathValue.forEach((pathValue_item) => {
+									if (!pathValue_item.includes(filter.value))
+									{
+										filter_result = true;
+										throw new Error("ELOP");
+									}
+								});
+							}
+							catch (e)
+							{
+								if (e.message !== "ELOP") throw e;
+							}
+						}
+					}
 				}
 				if (!filter_result)
 				{
@@ -193,12 +242,54 @@ function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
 					if (!filter.and.no)
 					{
 						if (!filter.and.contain) return pathValue_and === filter.and.value;
-						else return pathValue_and.includes(filter.and.value);
+						else 
+						{
+							var filter_and_result = pathValue_and.includes(filter.and.value);
+							if (!filter_and_result && Array.isArray(pathValue))
+							{
+								try
+								{
+									pathValue.forEach((pathValue_item) => {
+										if (pathValue_item.includes(filter.value))
+										{
+											filter_and_result = true;
+											throw new Error("ELOP");
+										}
+									});
+								}
+								catch (e)
+								{
+									if (e.message !== "ELOP") throw e;
+								}
+							}
+							return filter_and_result;
+						}
 					}
 					else
 					{
 						if (!filter.and.contain) return pathValue_and !== filter.and.value;
-						else return !pathValue_and.includes(filter.and.value);
+						else 
+						{
+							var filter_and_result = !pathValue_and.includes(filter.and.value);
+							if (!filter_and_result && Array.isArray(pathValue))
+							{
+								try
+								{
+									pathValue.forEach((pathValue_item) => {
+										if (!pathValue_item.includes(filter.value))
+										{
+											filter_and_result = true;
+											throw new Error("ELOP");
+										}
+									});
+								}
+								catch (e)
+								{
+									if (e.message !== "ELOP") throw e;
+								}
+							}
+							return filter_and_result;
+						}
 					}
 				}
             });
@@ -218,36 +309,60 @@ function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
 				if (!filter.no)
 				{
 					if (!filter.contain) return pathValue === filter.value;
-					else return pathValue.includes(filter.value);
+					else
+					{
+						var and_result = pathValue.includes(filter.value);
+						if (!and_result && Array.isArray(pathValue))
+						{
+							try
+							{
+								pathValue.forEach((pathValue_item) => {
+									if (pathValue_item.includes(filter.value))
+									{
+										and_result = true;
+										throw new Error("ELOP");
+									}
+								});
+							}
+							catch (e)
+							{
+								if (e.message !== "ELOP") throw e;
+							}
+						}
+						return and_result;
+					}
 				}
 				else
 				{
 					if (!filter.contain) return pathValue !== filter.value;
-					else return !pathValue.includes(filter.value);
+					else
+					{ 
+						var and_result = !pathValue.includes(filter.value);
+						if (!and_result && Array.isArray(pathValue))
+						{
+							try
+							{
+								pathValue.forEach((pathValue_item) => {
+									if (!pathValue_item.includes(filter.value))
+									{
+										and_result = true;
+										throw new Error("ELOP");
+									}
+								});
+							}
+							catch (e)
+							{
+								if (e.message !== "ELOP") throw e;
+							}
+						}
+						return and_result;
+					}
 				}
             });
         });
     }
     
     return result;
-}
-
-/**
- * 根据键路径筛选数组中的对象
- * @param {Array} arr - 要筛选的对象数组
- * @param {string} path - 键路径，如 'AAA.BBB' 或 'AAA.BBB[1].CCC'
- * @param {*} value - 要匹配的目标值
- * @returns {Array} 返回匹配的对象数组
- */
-function filterByPathValue(arr, path, value, contain) {
-    if (!Array.isArray(arr)) return [];
-    
-    return arr.filter(obj => {
-        // 使用之前实现的 getValueByPath 函数
-        const pathValue = decodeUnicode(getValueByPath(obj, path));
-		if (!contain) return pathValue === value;
-		else return pathValue.includes(value);
-    });
 }
 
 // getValueByPath 函数实现（与之前相同）

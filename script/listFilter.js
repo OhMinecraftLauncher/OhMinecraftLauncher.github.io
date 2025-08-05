@@ -7,8 +7,9 @@ const showArraysBtn = document.getElementById('showArraysBtn');
         const editForm = document.getElementById('editForm');
         const cancelEditBtn = document.getElementById('cancelEdit');
         const groupField = document.getElementById('groupField');
+        const andField = document.getElementById('andField');
 		const addOrFilterBtn = document.getElementById('addOrFilterBtn');
-const addAndFilterBtn = document.getElementById('addAndFilterBtn');
+		const addAndFilterBtn = document.getElementById('addAndFilterBtn');
         
         // 当前编辑的项信息
         let currentEditItem = {
@@ -66,7 +67,14 @@ editForm.addEventListener('submit', function(e) {
     // 如果是orFilter，添加group属性
     if (currentEditItem.type === 'or') {
         editedItem.group = formData.get('group');
-		editedItem.and = JSON.parse(formData.get('and'));
+		try
+		{
+			editedItem.and = JSON.parse(formData.get('and'));
+		}
+		catch
+		{
+			editedItem.and = undefined;
+		}
     }
     
     // 更新或添加数组项
@@ -178,11 +186,11 @@ editForm.addEventListener('submit', function(e) {
             if (type === 'or') {
                 groupField.style.display = 'block';
                 document.getElementById('editGroup').value = item.group || '';
-                groupAnd.style.display = 'block';
+                andField.style.display = 'block';
                 document.getElementById('editAnd').value = JSON.stringify(item.and);
             } else {
                 groupField.style.display = 'none';
-                groupAnd.style.display = 'none';
+                andField.style.display = 'none';
             }
             
             // 填充表单数据
@@ -216,8 +224,11 @@ function openAddModal(type) {
     if (type === 'or') {
         groupField.style.display = 'block';
         document.getElementById('editGroup').value = '';
+        andField.style.display = 'block';
+        document.getElementById('editAnd').value = '';
     } else {
         groupField.style.display = 'none';
+        andField.style.display = 'none';
     }
     
     // 清空表单数据
