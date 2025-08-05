@@ -60,6 +60,7 @@ function onDeckShowClick()
 			link.download = "卡组.png";
 			link.href = objurl;
 			link.click();
+			showTemporaryMessage("卡组图片导出完成！请查看浏览器下载");
 		});
 	}
 }

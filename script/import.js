@@ -51,7 +51,8 @@
 						throw new Error("错误的盟国");
 					}
 					const inputValue_importCodes = inputValue.split("|")[1];
-					var inputValue_cCardsCode = (inputValue_importCodes.slice(0, inputValue_importCodes.search(/[^a-zA-Z0-9;]/)) + ";").split("");
+					const first_errchar_search = inputValue_importCodes.search(/[^a-zA-Z0-9;]/);
+					var inputValue_cCardsCode = (inputValue_importCodes.slice(0, first_errchar_search === -1 ? undefined : first_errchar_search) + ";").split("");
 					var inputValue_cCards = [];
 					var cCard_str = "";
 					var Card_count = 0;
