@@ -7,6 +7,8 @@
 }
 		
 #capture {
-	display: none;
+	position: absolute;
+	left: -9999px;
+	top: 0px;
 	width: 1200px;
 }

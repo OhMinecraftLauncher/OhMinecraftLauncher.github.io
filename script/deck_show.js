@@ -26,18 +26,13 @@ function onDeckShowClick()
 				img.alt = decodeUnicode(card.json.title["zh-Hans"]);
 				img.addEventListener("click",function () {onCardsBeClicked(this.name);});
 				img.loading = "lazy";
-				img.onload = function () {
-					if (this.nextElementSibling !== undefined && this.nextElementSibling !== null)
-					{
-						this.nextElementSibling.style.display = "block";
-					}
-				};
 				div.appendChild(img);
 				
 				if (card.json.reserved)
 				{
 					const reserved_board = document.createElement("div");
 					reserved_board.className = "reserved-board";
+					reserved_board.style.display = "block";
 					const reserved_img = document.createElement("img");
 					reserved_img.className = "reserved-img";
 					reserved_img.src = CDN_URL + "/images/icon/reserved.svg";
@@ -50,9 +45,9 @@ function onDeckShowClick()
 			}
 		});
 		
-		capture.style.display = "block";
+		//capture.style.display = "block";
 		html2canvas(capture,{useCORS:true}).then(canvas => {
-			capture.style.display = "none";
+			//capture.style.display = "none";
 			var link = document.createElement("a");
 			var imgData = canvas.toDataURL({format: 'png', quality:1});
 			var blob = dataURLtoBlob(imgData);

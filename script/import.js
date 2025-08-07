@@ -50,6 +50,10 @@
 					{
 						throw new Error("错误的盟国");
 					}
+					Main.value = inputValue_spiltbyone[2];
+					Ally.value = inputValue_spiltbyone[3];
+					onMainChanged(Main.value);
+					onAllyChanged(Ally.value);
 					const inputValue_importCodes = inputValue.split("|")[1];
 					const first_errchar_search = inputValue_importCodes.search(/[^a-zA-Z0-9;]/);
 					var inputValue_cCardsCode = (inputValue_importCodes.slice(0, first_errchar_search === -1 ? undefined : first_errchar_search) + ";").split("");
@@ -93,17 +97,15 @@
 								}
 							}
 						});
-					Main.value = inputValue_spiltbyone[2];
-					Ally.value = inputValue_spiltbyone[3];
 					if (!checkDeck())
 					{
 						cCards = JSON.parse(JSON.stringify(old_cCards));
 						Main.value = "0";
 						Ally.value = "0";
+						onMainChanged(Main.value);
+						onAllyChanged(Ally.value);
 						return;
 					}
-					onMainChanged(Main.value);
-					onAllyChanged(Ally.value);
 					count = Cards_count;
 				}
 				else
