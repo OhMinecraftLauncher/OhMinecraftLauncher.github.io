@@ -198,6 +198,10 @@ function onRemoveAllFilterClick()
 	onRarityChanged("All");
 	document.getElementById("Type").value = "All";
 	onTypeChanged("All");
+	const attr_Inputs =  document.querySelectorAll(".attr_Input");
+	attr_Inputs.forEach((attr_Input) => {
+		attr_Input.checked = false;
+	});
 	orFilters = [];
 	andFilters = [];
 	onSearchClick();
@@ -207,11 +211,41 @@ function onAttributesClicked(val)
 {
 	if (val.checked)
 	{
-		addAndFilter("json.attributes",val.name,true,false,false);
+		if (val.name.startsWith("intel"))
+		{
+			addOrFilter("attr_intel","json.attributes",val.name,true);
+		}
+		else if (val.name.startsWith("heavyArmor"))
+		{
+			addOrFilter("attr_heavyArmor","json.attributes",val.name,true);
+		}
+		else if (val.name.includes("Veteran"))
+		{
+			addOrFilter("attr_Veteran","json.attributes",val.name,true);
+		}
+		else
+		{
+			addAndFilter("json.attributes",val.name,true,false,false);
+		}
 	}
 	else
 	{
-		removeAndFilter("json.attributes",val.name);
+		if (val.name.startsWith("intel"))
+		{
+			removeOrFilterByFilter("attr_intel","json.attributes",val.name,true);
+		}
+		else if (val.name.startsWith("heavyArmor"))
+		{
+			removeOrFilterByFilter("attr_heavyArmor","json.attributes",val.name,true);
+		}
+		else if (val.name.includes("Veteran"))
+		{
+			removeOrFilterByFilter("attr_Veteran","json.attributes",val.name,true);
+		}
+		else
+		{
+			removeAndFilter("json.attributes",val.name);
+		}
 	}
 }
 
