@@ -2,7 +2,7 @@
         const sidebarTrigger = document.getElementById('sidebarTrigger');
         const modal = document.getElementById('modal');
         //const closeBtn = document.getElementById('closeBtn');
-        //const sidebar = document.getElementById('sidebar');
+        const sidebar = document.getElementById('sidebar');
 		const sidebarBadge = document.getElementById('sidebarBadge');
 		//const modal_sidebar = document.getElementById('modal-sidebar');
 		

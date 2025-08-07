@@ -258,6 +258,12 @@ function loadDeck()
 		const deck_card_board = document.createElement("div");
 		deck_card_board.className = "deck-card-board";
 		deck_card_board.name = item;
+		deck_card_board.ondragover = function() {
+			allowDrop(event);
+		};
+		deck_card_board.ondrop = function() {
+			onDrop(event);
+		};
 		deck_card_board.onclick = function () {
 			onDeckCardsBeClicked(this.name);
 		};

@@ -217,7 +217,7 @@ window.addEventListener('click', function(event) {
 });
 
 // 获取所有导航项
-        const navItems = document.querySelectorAll('.nav-item');
+        const navItems = document.querySelectorAll('.data-nav-item');
         
         // 为每个导航项添加点击事件
         navItems.forEach(item => {

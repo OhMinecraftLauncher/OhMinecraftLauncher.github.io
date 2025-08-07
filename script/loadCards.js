@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loadNextBatch();          // 首次加载
 			isJsonLoading = false;
 			document.getElementById('loading-container').style.display = 'none';
-			modal.style.zIndex = "997";
+			modal.style.zIndex = "995";
 			modal.style.display = "none";
         })
         .catch(error => {
@@ -404,11 +404,18 @@ function loadNextBatch() {
 		
 		const div = document.createElement("div");
 		div.className = "card-container";
+		div.ondragover = function() {
+			allowDrop(event);
+		};
+		div.ondrop = function() {
+			onDrop(event);
+		};
 		
         const img = document.createElement("img");
         img.src = CDN_URL + card.imageUrl;
         img.alt = decodeUnicode(card.json.title["zh-Hans"]);
 		img.name = JSON.stringify(card);
+		img.className = "card-img"
 		img.addEventListener("click",function () {onCardsBeClicked(this.name);});
         img.loading = "lazy";
 		img.onload = function () {

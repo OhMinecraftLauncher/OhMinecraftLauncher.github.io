@@ -16,6 +16,8 @@
 	<link rel="stylesheet" type="text/css" href="css/reserved.css">
 	<link rel="stylesheet" type="text/css" href="css/deck_show.css">
 	<link rel="stylesheet" type="text/css" href="css/data.css">
+	<link rel="stylesheet" type="text/css" href="css/zoom.css">
+	<link rel="stylesheet" type="text/css" href="highlight/styles/a11y-dark.min.css">
     <script src="script/fetch.js" defer></script>
     <script src="script/loadCards.js" defer></script>
     <script src="script/setFilters.js" defer></script>
@@ -28,6 +30,8 @@
     <script src="https://testingcf.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/script/html2canvas.min.js" defer></script>
     <script src="https://testingcf.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/script/echarts.min.js" defer></script>
     <script src="script/data.js" defer></script>
+    <script src="highlight/highlight.min.js" defer></script>
+    <script src="script/zoom.js" defer></script>
     <script src="script/deck_show.js" defer></script>
 </head>
 
@@ -168,8 +172,8 @@
             <div class="modal-body">
                 <h2>卡组数据</h2>
 				<div class="nav-bar">
-					<div class="nav-item active" data-nav="type">卡牌类型</div>
-					<div class="nav-item" data-nav="rarity">卡牌稀有度</div>
+					<div class="nav-item data-nav-item active" data-nav="type">卡牌类型</div>
+					<div class="nav-item data-nav-item" data-nav="rarity">卡牌稀有度</div>
 				</div>
 				<div id="datachart" style="height: 380px;width: 370px;"></div>
             </div>
@@ -199,14 +203,34 @@
 		</div>
 	</div>
     
-    <!-- 模态框 --
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeBtn">&times;</span>
-			<div id="modal-sidebar" class="modal-body">
-			</div>
+    <div id="zoom-container" class="zoom">
+		<img id="zoom" style="height: 30px;width: 30px;touch-action: none;user-select: none;" draggable="true" ondragstart="drag(event)" src="images/icon/zoom.svg" alt="放大镜">
+	</div>
+	
+	<div class="modal" id="ZoomModal">
+		<div class="modal-content">
+        <span class="close-btn" id="closeBtn5">&times;</span>
+            <div class="modal-body">
+                <h2>卡牌数据</h2>
+				<div class="nav-bar">
+					<div class="nav-item zoom-nav-item active" data-page="zoom-main">概况</div>
+					<div class="nav-item zoom-nav-item" data-page="zoom-json">JSON数据</div>
+				</div>
+				<div id="zoom-main" class="zoom-page active">
+					<div id="zoom-main-img">
+					</div>
+					<div id="zoom-main-text" style="text-align: left;">
+					</div>
+				</div>
+				<div id="zoom-json" class="zoom-page">
+					<pre>
+						<code id="zoom-json-code" class="language-json" style="text-align: left;">
+						</code>
+					</pre>
+				</div>
+            </div>
         </div>
-    </div>-->
+	</div>
 	
 	<!-- 模态框背景，用于点击外部关闭 -->
     <div class="modal-backdrop" id="modalBackdrop"></div>
