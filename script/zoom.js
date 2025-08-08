@@ -1,5 +1,5 @@
 const zoom = document.getElementById("zoom");
-var opened_Data = [];
+let opened_Data = [];
 
 function drag(ev)
 {
@@ -26,9 +26,11 @@ function onDrop(ev)
 function onZoomTouchEnd(ev)
 {
 	var childs = container.children;
+	var childs2 = null;
 	if (ZoomModal.style.display === "block")
 	{
 		childs = zoom_main_img.children;
+		childs2 = zoom_main_cre_img.children;
 	}
 	else if (sidebar.style.display === "block")
 	{
@@ -36,6 +38,7 @@ function onZoomTouchEnd(ev)
 	}
 	for (var i = 0;i < childs.length;i++)
 	{
+		childs[i].style.transform = "scale(1)";
 		const rect = childs[i].getBoundingClientRect();
 		const x = ev.changedTouches[0].clientX;
 		const y = ev.changedTouches[0].clientY;
@@ -49,7 +52,59 @@ function onZoomTouchEnd(ev)
 			{
 				openZoomModal(childs[i].children[0].name);
 			}
-			return;
+		}
+	}
+	if (childs2 !== null)
+	{
+		for (var i = 0;i < childs2.length;i++)
+		{
+			childs2[i].style.transform = "scale(1)";
+			const rect = childs2[i].getBoundingClientRect();
+			const x = ev.changedTouches[0].clientX;
+			const y = ev.changedTouches[0].clientY;
+			if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
+			{
+				openZoomModal(childs2[i].name);
+			}
+		}
+	}
+}
+function onZoomTouchMove(ev)
+{
+	var childs = container.children;
+	var childs2 = null;
+	if (ZoomModal.style.display === "block")
+	{
+		childs = zoom_main_img.children;
+		childs2 = zoom_main_cre_img.children;
+	}
+	else if (sidebar.style.display === "block")
+	{
+		childs = deck.children;
+	}
+	for (var i = 0;i < childs.length;i++)
+	{
+		childs[i].style.transform = "scale(1)";
+		const rect = childs[i].getBoundingClientRect();
+		const x = ev.touches[0].clientX;
+		const y = ev.touches[0].clientY;
+		if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
+		{
+			childs[i].style.transform = "scale(1.1)";
+		}
+	}
+	if (childs2 !== null)
+	{
+		for (var i = 0;i < childs2.length;i++)
+		{
+			childs2[i].style.transform = "scale(1)";
+			const rect = childs2[i].getBoundingClientRect();
+			const x = ev.touches[0].clientX;
+			const y = ev.touches[0].clientY;
+			if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
+			{
+				childs2[i].style.transform = "scale(1.1)";
+			}
 		}
 	}
 }
@@ -57,16 +112,12 @@ function onZoomTouchEnd(ev)
 const ZoomModal = document.getElementById("ZoomModal");
 const closeBtn5 = document.getElementById("closeBtn5");
 const zoom_main_img = document.getElementById("zoom-main-img");
+const zoom_main_cre_img = document.getElementById("zoom-main-cre-img");
 const zoom_main_text = document.getElementById("zoom-main-text");
 const zoom_json_code = document.getElementById("zoom-json-code");
 
 function openZoomModal(data)
 {
-	var IsInOpenDataArr = false;
-	opened_Data.forEach((item) => {
-		if (item === data) IsInOpenDataArr = true;
-	});
-	if (!IsInOpenDataArr) opened_Data.push(data);
 	var j = JSON.parse(data);
 	var img = document.createElement("img");
 	img.src = CDN_URL + j.imageUrl;
@@ -82,6 +133,10 @@ function openZoomModal(data)
 	for(var i = childs.length - 1; i >= 0; i--) { 
 	  zoom_main_img.removeChild(childs[i]); 
 	}
+	var cre_childs = zoom_main_cre_img.childNodes;
+	for(var i = cre_childs.length - 1; i >= 0; i--) { 
+	  zoom_main_cre_img.removeChild(cre_childs[i]); 
+	}
 	zoom_main_img.appendChild(img);
 	zoom_main_text.innerHTML = 
 	"<strong>标题：</strong>" + decodeUnicode(j.json.title["zh-Hans"]) + "<br>" +
@@ -94,6 +149,42 @@ function openZoomModal(data)
 	(j.json.operationCost === undefined ? "" : "<strong>行动花费：</strong>" + j.json.operationCost + "<br>") + 
 	(j.json.attack === undefined ? "" : "<strong>攻击力：</strong>" + j.json.attack + "<br>") + 
 	(j.json.defense === undefined ? "" : "<strong>防御力：</strong>" + j.json.defense + "<br>");
+	if (j.json.attributes !== undefined)
+	{
+		j.json.attributes.forEach((item) => {
+			if (item.includes("Veteran"))
+			{
+				var cre_id = item.split(':')[1];
+				try
+				{
+					allCards.forEach((card) => {
+						if (card.cardId === cre_id)
+						{
+							var cre_img = document.createElement("img");
+							cre_img.src = CDN_URL + card.imageUrl;
+							cre_img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+							cre_img.name = JSON.stringify(card);
+							cre_img.ondragover = function() {
+								allowDrop(event);
+							};
+							cre_img.ondrop = function() {
+								onDrop(event);
+							};
+							zoom_main_cre_img.appendChild(cre_img);
+							throw new Error("ELOP");
+						}
+					});
+				}
+				catch (e)
+				{
+					if (e.message !== "ELOP")
+					{
+						throw e;	
+					}
+				}
+			}
+		});
+	}
 	if (j.json.can_create !== undefined)
 	{
 		j.json.can_create.forEach((item) =>
@@ -113,7 +204,8 @@ function openZoomModal(data)
 						cre_img.ondrop = function() {
 							onDrop(event);
 						};
-						zoom_main_img.appendChild(cre_img);
+						zoom_main_cre_img.appendChild(cre_img);
+						throw new Error("ELOP");
 					}
 				});
 			}
@@ -129,6 +221,11 @@ function openZoomModal(data)
 	zoom_json_code.innerHTML = formatJson(data);
 	zoom_json_code.removeAttribute("data-highlighted");
 	hljs.highlightAll();
+	var IsInOpenDataArr = false;
+	opened_Data.forEach((item) => {
+		if (item === data) IsInOpenDataArr = true;
+	});
+	if (!IsInOpenDataArr) opened_Data.push(data);
 	ZoomModal.style.display = "block";
 }
 
@@ -142,6 +239,9 @@ showTooltip(document.getElementById("zoom-container"),"将此放大镜图标拖�
 
 zoom.addEventListener("touchend",function() {
 	onZoomTouchEnd(event);
+});
+zoom.addEventListener("touchmove",function() {
+	onZoomTouchMove(event);
 });
 
 function RarityEngToZh(rarity)
