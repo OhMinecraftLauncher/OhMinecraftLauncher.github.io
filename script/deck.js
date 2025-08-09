@@ -42,6 +42,11 @@ function checkDeck()
 {
 	if (!allowE)
 	{
+		if (oldmain === "" || oldally === "")
+		{
+			showTemporaryMessage("请先选择主国和盟国","warning");
+			return false;
+		}
 		var keys = Object.keys(cCards);
 		if (count > 39)
 		{
@@ -50,8 +55,9 @@ function checkDeck()
 		}
 		try
 		{
-			var factions = [];
-			var elite_factions = [];
+			//var factions = [];
+			//var exile_factions = [];
+			//var elite_factions = [];
 			var AllyCardCount = 0;
 			keys.forEach((key) => {
 				if (cCards[key] <= 0)
@@ -87,7 +93,7 @@ function checkDeck()
 						IsAllyCard = true;
 					}
 				}
-				if (oldmain === "" && oldally === "") IsMainCard = true;
+				//if (oldmain === "" || oldally === "") IsMainCard = true;
 				if (!IsMainCard && !IsAllyCard)
 				{
 					throw new Error("NotMACard");
@@ -132,6 +138,7 @@ function checkDeck()
 						{
 							throw new Error("NotMEli");
 						}
+						/*
 						var IsinElFacArr = false;
 						elite_factions.forEach((el_fac) => {
 							if (el_fac === k.json.faction)
@@ -147,8 +154,10 @@ function checkDeck()
 						{
 							elite_factions.push(k.json.faction);
 						}
+						*/
 						break;
 				}
+				/*
 				var IsinFacArr = false;
 				factions.forEach((fac) => {
 					if (fac === k.json.faction)
@@ -172,6 +181,7 @@ function checkDeck()
 				{
 					throw new Error("MuchEliFac");
 				}
+				*/
 			});
 		}
 		catch (e)

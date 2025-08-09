@@ -102,6 +102,52 @@ function onAllyChanged(val)
 	}
 }
 
+function onFacChanged(val)
+{
+	removeOrFilterByGroup("Fac");
+	switch(val)
+	{
+		case "0":
+			break;
+		case "1":
+			addOrFilter("Fac","json.faction","Germany");
+			addOrFilter("Fac","json.exile","Germany");
+			break;
+		case "2":
+			addOrFilter("Fac","json.faction","Britain");
+			addOrFilter("Fac","json.exile","Britain");
+			break;
+		case "3":
+			addOrFilter("Fac","json.faction","Japan");
+			addOrFilter("Fac","json.exile","Japan");
+			break;
+		case "4":
+			addOrFilter("Fac","json.faction","Soviet");
+			addOrFilter("Fac","json.exile","Soviet");
+			break;
+		case "5":
+			addOrFilter("Fac","json.faction","USA");
+			addOrFilter("Fac","json.exile","USA");
+			break;
+		case "6":
+			addOrFilter("Fac","json.faction","France");
+			addOrFilter("Fac","json.exile","France");
+			break;
+		case "7":
+			addOrFilter("Fac","json.faction","Italy");
+			addOrFilter("Fac","json.exile","Italy");
+			break;
+		case "8":
+			addOrFilter("Fac","json.faction","Poland");
+			addOrFilter("Fac","json.exile","Poland");
+			break;
+		case "9":
+			addOrFilter("Fac","json.faction","Finland");
+			addOrFilter("Fac","json.exile","Finland");
+			break;
+	}
+}
+
 function onReditsChanged(val)
 {
 	if (val === "-1")
