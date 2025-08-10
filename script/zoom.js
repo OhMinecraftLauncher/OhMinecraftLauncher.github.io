@@ -90,7 +90,7 @@ function onZoomTouchMove(ev)
 		const y = ev.touches[0].clientY;
 		if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
 		{
-			childs[i].style.transform = "scale(1.1)";
+			childs[i].style.transform = "scale(1.05)";
 		}
 	}
 	if (childs2 !== null)
@@ -103,7 +103,7 @@ function onZoomTouchMove(ev)
 			const y = ev.touches[0].clientY;
 			if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
 			{
-				childs2[i].style.transform = "scale(1.1)";
+				childs2[i].style.transform = "scale(1.05)";
 			}
 		}
 	}

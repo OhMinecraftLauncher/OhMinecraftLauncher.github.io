@@ -232,10 +232,14 @@ function onSearchClick()
 
 function onRemoveAllFilterClick()
 {
-	document.getElementById("Main").value = "0";
+	/*
+	 = "0";
 	onMainChanged("0");
 	document.getElementById("Ally").value = "0";
 	onAllyChanged("0");
+	*/
+	document.getElementById("Fac").value = "0";
+	onFacChanged("0");
 	document.getElementById("ReditsInput").value = "";
 	onReditsChanged("");
 	document.getElementById("Reserved").value = "0";
@@ -251,6 +255,8 @@ function onRemoveAllFilterClick()
 	orFilters = [];
 	andFilters = [];
 	onSearchClick();
+	onMainChanged(document.getElementById("Main").value);
+	onAllyChanged(document.getElementById("Ally").value);
 }
 
 function onAttributesClicked(val)

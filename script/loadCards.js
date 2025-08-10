@@ -10,8 +10,62 @@ let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
-const CDN_URL = "https://testingcf.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
+const CDNs = [
+	"gcore.jsdelivr.net",
+	"testingcf.jsdelivr.net",
+	"quantil.jsdelivr.net",
+	"cdn.jsdelivr.net"
+]
+const CDN_PROT = "https://";
+const CDN_BODY = "/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
+let CDN_URL = "";
 const contentLength = 3321822;
+
+/**
+ * 检查URL是否可以正常访问
+ * @param {string} url - 要检查的URL
+ * @param {number} [timeout=5000] - 超时时间（毫秒），默认5秒
+ * @returns {Promise<boolean>} - 返回Promise，解析为布尔值表示URL是否可访问
+ */
+async function isUrlAccessible(url, timeout = 3000) {
+    try {
+        // 确保URL以http://或https://开头
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
+        }
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        
+        const response = await fetch(url, {
+            method: 'HEAD', // 使用HEAD方法只请求头部，减少数据传输
+            //mode: 'no-cors', // 尝试绕过CORS限制
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        // 检查响应状态码，2xx和3xx通常表示可访问
+        return response.ok || response.status >= 300 && response.status < 400;
+    } catch (error) {
+        // 捕获网络错误、超时等异常
+        console.error(`检查URL ${url} 可访问性时出错: ${error.message}`);
+        return false;
+    }
+}
+
+async function checkCDNs()
+{
+	for (const CDN of CDNs)
+	{
+		const acc = await isUrlAccessible(CDN + CDN_BODY + "/Cards.json");
+		if (acc)
+		{
+			CDN_URL = CDN_PROT + CDN + CDN_BODY;
+			return;
+		}
+	}
+}
 
 document.addEventListener("DOMContentLoaded", function() {
     // 配置参数
@@ -20,6 +74,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	window.addEventListener("resize",function() {
 		RefreshContainerTopMargin();
 	});
+	checkCDNs()
+	.then(() =>
+	{
     // 1. 加载 JSON 数据
     fetchWithProgress(CDN_URL + "/Cards.json")
 		/*
@@ -46,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("加载失败:", error);
             container.innerHTML = `<p style="color:red">加载失败: ${error.message}</p>`;
         });
+	});
 
 function initIntersectionObserver() {
     const observer = new IntersectionObserver((entries) => {
