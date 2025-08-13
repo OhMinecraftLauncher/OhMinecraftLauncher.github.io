@@ -23,71 +23,90 @@ let CDN_URL = "";
 const contentLength = 3321822;
 
 /**
- * 检查URL可访问性并测量延迟
- * @param {string} url - 要检查的URL
- * @param {number} [timeout=5000] - 超时时间（毫秒）
- * @returns {Promise<{accessible: boolean, latency: number}>} - 返回可访问性和延迟时间
+ * 测量URL的实际下载速度
+ * @param {string} url - 要测试的URL
+ * @param {number} [timeout=5000] - 超时时间
+ * @param {number} [testSize=100KB] - 测试文件大小(bytes)
+ * @returns {Promise<{speed: number, latency: number}>} - 下载速度(KB/s)和延迟(ms)
  */
-async function measureUrlLatency(url, timeout = 5000) {
+async function measureDownloadSpeed(url, timeout = 5000, testSize = 10240) {
     try {
-        if (!url.startsWith('http://') && !url.startsWith('https://') && (url !== "Cards.json")) {
-            url = 'https://' + url;
-        }
+        // 添加随机参数避免缓存
+        const testUrl = `${url}?speedtest=${Date.now()}`;
+        const startTime = performance.now();
         
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        setTimeout(() => controller.abort(), timeout);
         
-        const startTime = performance.now();
-        const response = await fetch(url, {
-            method: 'HEAD'
+        // 发起范围请求获取部分数据
+        const response = await fetch(testUrl, {
+            headers: { 'Range': `bytes=0-${testSize}` },
+            signal: controller.signal
         });
+        
+        // 确保服务器支持范围请求
+        if (!response.ok || response.status !== 206) {
+            throw new Error('Server does not support range requests');
+        }
+        
+        // 读取数据但不处理，只为测量速度
+        const reader = response.body.getReader();
+        let received = 0;
+        while(true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            received += value.length;
+        }
+        
         const latency = performance.now() - startTime;
+        const speed = (received / 1024) / (latency / 1000); // KB/s
         
-        clearTimeout(timeoutId);
-        
-        // 处理status为0的情况
-        const accessible = response.ok || 
-                         (response.status >= 300 && response.status < 400);
-        
-        return { accessible, latency };
+        return { speed, latency };
     } catch (error) {
-        return { accessible: false, latency: Infinity };
+        return { speed: 0, latency: Infinity };
     }
 }
 
 /**
- * 并行检查所有URL，返回响应最快的可访问URL
+ * 返回下载速度最快的可访问URL
  * @param {string[]} urls - URL数组
- * @param {number} [timeout=5000] - 超时时间（毫秒）
- * @returns {Promise<{url: string, latency: number}|null>} - 最快可访问的URL及其延迟，或null
+ * @param {number} [sampleSize=3] - 每个URL测试次数取平均值
+ * @returns {Promise<{url: string, speed: number}|null>}
  */
-async function findFastestAccessibleUrl(urls, timeout = 5000) {
-    // 并行发起所有检查请求
+async function findFastestDownloadUrl(urls, sampleSize = 3) {
     const results = await Promise.all(
         urls.map(async url => {
-			var true_url = "";
+			var test_url = "";
 			if (url === "")
 			{
-				true_url = "Cards.json";
+				test_url = "Cards.json";
 			}
 			else
 			{
-				true_url = CDN_PROT + url + CDN_BODY + "/Cards.json";
+				test_url = CDN_PROT + url + CDN_BODY + "/Cards.json";
 			}
-            const result = await measureUrlLatency(true_url, timeout);
-            return { url, ...result };
+            let totalSpeed = 0;
+            let successCount = 0;
+            
+            // 多次测试取平均值
+            for (let i = 0; i < sampleSize; i++) {
+                const { speed } = await measureDownloadSpeed(test_url);
+                if (speed > 0) {
+                    totalSpeed += speed;
+                    successCount++;
+                }
+            }
+            
+            const avgSpeed = successCount > 0 ? totalSpeed / successCount : 0;
+            return { url, speed: avgSpeed };
         })
     );
     
-    // 过滤出可访问的URL并按延迟排序
-    const accessibleUrls = results
-        .filter(result => result.accessible)
-        .sort((a, b) => a.latency - b.latency);
+    // 过滤并排序
+    const validResults = results.filter(r => r.speed > 0)
+                              .sort((a, b) => b.speed - a.speed);
     
-    // 返回延迟最低的可访问URL
-    return accessibleUrls.length > 0 
-        ? { url: accessibleUrls[0].url, latency: accessibleUrls[0].latency }
-        : null;
+    return validResults[0] || null;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -97,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	window.addEventListener("resize",function() {
 		RefreshContainerTopMargin();
 	});
-	findFastestAccessibleUrl(CDNs, 1000)
+	findFastestDownloadUrl(CDNs, 2)
 	.then((result) => {return result.url})
 	.then((g_url) =>
 	{
