@@ -29,10 +29,10 @@ const contentLength = 3321822;
  * @param {number} [testSize=100KB] - 测试文件大小(bytes)
  * @returns {Promise<{speed: number, latency: number}>} - 下载速度(KB/s)和延迟(ms)
  */
-async function measureDownloadSpeed(url, timeout = 5000, testSize = 10240) {
+async function measureDownloadSpeed(url, timeout = 2000, testSize = 25600) {
     try {
         // 添加随机参数避免缓存
-        const testUrl = `${url}?speedtest=${Date.now()}`;
+        const testUrl = `${url}`;
         const startTime = performance.now();
         
         const controller = new AbortController();
@@ -73,7 +73,7 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 10240) {
  * @param {number} [sampleSize=3] - 每个URL测试次数取平均值
  * @returns {Promise<{url: string, speed: number}|null>}
  */
-async function findFastestDownloadUrl(urls, sampleSize = 3) {
+async function findFastestDownloadUrl(urls, sampleSize = 1) {
     const results = await Promise.all(
         urls.map(async url => {
 			var test_url = "";
@@ -116,8 +116,11 @@ document.addEventListener("DOMContentLoaded", function() {
 	window.addEventListener("resize",function() {
 		RefreshContainerTopMargin();
 	});
-	findFastestDownloadUrl(CDNs, 2)
-	.then((result) => {return result.url})
+	findFastestDownloadUrl(CDNs)
+	.then((result) => {
+		if (result !== null) return result.url;
+		else return null;
+	})
 	.then((g_url) =>
 	{
 		if (g_url !== null && g_url !== "") CDN_URL = CDN_PROT + g_url + CDN_BODY;

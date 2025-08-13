@@ -1,6 +1,7 @@
 let oldmain = "";
 let oldally = "";
 const allyandfilter = {"path":"json.rarity","value":"Elite","contain":false,"no":true};
+const onlyspwanableandfilter = {"path":"json.set","value":"Special","contain":false,"no":true};
 
 function onMainChanged(val)
 {
@@ -174,14 +175,15 @@ function onReservedChanged(val)
 			break;
 		case "1":
 			addOrFilter("Reserved","json.reserved",false);
-			addOrFilter("OnlySpawnable","json.set","OnlySpawnable",false,true);
+			addOrFilter("OnlySpawnable","json.set","OnlySpawnable",false,true,onlyspwanableandfilter);
 			break;
 		case "2":
 			addOrFilter("Reserved","json.reserved",true);
-			addOrFilter("OnlySpawnable","json.set","OnlySpawnable",false,true);
+			addOrFilter("OnlySpawnable","json.set","OnlySpawnable",false,true,onlyspwanableandfilter);
 			break;
 		case "3":
 			addOrFilter("OnlySpawnable","json.set","OnlySpawnable");
+			addOrFilter("OnlySpawnable","json.set","Special");
 			break;
 	}
 }
