@@ -14,7 +14,8 @@ const CDNs = [
 	"gcore.jsdelivr.net",
 	"testingcf.jsdelivr.net",
 	"quantil.jsdelivr.net",
-	"cdn.jsdelivr.net"
+	"cdn.jsdelivr.net",
+	""
 ]
 const CDN_PROT = "https://";
 const CDN_BODY = "/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
@@ -22,49 +23,71 @@ let CDN_URL = "";
 const contentLength = 3321822;
 
 /**
- * 检查URL是否可以正常访问
+ * 检查URL可访问性并测量延迟
  * @param {string} url - 要检查的URL
- * @param {number} [timeout=5000] - 超时时间（毫秒），默认5秒
- * @returns {Promise<boolean>} - 返回Promise，解析为布尔值表示URL是否可访问
+ * @param {number} [timeout=5000] - 超时时间（毫秒）
+ * @returns {Promise<{accessible: boolean, latency: number}>} - 返回可访问性和延迟时间
  */
-async function isUrlAccessible(url, timeout = 3000) {
+async function measureUrlLatency(url, timeout = 5000) {
     try {
-        // 确保URL以http://或https://开头
-        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        if (!url.startsWith('http://') && !url.startsWith('https://') && (url !== "Cards.json")) {
             url = 'https://' + url;
         }
         
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), timeout);
         
+        const startTime = performance.now();
         const response = await fetch(url, {
-            method: 'HEAD', // 使用HEAD方法只请求头部，减少数据传输
-            //mode: 'no-cors', // 尝试绕过CORS限制
-            signal: controller.signal
+            method: 'HEAD'
         });
+        const latency = performance.now() - startTime;
         
         clearTimeout(timeoutId);
         
-        // 检查响应状态码，2xx和3xx通常表示可访问
-        return response.ok || response.status >= 300 && response.status < 400;
+        // 处理status为0的情况
+        const accessible = response.ok || 
+                         (response.status >= 300 && response.status < 400);
+        
+        return { accessible, latency };
     } catch (error) {
-        // 捕获网络错误、超时等异常
-        console.error(`检查URL ${url} 可访问性时出错: ${error.message}`);
-        return false;
+        return { accessible: false, latency: Infinity };
     }
 }
 
-async function checkCDNs()
-{
-	for (const CDN of CDNs)
-	{
-		const acc = await isUrlAccessible(CDN + CDN_BODY + "/Cards.json");
-		if (acc)
-		{
-			CDN_URL = CDN_PROT + CDN + CDN_BODY;
-			return;
-		}
-	}
+/**
+ * 并行检查所有URL，返回响应最快的可访问URL
+ * @param {string[]} urls - URL数组
+ * @param {number} [timeout=5000] - 超时时间（毫秒）
+ * @returns {Promise<{url: string, latency: number}|null>} - 最快可访问的URL及其延迟，或null
+ */
+async function findFastestAccessibleUrl(urls, timeout = 5000) {
+    // 并行发起所有检查请求
+    const results = await Promise.all(
+        urls.map(async url => {
+			var true_url = "";
+			if (url === "")
+			{
+				true_url = "Cards.json";
+			}
+			else
+			{
+				true_url = CDN_PROT + url + CDN_BODY + "/Cards.json";
+			}
+            const result = await measureUrlLatency(true_url, timeout);
+            return { url, ...result };
+        })
+    );
+    
+    // 过滤出可访问的URL并按延迟排序
+    const accessibleUrls = results
+        .filter(result => result.accessible)
+        .sort((a, b) => a.latency - b.latency);
+    
+    // 返回延迟最低的可访问URL
+    return accessibleUrls.length > 0 
+        ? { url: accessibleUrls[0].url, latency: accessibleUrls[0].latency }
+        : null;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -74,9 +97,12 @@ document.addEventListener("DOMContentLoaded", function() {
 	window.addEventListener("resize",function() {
 		RefreshContainerTopMargin();
 	});
-	checkCDNs()
-	.then(() =>
+	findFastestAccessibleUrl(CDNs, 1000)
+	.then((result) => {return result.url})
+	.then((g_url) =>
 	{
+		if (g_url !== null && g_url !== "") CDN_URL = CDN_PROT + g_url + CDN_BODY;
+		else CDN_URL = "";
     // 1. 加载 JSON 数据
     fetchWithProgress(CDN_URL + "/Cards.json")
 		/*
