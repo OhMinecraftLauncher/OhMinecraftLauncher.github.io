@@ -14,7 +14,7 @@ const CDNs = [
 	"gcore.jsdelivr.net",
 	"testingcf.jsdelivr.net",
 	"cdn.jsdelivr.net",
-	""
+	//""
 ]
 const CDN_PROT = "https://";
 const CDN_BODY = "/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
@@ -28,7 +28,7 @@ const contentLength = 3321822;
  * @param {number} [testSize=100KB] - 测试文件大小(bytes)
  * @returns {Promise<{speed: number, latency: number}>} - 下载速度(KB/s)和延迟(ms)
  */
-async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
+async function measureDownloadSpeed(url, timeout = 3000, testSize = 51200) {
     try {
         // 添加随机参数避免缓存
         const testUrl = `${url}?t=${Date.now()}`;
@@ -39,7 +39,9 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
         
         // 发起范围请求获取部分数据
         const response = await fetch(testUrl, {
-            headers: { 'Range': `bytes=0-${testSize}` },
+            headers: { 
+				'Range': `bytes=0-${testSize}`,
+			},
             signal: controller.signal
         });
         
@@ -75,6 +77,10 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
  * @returns {Promise<{url: string, speed: number}|null>}
  */
 async function findFastestDownloadUrl(urls, sampleSize = 3) {
+	if (window.innerWidth < 700)
+	{
+		return null;
+	}
     const results = await Promise.all(
         urls.map(async url => {
 			var test_url = "";
