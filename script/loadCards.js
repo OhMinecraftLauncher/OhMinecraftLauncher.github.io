@@ -14,7 +14,7 @@ const CDNs = [
 	"gcore.jsdelivr.net",
 	"testingcf.jsdelivr.net",
 	"cdn.jsdelivr.net",
-	//""
+	""
 ]
 const CDN_PROT = "https://";
 const CDN_BODY = "/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
