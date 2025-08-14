@@ -13,7 +13,6 @@ const BATCH_SIZE = 20;           // 每次加载的图片数量
 const CDNs = [
 	"gcore.jsdelivr.net",
 	"testingcf.jsdelivr.net",
-	"quantil.jsdelivr.net",
 	"cdn.jsdelivr.net",
 	""
 ]
@@ -29,10 +28,10 @@ const contentLength = 3321822;
  * @param {number} [testSize=100KB] - 测试文件大小(bytes)
  * @returns {Promise<{speed: number, latency: number}>} - 下载速度(KB/s)和延迟(ms)
  */
-async function measureDownloadSpeed(url, timeout = 2000, testSize = 25600) {
+async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
     try {
         // 添加随机参数避免缓存
-        const testUrl = `${url}`;
+        const testUrl = `${url}?t=${Date.now()}`;
         const startTime = performance.now();
         
         const controller = new AbortController();
@@ -61,8 +60,10 @@ async function measureDownloadSpeed(url, timeout = 2000, testSize = 25600) {
         const latency = performance.now() - startTime;
         const speed = (received / 1024) / (latency / 1000); // KB/s
         
+		console.info(url,speed + "KB/s",latency + "ms");
         return { speed, latency };
     } catch (error) {
+		console.info(url,"Error",error);
         return { speed: 0, latency: Infinity };
     }
 }
@@ -73,7 +74,7 @@ async function measureDownloadSpeed(url, timeout = 2000, testSize = 25600) {
  * @param {number} [sampleSize=3] - 每个URL测试次数取平均值
  * @returns {Promise<{url: string, speed: number}|null>}
  */
-async function findFastestDownloadUrl(urls, sampleSize = 1) {
+async function findFastestDownloadUrl(urls, sampleSize = 3) {
     const results = await Promise.all(
         urls.map(async url => {
 			var test_url = "";
@@ -98,6 +99,7 @@ async function findFastestDownloadUrl(urls, sampleSize = 1) {
             }
             
             const avgSpeed = successCount > 0 ? totalSpeed / successCount : 0;
+			console.info(url,"avgSpeed",avgSpeed, "KB/s");
             return { url, speed: avgSpeed };
         })
     );
@@ -123,8 +125,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	})
 	.then((g_url) =>
 	{
-		if (g_url !== null && g_url !== "") CDN_URL = CDN_PROT + g_url + CDN_BODY;
-		else CDN_URL = "";
+		if (g_url === "") CDN_URL = "";
+		else if (g_url === null) CDN_URL = CDN_PROT + CDNs[0] + CDN_BODY;
+		else CDN_URL = CDN_PROT + g_url + CDN_BODY;
     // 1. 加载 JSON 数据
     fetchWithProgress(CDN_URL + "/Cards.json")
 		/*
