@@ -11,6 +11,9 @@ const BATCH_SIZE = 20;           // 每次加载的图片数量
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
 const CDNs = [
+	"jsd.vxo.im",
+	"cdn.smartcis.cn",
+	"cdn.bili33.top",
 	"gcore.jsdelivr.net",
 	"testingcf.jsdelivr.net",
 	"cdn.jsdelivr.net",
@@ -28,7 +31,7 @@ const contentLength = 3321822;
  * @param {number} [testSize=100KB] - 测试文件大小(bytes)
  * @returns {Promise<{speed: number, latency: number}>} - 下载速度(KB/s)和延迟(ms)
  */
-async function measureDownloadSpeed(url, timeout = 3000, testSize = 51200) {
+async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
     try {
         // 添加随机参数避免缓存
         const testUrl = `${url}?t=${Date.now()}`;
