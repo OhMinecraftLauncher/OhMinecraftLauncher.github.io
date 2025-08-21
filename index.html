@@ -203,6 +203,21 @@
 			<button style="margin-top: 5px" class="button exportbutton" onclick="onImportClicked()">从导入码导入卡组</button>
 			<br>
 			<input id="allowError" type="checkbox" onclick="onAllowErrorClicked(this)">允许不正确的卡组
+			<br>
+			<span>CDN：</span>
+			<select id="CDN_Sel" onchange="onCDNSelChanged(this.value)" style="margin-bottom: 5px">
+			  <option value="0">jsd.vxo.im</option>
+			  <option value="1">cdn.smartcis.cn</option>
+			  <option value="2">cdn.bili33.top</option>
+			  <option value="3">gcore.jsdelivr.net</option>
+			  <option value="4">testingcf.jsdelivr.net</option>
+			  <option value="5">cdn.jsdelivr.net</option>
+			  <option value="6">无CDN</option>
+			</select>
+			<br>
+			<span id="cdn_info">正在检测...</span>
+			<br>
+			<button type="button" onclick="refreshAll()" style="margin-top: 5px">重新加载</button>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
 				<span style="margin: auto;">

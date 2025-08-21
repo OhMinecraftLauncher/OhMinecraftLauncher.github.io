@@ -1,4 +1,6 @@
 const container = document.getElementById("image-container");
+const cdn_info = document.getElementById("cdn_info");
+
 let currentIndex = 0;            // 当前加载到的索引
 let allCards = [];               // 存储所有卡片数据
 let currentCards = [];
@@ -50,7 +52,7 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
         
         // 确保服务器支持范围请求
         if (!response.ok || response.status !== 206) {
-            throw new Error('Server does not support range requests');
+            throw new Error('Server does not support range requests.');
         }
         
         // 读取数据但不处理，只为测量速度
@@ -69,7 +71,9 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
         return { speed, latency };
     } catch (error) {
 		console.info(url,"Error",error);
-        return { speed: 0, latency: Infinity };
+		if (error.message === "Server does not support range requests.") return undefined;
+		if (error.message === "BodyStreamBuffer was aborted") return { undefined, undefined };
+        return null;
     }
 }
 
@@ -80,6 +84,8 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
  * @returns {Promise<{url: string, speed: number}|null>}
  */
 async function findFastestDownloadUrl(urls, sampleSize = 3) {
+	return null;
+	/*
 	if (window.innerWidth < 700)
 	{
 		return null;
@@ -118,6 +124,7 @@ async function findFastestDownloadUrl(urls, sampleSize = 3) {
                               .sort((a, b) => b.speed - a.speed);
     
     return validResults[0] || null;
+	*/
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -137,8 +144,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		if (g_url === "") CDN_URL = "";
 		else if (g_url === null) CDN_URL = CDN_PROT + CDNs[0] + CDN_BODY;
 		else CDN_URL = CDN_PROT + g_url + CDN_BODY;
-    // 1. 加载 JSON 数据
-    fetchWithProgress(CDN_URL + "/Cards.json")
+		
+		getCDNInfo();
+		// 1. 加载 JSON 数据
+		fetchWithProgress(CDN_URL + "/Cards.json")
 		/*
         .then(response => {
             if (!response.ok) throw new Error("网络请求失败");
@@ -177,6 +186,49 @@ function initIntersectionObserver() {
     observer.observe(sentinel);
 }
 });
+
+function onCDNSelChanged(val)
+{
+	CDN_URL = CDN_PROT + CDNs[val] + CDN_BODY;
+	refreshAll();
+}
+
+function refreshAll()
+{
+	getCDNInfo();
+	var childs = container.childNodes;
+	for(var i = childs.length - 1; i >= 0; i--) { 
+	  container.removeChild(childs[i]); 
+	}
+	currentIndex = 0;
+	isLoading = false;
+	loadNextBatch();
+	loadDeck();
+}
+
+function getCDNInfo()
+{
+	cdn_info.innerHTML = "正在检测...";
+	measureDownloadSpeed(CDN_URL + "/Cards.json")
+	.then((result) => {
+		if (result === null)
+		{
+			cdn_info.innerHTML = "检测时发生错误";
+		}
+		else if (result === undefined)
+		{
+			cdn_info.innerHTML = "该CDN不支持检测";
+		}
+		else if (result.latency === undefined)
+		{
+			cdn_info.innerHTML = "检测超时";
+		}
+		else
+		{
+			cdn_info.innerHTML = result.speed.toFixed(2) + " KB/s | " + result.latency.toFixed(0) + " ms";
+		}
+	});
+}
 
 function RefreshContainerTopMargin()
 {
