@@ -1,5 +1,6 @@
 const container = document.getElementById("image-container");
 const cdn_info = document.getElementById("cdn_info");
+const CDN_Sel = document.getElementById("CDN_Sel");
 
 let currentIndex = 0;            // 当前加载到的索引
 let allCards = [];               // 存储所有卡片数据
@@ -84,7 +85,7 @@ async function measureDownloadSpeed(url, timeout = 5000, testSize = 51200) {
  * @returns {Promise<{url: string, speed: number}|null>}
  */
 async function findFastestDownloadUrl(urls, sampleSize = 3) {
-	return null;
+	return { url: CDNs[parseInt(CDN_Sel.value)], speed: undefined };
 	/*
 	if (window.innerWidth < 700)
 	{
@@ -171,8 +172,13 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => {
             console.error("加载失败:", error);
             container.innerHTML = `<p style="color:red">加载失败: ${error.message}</p>`;
+			isJsonLoading = false;
+			document.getElementById('loading-container').style.display = 'none';
+			modal.style.zIndex = "995";
+			modal.style.display = "none";
         });
 	});
+});
 
 function initIntersectionObserver() {
     const observer = new IntersectionObserver((entries) => {
@@ -185,11 +191,10 @@ function initIntersectionObserver() {
     const sentinel = document.querySelector(".sentinel");
     observer.observe(sentinel);
 }
-});
 
 function onCDNSelChanged(val)
 {
-	CDN_URL = CDN_PROT + CDNs[val] + CDN_BODY;
+	CDN_URL = CDN_PROT + CDNs[parseInt(val)] + CDN_BODY;
 	refreshAll();
 }
 
@@ -204,6 +209,40 @@ function refreshAll()
 	isLoading = false;
 	loadNextBatch();
 	loadDeck();
+}
+
+function reloadAll()
+{
+	modal.style.zIndex = "1003";
+	isJsonLoading = true;
+	modal.style.display = "block";
+	document.getElementById('loading-text').innerHTML = "正在加载 Cards.json ...";
+	document.getElementById('progress-bar').style.width = "0px";
+	document.getElementById('loading-container').style.display = 'block';
+	fetchWithProgress(CDN_URL + "/Cards.json")
+        .then(data => {
+            if (!data.cards || !Array.isArray(data.cards)) {
+                throw new Error("JSON 格式错误：缺少 cards 数组");
+            }
+            j = data;
+            allCards = data.cards;
+            currentCards = data.cards;
+            initIntersectionObserver(); // 初始化观察器
+            loadNextBatch();          // 首次加载
+			isJsonLoading = false;
+			document.getElementById('loading-container').style.display = 'none';
+			modal.style.zIndex = "995";
+			modal.style.display = "none";
+			refreshAll();
+        })
+        .catch(error => {
+            console.error("加载失败:", error);
+            container.innerHTML = `<p style="color:red">加载失败: ${error.message}</p>`;
+			isJsonLoading = false;
+			document.getElementById('loading-container').style.display = 'none';
+			modal.style.zIndex = "995";
+			modal.style.display = "none";
+        });
 }
 
 function getCDNInfo()

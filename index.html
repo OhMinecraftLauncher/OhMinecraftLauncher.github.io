@@ -206,7 +206,7 @@
 			<br>
 			<span>CDN：</span>
 			<select id="CDN_Sel" onchange="onCDNSelChanged(this.value)" style="margin-bottom: 5px">
-			  <option value="0">jsd.vxo.im</option>
+			  <option value="0" selected>jsd.vxo.im</option>
 			  <option value="1">cdn.smartcis.cn</option>
 			  <option value="2">cdn.bili33.top</option>
 			  <option value="3">gcore.jsdelivr.net</option>
@@ -217,7 +217,8 @@
 			<br>
 			<span id="cdn_info">正在检测...</span>
 			<br>
-			<button type="button" onclick="refreshAll()" style="margin-top: 5px">重新加载</button>
+			<button type="button" onclick="refreshAll()" style="margin-top: 5px">刷新</button>
+			<button type="button" onclick="reloadAll()" style="margin-top: 5px">重新加载</button>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
 				<span style="margin: auto;">
