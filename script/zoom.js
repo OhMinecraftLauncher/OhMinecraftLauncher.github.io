@@ -1,36 +1,72 @@
 const zoom = document.getElementById("zoom");
+var isZoom = false;
 let opened_Data = [];
 
 function drag(ev)
 {
 	ev.dataTransfer.setData("Text",ev.target.id);
+	isZoom = true;
 }
 function allowDrop(ev)
 {
-	ev.preventDefault();
+	if (isZoom)
+	{
+		ev.preventDefault();
+		try
+		{
+			ev.currentTarget.style.transform = "scale(1.05)";
+		}
+		catch
+		{
+			ev.target.style.transform = "scale(1.05)";
+		}
+	}
+}
+function dragLeave(ev)
+{
+	if (isZoom)
+	{
+		ev.preventDefault();
+		try
+		{
+			ev.currentTarget.style.transform = "scale(1)";
+		}
+		catch
+		{
+			ev.target.style.transform = "scale(1)";
+		}
+	}
 }
 function onDrop(ev)
 {
+	ev.preventDefault();
+	isZoom = false;
 	if (ev.dataTransfer.getData("Text") === "zoom")
 	{
 		try
 		{
 			openZoomModal(ev.target.name);
+			ev.target.style.transform = "scale(1)";
+			ev.currentTarget.style.transform = "scale(1)";
 		}
 		catch
 		{
 			openZoomModal(ev.currentTarget.name);
+			ev.currentTarget.style.transform = "scale(1)";
 		}
 	}
 }
+document.addEventListener("dragend",function() {isZoom = false});
 function onZoomTouchEnd(ev)
 {
 	var childs = container.children;
 	var childs2 = null;
+	var childs3 = null;
 	if (ZoomModal.style.display === "block")
 	{
 		childs = zoom_main_img.children;
 		childs2 = zoom_main_cre_img.children;
+		childs3 = zoom_main_becre_img.children;
 	}
 	else if (sidebar.style.display === "block")
 	{
@@ -52,6 +88,7 @@ function onZoomTouchEnd(ev)
 			{
 				openZoomModal(childs[i].children[0].name);
 			}
+			return;
 		}
 	}
 	if (childs2 !== null)
@@ -65,6 +102,21 @@ function onZoomTouchEnd(ev)
 			if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
 			{
 				openZoomModal(childs2[i].name);
+				return;
+			}
+		}
+	}
+	if (childs3 !== null)
+	{
+		for (var i = 0;i < childs3.length;i++)
+		{
+			childs3[i].style.transform = "scale(1)";
+			const rect = childs3[i].getBoundingClientRect();
+			const x = ev.changedTouches[0].clientX;
+			const y = ev.changedTouches[0].clientY;
+			if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
+			{
+				openZoomModal(childs3[i].name);
 			}
 		}
 	}
@@ -73,10 +125,12 @@ function onZoomTouchMove(ev)
 {
 	var childs = container.children;
 	var childs2 = null;
+	var childs3 = null;
 	if (ZoomModal.style.display === "block")
 	{
 		childs = zoom_main_img.children;
 		childs2 = zoom_main_cre_img.children;
+		childs3 = zoom_main_becre_img.children;
 	}
 	else if (sidebar.style.display === "block")
 	{
@@ -107,12 +161,27 @@ function onZoomTouchMove(ev)
 			}
 		}
 	}
+	if (childs3 !== null)
+	{
+		for (var i = 0;i < childs3.length;i++)
+		{
+			childs3[i].style.transform = "scale(1)";
+			const rect = childs3[i].getBoundingClientRect();
+			const x = ev.touches[0].clientX;
+			const y = ev.touches[0].clientY;
+			if (rect.left <= x && x <= rect.right && rect.top <= y && y <= rect.bottom)
+			{
+				childs3[i].style.transform = "scale(1.05)";
+			}
+		}
+	}
 }
 
 const ZoomModal = document.getElementById("ZoomModal");
 const closeBtn5 = document.getElementById("closeBtn5");
 const zoom_main_img = document.getElementById("zoom-main-img");
 const zoom_main_cre_img = document.getElementById("zoom-main-cre-img");
+const zoom_main_becre_img = document.getElementById("zoom-main-becre-img");
 const zoom_main_text = document.getElementById("zoom-main-text");
 const zoom_json_code = document.getElementById("zoom-json-code");
 
@@ -126,6 +195,9 @@ function openZoomModal(data)
 	img.ondragover = function() {
 		allowDrop(event);
 	};
+	img.ondragleave = function() {
+		dragLeave(event);
+	};
 	img.ondrop = function() {
 		onDrop(event);
 	};
@@ -137,11 +209,16 @@ function openZoomModal(data)
 	for(var i = cre_childs.length - 1; i >= 0; i--) { 
 	  zoom_main_cre_img.removeChild(cre_childs[i]); 
 	}
+	var becre_childs = zoom_main_becre_img.childNodes;
+	for(var i = becre_childs.length - 1; i >= 0; i--) { 
+	  zoom_main_becre_img.removeChild(becre_childs[i]); 
+	}
 	zoom_main_img.appendChild(img);
 	zoom_main_text.innerHTML = 
 	"<strong>标题：</strong>" + decodeUnicode(j.json.title["zh-Hans"]) + "<br>" +
 	"<strong>内容：</strong>" + decodeUnicode(j.json.text["zh-Hans"] === undefined ? "无" : j.json.text["zh-Hans"]) + "<br>" + 
 	"<strong>国家：</strong>" + FactionEnglishToChinese(j.json.faction) + "<br>" + 
+	(j.json.exile === undefined ? "" : "<strong>流亡：</strong>" + FactionEnglishToChinese(j.json.exile) + "<br>") + 
 	"<strong>稀有度：</strong>" + RarityEngToZh(j.json.rarity) + "<br>" + 
 	"<strong>类型：</strong>" + TypeEngToZh(j.json.type) + "<br>" +
 	"<strong>导入代码：</strong>" + (j.importId === "" ? "无" : j.importId) + "<br>" + 
@@ -166,6 +243,9 @@ function openZoomModal(data)
 							cre_img.name = JSON.stringify(card);
 							cre_img.ondragover = function() {
 								allowDrop(event);
+							};
+							cre_img.ondragleave = function() {
+								dragLeave(event);
 							};
 							cre_img.ondrop = function() {
 								onDrop(event);
@@ -201,6 +281,9 @@ function openZoomModal(data)
 						cre_img.ondragover = function() {
 							allowDrop(event);
 						};
+						cre_img.ondragleave = function() {
+							dragLeave(event);
+						};
 						cre_img.ondrop = function() {
 							onDrop(event);
 						};
@@ -218,6 +301,31 @@ function openZoomModal(data)
 			}
 		});
 	}
+	allCards.forEach((card) =>
+	{
+		if (card.json.can_create !== undefined)
+		{
+			card.json.can_create.forEach((item) => {
+				if (item === j.json.id)
+				{
+					var becre_img = document.createElement("img");
+					becre_img.src = CDN_URL + card.imageUrl;
+					becre_img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+					becre_img.name = JSON.stringify(card);
+					becre_img.ondragover = function() {
+						allowDrop(event);
+					};
+					becre_img.ondragleave = function() {
+						dragLeave(event);
+					};
+					becre_img.ondrop = function() {
+						onDrop(event);
+					};
+					zoom_main_becre_img.appendChild(becre_img);
+				}
+			});
+		}
+	});
 	zoom_json_code.innerHTML = formatJson(data);
 	zoom_json_code.removeAttribute("data-highlighted");
 	hljs.highlightAll();

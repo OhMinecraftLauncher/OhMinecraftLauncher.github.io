@@ -45,6 +45,12 @@ addOrFilterBtn.addEventListener('click', function() {
     openAddModal('or');
 });
 
+function isStringInteger(str) {
+    // 先使用 parseInt 转换，然后检查是否为整数
+    const num = parseInt(str, 10);
+    return !isNaN(num) && Number.isInteger(num) && num.toString() === str.trim();
+}
+
 // 添加andFilter
 addAndFilterBtn.addEventListener('click', function() {
     openAddModal('and');
@@ -57,9 +63,14 @@ editForm.addEventListener('submit', function(e) {
     
     // 获取表单数据
     const formData = new FormData(editForm);
+	var s_value = formData.get('value');
+	if (isStringInteger(s_value))
+	{
+		s_value = parseInt(s_value,10);
+	}
     const editedItem = {
         path: formData.get('path'),
-        value: formData.get('value'),
+        value: s_value,
         contain: formData.get('contain') === 'true',
         no: formData.get('no') === 'true',
     };

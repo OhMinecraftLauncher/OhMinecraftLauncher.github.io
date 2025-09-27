@@ -11,6 +11,8 @@ var orFilters = [];
 let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
+let CardsJsonFileName = "Cards_v42.json";
+
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
 const CDNs = [
@@ -96,11 +98,11 @@ async function findFastestDownloadUrl(urls, sampleSize = 3) {
 			var test_url = "";
 			if (url === "")
 			{
-				test_url = "Cards.json";
+				test_url = CardsJsonFileName;
 			}
 			else
 			{
-				test_url = CDN_PROT + url + CDN_BODY + "/Cards.json";
+				test_url = CDN_PROT + url + CDN_BODY + "/" + CardsJsonFileName;
 			}
             let totalSpeed = 0;
             let successCount = 0;
@@ -135,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	window.addEventListener("resize",function() {
 		RefreshContainerTopMargin();
 	});
+	CardsJsonFileName = "Cards_" + document.getElementById("Version_Sel").value + ".json";
 	findFastestDownloadUrl(CDNs)
 	.then((result) => {
 		if (result !== null) return result.url;
@@ -148,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		
 		getCDNInfo();
 		// 1. 加载 JSON 数据
-		fetchWithProgress(CDN_URL + "/Cards.json")
+		fetchWithProgress(CDN_URL + "/" + CardsJsonFileName)
 		/*
         .then(response => {
             if (!response.ok) throw new Error("网络请求失败");
@@ -201,14 +204,15 @@ function onCDNSelChanged(val)
 function refreshAll()
 {
 	getCDNInfo();
-	var childs = container.childNodes;
-	for(var i = childs.length - 1; i >= 0; i--) { 
-	  container.removeChild(childs[i]); 
-	}
-	currentIndex = 0;
 	isLoading = false;
-	loadNextBatch();
+	loadFilters();
 	loadDeck();
+}
+
+function onVersionSelChanged(val)
+{
+	CardsJsonFileName = "Cards_" + val + ".json";
+	reloadAll();
 }
 
 function reloadAll()
@@ -219,7 +223,13 @@ function reloadAll()
 	document.getElementById('loading-text').innerHTML = "正在加载 Cards.json ...";
 	document.getElementById('progress-bar').style.width = "0px";
 	document.getElementById('loading-container').style.display = 'block';
-	fetchWithProgress(CDN_URL + "/Cards.json")
+	var childs = container.childNodes;
+	for(var i = childs.length - 1; i >= 0; i--) { 
+	  container.removeChild(childs[i]); 
+	}
+	currentIndex = 0;
+	isLoading = false;
+	fetchWithProgress(CDN_URL + "/" + CardsJsonFileName)
         .then(data => {
             if (!data.cards || !Array.isArray(data.cards)) {
                 throw new Error("JSON 格式错误：缺少 cards 数组");
@@ -228,11 +238,14 @@ function reloadAll()
             allCards = data.cards;
             currentCards = data.cards;
             initIntersectionObserver(); // 初始化观察器
-            loadNextBatch();          // 首次加载
+            //loadNextBatch();          // 首次加载
 			isJsonLoading = false;
 			document.getElementById('loading-container').style.display = 'none';
 			modal.style.zIndex = "995";
 			modal.style.display = "none";
+            if (window.innerWidth < 1200) {
+                sidebar.style.display = 'none';
+            }
 			refreshAll();
         })
         .catch(error => {
@@ -248,7 +261,7 @@ function reloadAll()
 function getCDNInfo()
 {
 	cdn_info.innerHTML = "正在检测...";
-	measureDownloadSpeed(CDN_URL + "/Cards.json")
+	measureDownloadSpeed(CDN_URL + "/" + CardsJsonFileName)
 	.then((result) => {
 		if (result === null)
 		{
@@ -615,6 +628,9 @@ function loadNextBatch() {
 		div.className = "card-container";
 		div.ondragover = function() {
 			allowDrop(event);
+		};
+		div.ondragleave = function() {
+			dragLeave(event);
 		};
 		div.ondrop = function() {
 			onDrop(event);

@@ -271,6 +271,9 @@ function loadDeck()
 		deck_card_board.ondragover = function() {
 			allowDrop(event);
 		};
+		deck_card_board.ondragleave = function() {
+			dragLeave(event);
+		};
 		deck_card_board.ondrop = function() {
 			onDrop(event);
 		};

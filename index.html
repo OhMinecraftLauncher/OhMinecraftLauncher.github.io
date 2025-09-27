@@ -219,6 +219,12 @@
 			<br>
 			<button type="button" onclick="refreshAll()" style="margin-top: 5px">刷新</button>
 			<button type="button" onclick="reloadAll()" style="margin-top: 5px">重新加载</button>
+			<br>
+			<span>版本：</span>
+			<select id="Version_Sel" onchange="onVersionSelChanged(this.value)" style="margin-top: 5px">
+			  <option value="v41">v41</option>
+			  <option value="v42" selected>v42</option>
+			</select>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
 				<span style="margin: auto;">
@@ -252,6 +258,8 @@
 					<div id="zoom-main-text" style="text-align: left;">
 					</div>
 					<div id="zoom-main-cre-img">
+					</div>
+					<div id="zoom-main-becre-img">
 					</div>
 				</div>
 				<div id="zoom-json" class="zoom-page">
@@ -348,7 +356,7 @@
 	
 	<div id="loading-container">
 		<div id="progress-bar"></div>
-		<div id="loading-text">检测CDN...</div>
+		<div id="loading-text">正在加载...</div>
 	</div>
 	
     <div id="temporary-message"></div>
