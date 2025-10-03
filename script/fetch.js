@@ -37,7 +37,7 @@ async function fetchWithProgress(url) {
     
     chunks.push(value);
     receivedLength += value.length;
-    updateProgress(receivedLength, contentLength);
+    updateProgress(receivedLength, contentLength[document.getElementById("Version_Sel").value]);
   }
   
   // 合并所有chunks

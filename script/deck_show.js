@@ -3,6 +3,13 @@ const capture = document.getElementById("capture")
 
 function onDeckShowClick()
 {
+	let showReCor;
+	if(confirm("是否在预备卡牌左下角显示预备角标？")){  
+		showReCor = true;
+	}else{  
+		showReCor = false; 
+	}
+	showTemporaryMessage("正在导出卡组，请稍候...");
 	const exportcode = Export();
 	if (exportcode !== "")
 	{
@@ -28,7 +35,7 @@ function onDeckShowClick()
 				img.loading = "lazy";
 				div.appendChild(img);
 				
-				if (card.json.reserved)
+				if (card.json.reserved && showReCor)
 				{
 					const reserved_board = document.createElement("div");
 					reserved_board.className = "reserved-board";

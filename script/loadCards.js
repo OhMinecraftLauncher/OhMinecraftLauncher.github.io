@@ -27,7 +27,11 @@ const CDNs = [
 const CDN_PROT = "https://";
 const CDN_BODY = "/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master";
 let CDN_URL = "";
-const contentLength = 3321822;
+let contentLength = 
+{
+	v41:3321822,
+	v42:3373344
+};
 
 /**
  * 测量URL的实际下载速度
