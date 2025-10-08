@@ -146,12 +146,12 @@
 
 @font-face {
     font-family: 'JGS';
-    src: url('../font/jungoneshop-Bold.ttf');
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/DIY/font/jungoneshop-Bold.ttf');
 }
 
 @font-face {
     font-family: '狮黑';
-    src: url('../font/狮尾麦克黑体SC-Medium.ttf');
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/DIY/font/狮尾麦克黑体SC-Medium.ttf');
 }
 
 /*
