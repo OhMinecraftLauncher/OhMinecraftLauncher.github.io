@@ -106,6 +106,21 @@
           <option value="order">指令</option>
           <option value="countermeasure">反制</option>
         </select>
+		<span>套装：</span>
+        <select id="SSet" onchange="onSSetChanged(this.value)">
+		  <option value="All">全部</option>
+          <option value="Base">基础</option>
+          <option value="NavalWarfare">海战</option>
+          <option value="BloodAndIron">血与铁</option>
+          <option value="CovertOps">秘密行动</option>
+          <option value="WinterWar">冬季战争</option>
+          <option value="BrothersInArms">战友</option>
+          <option value="TheatersOfWar">战区</option>
+          <option value="WorldAtWar">世纪大战</option>
+          <option value="Legions">军团</option>
+          <option value="Breakthrough">突破</option>
+          <option value="Allegiance">忠诚</option>
+        </select>
 		<button type="button" onclick="onSetAttrButtonClicked()">属性</button>
 		<span>搜索：</span>
 		<input id="Search" type="text" style="width: 160px" onchange="onSearchChanged(this.value)" placeholder="搜索标题和卡面描述文本">

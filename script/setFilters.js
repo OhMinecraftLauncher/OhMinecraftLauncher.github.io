@@ -200,6 +200,18 @@ function onRarityChanged(val)
 	}
 }
 
+function onSSetChanged(val)
+{
+	if (val === "All")
+	{
+		removeAndFilter("json.set");
+	}
+	else
+	{
+		addAndFilter("json.set",val);
+	}
+}
+
 function onTypeChanged(val)
 {
 	if (val === "All")
@@ -251,6 +263,8 @@ function onRemoveAllFilterClick()
 	onRarityChanged("All");
 	document.getElementById("Type").value = "All";
 	onTypeChanged("All");
+	document.getElementById("SSet").value = "All";
+	onSSetChanged("All");
 	const attr_Inputs =  document.querySelectorAll(".attr_Input");
 	attr_Inputs.forEach((attr_Input) => {
 		attr_Input.checked = false;

@@ -281,7 +281,7 @@ function loadDeck()
 			onDeckCardsBeClicked(this.name);
 		};
 		j = JSON.parse(item);
-		var bodycolor = "#232323";
+		var bodycolor = "#3b3c40";
 		switch (j.json.faction)
 		{
 			case "Germany":
