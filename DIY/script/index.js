@@ -350,7 +350,7 @@ function onSaveBClick()
 {
 	html2canvas(main,{useCORS:true}).then(canvas => {
 		//capture.style.display = "none";
-		StackBlur.canvasRGB(canvas, 0, 0, canvas.width, canvas.height, 1);
+		if (window.confirm("是否进行模糊处理（若进行模糊处理，可以抗锯齿，更接近原版，但会损失一些清晰度）？")) StackBlur.canvasRGB(canvas, 0, 0, canvas.width, canvas.height, 1);
 		var link = document.createElement("a");
 		var imgData = canvas.toDataURL({format: 'png', quality:1});
 		var blob = dataURLtoBlob(imgData);
