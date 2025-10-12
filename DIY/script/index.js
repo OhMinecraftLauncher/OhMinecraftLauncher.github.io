@@ -8,6 +8,7 @@ var cur_rarity = 0;
 var cur_set = 0;
 var cur_faction = 0;
 
+//const CDN_URL = "";
 const CDN_URL = "https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/";
 
 const rarity = document.getElementById("rarity");
@@ -54,7 +55,7 @@ function onTypeClick()
 	else
 	{
 		if (cur_type === 0 || cur_type === 1) body.src = CDN_URL + "images/body/底-单位.png";
-		else body.src = CDN_URL + "images/body/底-单位.png";
+		else body.src = CDN_URL + "images/body/底-特殊单位.png";
 		type_board.className = "type-board-unit";
 		picture.className = "picture-unit";
 		title.className = "title-unit";
