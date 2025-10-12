@@ -348,8 +348,8 @@ function decreaseTitleFontSize()
 
 function onSaveBClick()
 {
+	showTemporaryMessage("正在导出卡图，请稍后......");
 	html2canvas(main,{useCORS:true}).then(canvas => {
-		//capture.style.display = "none";
 		if (window.confirm("是否进行模糊处理（若进行模糊处理，可以抗锯齿，更接近原版，但会损失一些清晰度）？")) StackBlur.canvasRGB(canvas, 0, 0, canvas.width, canvas.height, 1);
 		var link = document.createElement("a");
 		var imgData = canvas.toDataURL({format: 'png', quality:1});
@@ -358,7 +358,7 @@ function onSaveBClick()
 		link.download = "卡图.png";
 		link.href = objurl;
 		link.click();
-		//showTemporaryMessage("卡组图片导出完成！请查看浏览器下载");
+		showTemporaryMessage("卡图导出完成！请查看浏览器下载");
 	});
 }
 

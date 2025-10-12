@@ -5,7 +5,9 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="css/tips.css">
 		<script src="script/index.js" defer></script>
+		<script src="script/tips.js" defer></script>
 		<script src="https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/script/html2canvas.min.js" defer></script>
 		<script src="script/stackblur.min.js"></script>
 	</head>
@@ -37,5 +39,8 @@
 		<button id="EditButton" class="action-btn edit-btn" onclick="onEditBClick()">隐藏编辑按钮</button>
 		<button id="SaveButton" class="action-btn save-btn" onclick="onSaveBClick()">导出卡图</button>
 	<input type="file" accept="image/*" id="picture-input" onchange="onPictureInputChange(this.files[0])" style="display: none;"/>
+	
+    <div id="temporary-message"></div>
+	
 	</body>
 </html>
