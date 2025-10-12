@@ -145,13 +145,45 @@
 }
 
 @font-face {
-    font-family: 'JGS';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/DIY/font/jungoneshop-Bold.ttf');
+    font-family: 'SHSC';
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Normal.otf');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-    font-family: '狮黑';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/DIY/font/狮尾麦克黑体SC-Medium.ttf');
+    font-family: 'SHSC';
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Medium.otf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'SHSCB';
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Bold.otf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'FG';
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-MediumCond.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'FG';
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-DemiCond.ttf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'RB';
+    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/Roboto-Black.ttf');
+	font-weight: bold;
+	font-style: normal;
 }
 
 /*
@@ -190,9 +222,10 @@
 	outline: none;
 	border: 0;
 	resize: none;
-	font-family: "DengXian","狮黑",Arial,"Microsoft YaHei",sans-serif;
-	font-size: 32px;
+	font-family: "FG", "SHSC";
+	font-size: 30px;
 	color: #4c4c43;
+	line-height: 1.1;
 }
 .text-unit:hover
 {
@@ -277,18 +310,19 @@ img
 #kredit
 {
 	position: absolute;
-	top: 0px;
+	top: 3px;
 	left: 17px;
 	height: 95px;
 	width: 45px;
-	font-family: 'JGS';
-	font-size: 68px;
+	font-family: 'RB';
+	font-size: 76px;
 	font-weight: bold;
 	color: #bfc4ae;
 	outline: none;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	letter-spacing: normal;
 }
 
 #kredit:hover
@@ -304,12 +338,12 @@ img
 .opredit-1
 {
 	position: absolute;
-	top: 46px;
+	top: 45px;
 	left: 62px;
 	height: 40px;
 	width: 20px;
-	font-family: 'JGS';
-	font-size: 28px;
+	font-family: 'RB';
+	font-size: 33px;
 	font-weight: bold;
 	color: #bfc4ae;
 	outline: none;
@@ -327,7 +361,7 @@ img
 	left: 71px;
 	height: 26px;
 	width: 13px;
-	font-family: 'JGS';
+	font-family: 'RB';
 	font-size: 19px;
 	font-weight: bold;
 	color: #bfc4ae;
@@ -335,25 +369,6 @@ img
 }
 
 .opredit-2:hover
-{
-	border: 2px solid green;
-}
-
-#kredit
-{
-	position: absolute;
-	top: 1px;
-	left: 17px;
-	height: 95px;
-	width: 45px;
-	font-family: 'JGS';
-	font-size: 68px;
-	font-weight: bold;
-	color: #bfc4ae;
-	outline: none;
-}
-
-#kredit:hover
 {
 	border: 2px solid green;
 }
@@ -380,7 +395,7 @@ img
 
 #title
 {
-	font-family: "DengXian","狮黑",Arial,"Microsoft YaHei",sans-serif;
+	font-family: "FG", "SHSCB";
 	font-weight: bold;
 	transition: color 0.3s ease,top 0.3s ease,left 0.3s ease;
 	outline: none;
@@ -457,13 +472,13 @@ img
 	width: 56px;
     left: 101px;
 	color: #bfc6b3;
-	font-family: 'JGS';
+	font-family: 'RB';
 	outline: none;
 }
 .attack-1
 {
     top: 476px;
-	font-size: 50px;
+	font-size: 56px;
 }
 .attack-2
 {
@@ -484,15 +499,15 @@ img
 	align-items: center;
 	height: 70px;
 	width: 56px;
-    left: 341px;
+    left: 343px;
 	color: #bfc6b3;
-	font-family: 'JGS';
+	font-family: 'RB';
 	outline: none;
 }
 .defense-1
 {
     top: 476px;
-	font-size: 50px;
+	font-size: 56px;
 }
 .defense-2
 {
