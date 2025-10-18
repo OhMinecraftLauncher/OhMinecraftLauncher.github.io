@@ -38,6 +38,14 @@ function onTypeClick()
 {
 	cur_type++;
 	if (cur_type >= types.length) cur_type = 0;
+	if (cur_type == 3 || cur_type == 4)
+	{
+		faction.src = "images/faction_flight/" + factions[cur_faction] + ".png";
+	}
+	else
+	{
+		faction.src = "images/faction/" + factions[cur_faction] + ".png";
+	}
 	if (cur_type === 6 || cur_type === 5)
 	{
 		body.src = CDN_URL + "images/body/底-指令反制.png";
@@ -54,8 +62,14 @@ function onTypeClick()
 	}
 	else
 	{
-		if (cur_type === 0 || cur_type === 1) body.src = CDN_URL + "images/body/底-单位.png";
-		else body.src = CDN_URL + "images/body/底-特殊单位.png";
+		if (cur_type === 0 || cur_type === 1)
+		{
+			body.src = CDN_URL + "images/body/底-单位.png";
+		}
+		else
+		{
+			body.src = CDN_URL + "images/body/底-特殊单位.png";
+		}
 		type_board.className = "type-board-unit";
 		picture.className = "picture-unit";
 		title.className = "title-unit";
@@ -144,7 +158,14 @@ function onFactionClick()
 		}
 	}
 	title_body.style.backgroundColor = bodycolor;
-	faction.src = "images/faction/" + factions[cur_faction] + ".png";
+	if (cur_type == 3 || cur_type == 4)
+	{
+		faction.src = "images/faction_flight/" + factions[cur_faction] + ".png";
+	}
+	else
+	{
+		faction.src = "images/faction/" + factions[cur_faction] + ".png";
+	}
 }
 
 function onPictureClick()
