@@ -238,7 +238,8 @@
 			<span>版本：</span>
 			<select id="Version_Sel" onchange="onVersionSelChanged(this.value)" style="margin-top: 5px">
 			  <option value="v41">v41</option>
-			  <option value="v42" selected>v42</option>
+			  <option value="v42">v42</option>
+			  <option value="v45" selected>v45</option>
 			</select>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
@@ -372,6 +373,7 @@
 	<div id="loading-container">
 		<div id="progress-bar"></div>
 		<div id="loading-text">正在加载...</div>
+		<button style="position: absolute;right:10px;top:4px;" onclick="onCancelLoadClick()">x</button>
 	</div>
 	
     <div id="temporary-message"></div>

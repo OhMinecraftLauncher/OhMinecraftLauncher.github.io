@@ -1,4 +1,10 @@
+var controller;
+
 async function fetchWithProgress(url) {
+	// 创建一个 AbortController 实例
+	controller = new AbortController();
+	const signal = controller.signal;
+	cancelload = false;
 	/*
 	const r = await fetch(url, {
 		method: 'HEAD',
@@ -10,7 +16,7 @@ async function fetchWithProgress(url) {
   */
   // 现在 Content-Length 应该是解压后的大小
 
-  const response = await fetch(url);
+  const response = await fetch(url, {signal});
   
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -31,6 +37,7 @@ async function fetchWithProgress(url) {
   
   // 读取数据流
   while(true) {
+	  if (cancelload) throw new Error("用户取消加载");
     const {done, value} = await reader.read();
     
     if (done) break;
@@ -51,4 +58,9 @@ async function fetchWithProgress(url) {
   // 转换为文本
   const result = new TextDecoder("utf-8").decode(chunksAll);
   return JSON.parse(result);
+}
+
+function onCancelLoadClick()
+{
+	controller.abort();
 }
