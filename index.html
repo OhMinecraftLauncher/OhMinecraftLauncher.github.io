@@ -110,6 +110,7 @@
         <select id="SSet" onchange="onSSetChanged(this.value)">
 		  <option value="All">全部</option>
           <option value="Base">基础</option>
+          <option value="Homefront">国土阵线</option>
           <option value="NavalWarfare">海战</option>
           <option value="BloodAndIron">血与铁</option>
           <option value="CovertOps">秘密行动</option>
@@ -191,6 +192,7 @@
 				<input class="attr_Input" name="heavyArmor3" type="checkbox" onclick="onAttributesClicked(this)">重甲3
 				<input class="attr_Input" name="BecomesVeteran" type="checkbox" onclick="onAttributesClicked(this)">可以升为老兵
 				<input class="attr_Input" name="VeteranOf" type="checkbox" onclick="onAttributesClicked(this)">老兵
+				<input class="attr_Input" name="bond" type="checkbox" onclick="onAttributesClicked(this)">协力
             </div>
         </div>
 	</div>
@@ -239,7 +241,8 @@
 			<select id="Version_Sel" onchange="onVersionSelChanged(this.value)" style="margin-top: 5px">
 			  <option value="v41">v41</option>
 			  <option value="v42">v42</option>
-			  <option value="v45" selected>v45</option>
+			  <option value="v45">v45</option>
+			  <option value="v46" selected>v46</option>
 			</select>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">

@@ -11,7 +11,7 @@ var orFilters = [];
 let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
-let CardsJsonFileName = "Cards_v45.json";
+let CardsJsonFileName = "Cards_v46.json";
 
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
@@ -202,7 +202,8 @@ function initIntersectionObserver() {
 
 function onCDNSelChanged(val)
 {
-	CDN_URL = CDN_PROT + CDNs[parseInt(val)] + CDN_BODY;
+	if (CDNs[parseInt(val)] === "") CDN_URL = "";
+	else CDN_URL = CDN_PROT + CDNs[parseInt(val)] + CDN_BODY;
 	refreshAll();
 }
 
