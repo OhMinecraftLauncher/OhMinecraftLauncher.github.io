@@ -11,7 +11,8 @@ var orFilters = [];
 let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
-let CardsJsonFileName = "Cards_v46_1.json";
+let CardsJsonFileName = "Cards_v47.json";
+const TARGET_VERSION = 18;
 
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
@@ -33,7 +34,8 @@ let contentLength =
 	v42:3373344,
 	v45:3404052,
 	v46:3654430,
-	v46_1:3660286 
+	v46_1:3660286,
+	v47:3653632,
 };
 
 /**
@@ -137,6 +139,31 @@ async function findFastestDownloadUrl(urls, sampleSize = 3) {
 	*/
 }
 
+// 读取cookie函数
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // 检查cookie是否以指定名称开头
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return null; // 未找到该cookie
+    }
+	
+    /**
+     * 设置cookie
+     * @param {string} name - cookie名称
+     * @param {string} value - cookie值
+     * @param {number} days - 过期天数（默认30天）
+     */
+    function setCookie(name, value, days = 30) {
+        const expires = new Date();
+        expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+        document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+    }
+
 document.addEventListener("DOMContentLoaded", function() {
     // 配置参数
 
@@ -186,7 +213,40 @@ document.addEventListener("DOMContentLoaded", function() {
 			document.getElementById('loading-container').style.display = 'none';
 			modal.style.zIndex = "995";
 			modal.style.display = "none";
-        });
+        })
+		.then(() => {
+			const COOKIE_NAME = 'ver';
+			// 获取当前版本值
+			const currentVerStr = getCookie(COOKIE_NAME);
+			let shouldShowModal = false;
+			
+			// 检查是否需要显示模态框
+			if (currentVerStr === null) {
+				// cookie不存在
+				shouldShowModal = true;
+			} else {
+				// 尝试将字符串转换为整数
+				const currentVer = parseInt(currentVerStr, 10);
+				
+				// 检查转换是否成功且是否小于目标版本
+				if (isNaN(currentVer) || currentVer < TARGET_VERSION) {
+					shouldShowModal = true;
+				}
+			}
+			
+			// 如果需要显示模态框
+			if (shouldShowModal) {
+				// 显示模态框
+				UpdataModal.style.display = "block";
+				
+				// 设置cookie为当前目标版本，确保下次不再弹出
+				setCookie(COOKIE_NAME, TARGET_VERSION.toString());
+				
+				console.log(`UpdateModal shown. Cookie '${COOKIE_NAME}' set to ${TARGET_VERSION}`);
+			} else {
+				console.log(`Cookie '${COOKIE_NAME}' is ${currentVerStr}, no need to show UpdateModal.`);
+			}
+		});
 	});
 });
 

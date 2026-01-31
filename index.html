@@ -19,6 +19,7 @@
 	<link rel="stylesheet" type="text/css" href="css/zoom.css">
 	<link rel="stylesheet" type="text/css" href="highlight/styles/a11y-dark.min.css">
     <script src="script/fetch.js" defer></script>
+    <script src="script/updata.js" defer></script>
     <script src="script/loadCards.js" defer></script>
     <script src="script/setFilters.js" defer></script>
     <script src="script/listFilter.js" defer></script>
@@ -41,7 +42,7 @@
         <div class="sentinel"></div>  <!-- 哨兵移到网格外 -->
     </div>
     <div class="fixed-top" id="fixed-top">
-        <h1>简易Kards卡组编辑器</h1>
+		<h1>简易Kards卡组编辑器<a href="javascript:void(0)" onclick="onTitleVerClick()">v1.4.4</a></h1>
         <span>主国：</span>
         <select id="Main" onchange="onMainChanged(this.value)">
           <option value="0">---</option>
@@ -211,6 +212,158 @@
         </div>
 	</div>
 	
+	<div class="modal" id="UpdataModal">
+		<div class="modal-content">
+        <span class="close-btn" id="closeBtn6">&times;</span>
+            <div class="modal-body">
+				<h2>更新日志</h2>
+				<div style="text-align: left;">
+					<h4>2026.01.31 v1.4.4</h4>
+					<div style="margin-left: 20px;">
+						<span>更新了 1月平衡补丁</span><br>
+						<span>添加了 更新日志 功能</span><br>
+						<span>现在左上角的标题会显示版本号了</span>
+					</div>
+					<h4>2025.12.05 v1.4.3</h4>
+					<div style="margin-left: 20px;">
+						<span>更新了 步兵第百六联队</span><br>
+						<span>默认CDN修改为 gcore.jsdelivr.net</span>
+					</div>
+					<h4>2025.11.29 v1.4.2</h4>
+					<div style="margin-left: 20px;">
+						<span>更新了 国土阵线 版本卡牌</span><br>
+						<span>同步更新了 协力 属性筛选器</span><br>
+						<span>同步更新了 国土阵线 套装筛选器</span>
+					</div>
+					<h4>2025.11.02 v1.4.1</h4>
+					<div style="margin-left: 20px;">
+						<span>更新了 10月平衡补丁</span><br>
+						<span>更新了 卡牌轮换</span>
+					</div>
+					<h4>2025.10.8 v1.4</h4>
+					<div style="margin-left: 20px;">
+						<span>增加了 <a href="https://ohminecraftlauncher.github.io/DIY/" target="_blank" style="color: blue;">卡牌DIY</a> 功能！！！</span><br>
+						<div style="margin-left: 20px;">
+							<span>（似乎并没有多少人知道这个功能？）</span><br>
+						</div>
+						<span>增加了 套装 筛选器</span>
+					</div>
+					<h4>2025.10.03 v1.3.1</h4>
+					<div style="margin-left: 20px;">
+						<span>增加了 导出卡组图片 时 取消预备角标 的功能</span><br>
+						<span>修复了一个进度条相关的bug</span>
+					</div>
+					<h4>2025.09.27 v1.3</h4>
+					<div style="margin-left: 20px;">
+						<span>更新了 空中霸权 版本卡牌</span><br>
+						<span>增加了 版本切换 功能</span><br>
+						<span>PC端的 放大镜 支持移动到卡牌上时放大了</span><br>
+						<span>显示卡牌界面中添加了 流亡国家 的显示</span><br>
+						<span>显示卡牌界面中添加了 被由其他卡牌创建 的显示</span><br>
+						<span>修复了一个bug</span>
+						<div style="margin-left: 20px;">
+							<span> - 在 添加 或 修改 筛选器 时，数值为整数（字符串类型）不会自动转为整数（整数类型），导致筛选失败</span>
+						</div>
+					</div>
+					<h4>2025.08.22 v1.2.4</h4>
+					<div style="margin-left: 20px;">
+						<span>为声援本地部署</span><br>
+						<div style="margin-left: 20px;">
+							<span> - 增加了 重新加载 的功能</span><br>
+							<span> - 修改了 设置默认CDN 的方法</span>
+						</div>
+					</div>
+					<h4>2025.08.14 v1.2.3</h4>
+					<div style="margin-left: 20px;">
+						<span>移动端无法使用 自动选择CDN ，故现在移动端默认关闭该功能</span><br>
+						<span>由于大部分地区不可用，删去了 quantil.jsdelivr.net CDN</span><br>
+						<span>微调 CDN选择 功能</span><br>
+						<span>修复了一个bug</span>
+						<div style="margin-left: 20px;">
+							<span> - CDN列表 中无法选择 无CDN</span>
+						</div>
+					</div>
+					<h4>2025.08.13 v1.2.2</h4>
+					<div style="margin-left: 20px;">
+						<span>完善了 卡池 筛选器 的功能，现在衍生卡的筛选更精准了</span><br>
+						<span>增加了 自动选择CDN 的功能</span>
+					</div>
+					<h4>2025.08.10 v1.2.1</h4>
+					<div style="margin-left: 20px;">
+						<span>增加了 切换CDN 的功能</span><br>
+						<span>修复了一个bug</span>
+						<div style="margin-left: 20px;">
+							<span> - 忘记修改 盟国选择器 的id，导致id重复</span>
+						</div>
+					</div>
+					<h4>2025.08.09 v1.2.0</h4>
+					<div style="margin-left: 20px;">
+						<span>修复了一个bug</span>
+						<div style="margin-left: 20px;">
+							<span> - [严重] 因代码逻辑原因，卡组规则检查有严重问题，影响使用</span>
+						</div>
+						<span>为修复该bug，现在配卡组前必须先选择 主国 和 盟国</span>
+					</div>
+					<h4>2025.08.08 v1.1.1</h4>
+					<div style="margin-left: 20px;">
+						<span>优化了 放大镜 功能的逻辑</span><br>
+						<span>优化了 放大镜 功能在移动端的使用体验</span>
+					</div>
+					<h4>2025.08.07 v1.1.0</h4>
+					<div style="margin-left: 20px;">
+						<span>增加了放大镜功能，现在可以查看卡牌大图和卡牌详细信息了。</span><br>
+						<div style="margin-left: 20px;">
+							<span>（物理学万岁）</span>
+						</div>
+						<span>优化了 属性筛选器 的筛选逻辑，现在情报（1/2/3）、重甲（1/2/3）、老兵相关（可以升为老兵/老兵）之间为或关系</span><br>
+						<span>修复了一些bug</span>
+						<div style="margin-left: 20px;">
+							<span> - [严重] 因导入卡组功能，无法正确识别主盟国</span><br>
+							<span> - 点击 清空筛选器 按钮后不会清空 属性 筛选器</span>
+						</div>
+					</div>
+					<h4>2025.08.05 v1.0.3</h4>
+					<div style="margin-left: 20px;">
+						<span>加载进度条居中了</span><br>
+						<span>为部分js文件应用了CDN</span><br>
+						<span>增加了 完成导出卡组图片 后的提示</span><br>
+						<span>增加了 查看卡组数据 的功能</span><br>
+						<span>增加了 属性 筛选器</span>
+						<span>修复了一些bug</span>
+						<div style="margin-left: 20px;">
+							<span> - [严重] 因导入卡组功能，无法正确识别主盟国</span><br>
+							<span> - 现在导入卡组不再会因为 卡组码后面存在异常字符 而出现 导入卡牌不全 的问题了</span>
+						</div>
+					</div>
+					<h4>2025.08.04 v1.0.2</h4>
+					<div style="margin-left: 20px;">
+						<span>增加了导出卡组图片的功能</span><br>
+						<span>为侧边栏中的卡牌列表增加了预备标志显示</span>
+					</div>
+					<h4>2025.08.03 v1.0.1</h4>
+					<div style="margin-left: 20px;">
+						<span>优化了筛选器逻辑，现在不会显示盟国的精英卡了</span><br>
+						<span>增加了 只能携带12张盟国卡 的检测</span><br>
+						<span>为中立阵营的卡牌添加了国家标</span>
+						<div style="margin-left: 20px;">
+							<span>（这标的图甚至还是我自己扣的，沟槽的冰岛人）</span>
+						</div>
+						<span>优化了模态框和侧边栏以优化移动端用户体验</span><br>
+						<span>加入了 加载Cards.json 的进度条以优化用户体验</span><br>
+						<span>加入了 CDN 以优化加载速度</span>
+					</div>
+					<h4>2025.08.02 v1.0.0</h4>
+					<div style="margin-left: 20px;">
+						<span>v1.0.0 发布</span>
+						<div style="margin-left: 20px;">
+							<span>（太好了！）</span>
+						</div>
+					</div>
+				</div>
+            </div>
+        </div>
+	</div>
+	
 	<div class="modal" id="modal" style="display: block;"></div>
 	
 	<div class="sidebar" id="sidebar">
@@ -243,7 +396,8 @@
 			  <option value="v42">v42</option>
 			  <option value="v45">v45</option>
 			  <option value="v46">v46</option>
-			  <option value="v46_1" selected>v46_1</option>
+			  <option value="v46_1">v46_1</option>
+			  <option value="v47" selected>v47</option>
 			</select>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
