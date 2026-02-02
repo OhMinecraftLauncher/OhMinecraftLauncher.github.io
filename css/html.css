@@ -91,3 +91,18 @@
         .cards-container {
             position: relative;  /* 确保哨兵元素相对此容器定位 */
         }
+		
+		.use-times {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		/*
+		.small-img {
+			width: 120px;
+			height: auto;
+		}
+		.text-content {
+			margin-left: 15px;
+		}
+		*/
