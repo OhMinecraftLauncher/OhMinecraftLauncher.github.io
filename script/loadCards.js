@@ -354,9 +354,22 @@ function getCDNInfo()
 function RefreshContainerTopMargin()
 {
 	container.style.marginTop = fixed_top.offsetHeight + 10 + "px";
-	fixed_top.style.top = "0%";
-	top_trigger.innerHTML = "^";
-	top_trigger.style.lineHeight = "40px";
+	if (!(fixed_top.style.top == "" || fixed_top.style.top == "0%"))
+	{
+		fixed_top.style.top = "-" + fixed_top.offsetHeight + "px";
+		container.style.marginTop =  "10px";
+		top_trigger.innerHTML = "↓";
+		top_trigger.style.lineHeight = "25px";
+	}
+	/*
+	else
+	{
+		fixed_top.style.top = "0%";
+		container.style.marginTop = fixed_top.offsetHeight + 10 + "px";
+		top_trigger.innerHTML = "^";
+		top_trigger.style.lineHeight = "40px";
+	}
+	*/
 }
 
 function addOrFilter(group,path,value,contain = false,no = false,and = null)
