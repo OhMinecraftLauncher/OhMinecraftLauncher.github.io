@@ -20,6 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="highlight/styles/a11y-dark.min.css">
     <script src="script/fetch.js" defer></script>
     <script src="script/updata.js" defer></script>
+    <script src="script/top.js" defer></script>
     <script src="script/loadCards.js" defer></script>
     <script src="script/setFilters.js" defer></script>
     <script src="script/listFilter.js" defer></script>
@@ -42,7 +43,7 @@
         <div class="sentinel"></div>  <!-- 哨兵移到网格外 -->
     </div>
     <div class="fixed-top" id="fixed-top">
-		<h1>简易Kards卡组编辑器<a href="javascript:void(0)" onclick="onTitleVerClick()">v1.4.5</a></h1>
+		<h1>简易Kards卡组编辑器<a href="javascript:void(0)" onclick="onTitleVerClick()">v1.4.6</a></h1>
         <span>主国：</span>
         <select id="Main" onchange="onMainChanged(this.value)">
           <option value="0">---</option>
@@ -130,6 +131,7 @@
 		<br>
 		<button id="showArraysBtn" class="action-btn edit-btn" type="button">查看筛选器列表</button>
 		<button class="action-btn delete-btn" type="button" onclick="onRemoveAllFilterClick()">清空所有筛选器</button>
+		<div class="top-trigger" id="top-trigger" onclick="onTopClick()">^</div>
     </div>
 	
 	    <!-- 手机上的侧边栏触发器 -->
@@ -218,6 +220,14 @@
             <div class="modal-body">
 				<h2>更新日志</h2>
 				<div style="text-align: left;">
+					<h4>2026.02.02 v1.4.6</h4>
+					<div style="margin-left: 20px;">
+						<span>添加了 向上收回筛选器和标题 功能，优化移动端使用体验</span>
+						<div style="margin-left: 20px;">
+							<span>（终于没有遮挡半个屏幕，点不到卡牌的烦恼了）</span>
+						</div>
+						<span>由于 jsd.vxo.im CDN 已不可用，已将其<b>转换</b>为 jsd-proxy.ygxz.in</span>
+					</div>
 					<h4>2026.02.02 v1.4.5</h4>
 					<div style="margin-left: 20px;">
 						<span>添加了 访问次数监测 功能</span>
@@ -246,7 +256,7 @@
 					</div>
 					<h4>2025.10.8 v1.4</h4>
 					<div style="margin-left: 20px;">
-						<span>增加了 <a href="https://ohminecraftlauncher.github.io/DIY/" target="_blank" style="color: blue;">卡牌DIY</a> 功能！！！</span><br>
+						<span>增加了 <a href="https://ohminecraftlauncher.github.io/DIY/" target="_blank" style="color: blue;"><b>卡牌DIY</b></a> 功能！！！</span><br>
 						<div style="margin-left: 20px;">
 							<span>（似乎并没有多少人知道这个功能？）</span><br>
 						</div>
@@ -384,7 +394,7 @@
 			<br>
 			<span>CDN：</span>
 			<select id="CDN_Sel" onchange="onCDNSelChanged(this.value)" style="margin-bottom: 5px">
-			  <option value="0">jsd.vxo.im</option>
+			  <option value="0">jsd-proxy.ygxz.in</option>
 			  <option value="1">cdn.smartcis.cn</option>
 			  <option value="2">cdn.bili33.top</option>
 			  <option value="3" selected>gcore.jsdelivr.net</option>

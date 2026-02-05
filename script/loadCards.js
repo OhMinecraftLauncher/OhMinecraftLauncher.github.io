@@ -12,12 +12,13 @@ let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 let CardsJsonFileName = "Cards_v47.json";
-const TARGET_VERSION = 18;
+const TARGET_VERSION = 19;
 
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
 const CDNs = [
-	"jsd.vxo.im",
+	//"jsd.vxo.im",
+	"jsd-proxy.ygxz.in",
 	"cdn.smartcis.cn",
 	"cdn.bili33.top",
 	"gcore.jsdelivr.net",
@@ -352,7 +353,10 @@ function getCDNInfo()
 
 function RefreshContainerTopMargin()
 {
-	container.style.marginTop = document.getElementById("fixed-top").offsetHeight + 10 + "px";
+	container.style.marginTop = fixed_top.offsetHeight + 10 + "px";
+	fixed_top.style.top = "0%";
+	top_trigger.innerHTML = "^";
+	top_trigger.style.lineHeight = "40px";
 }
 
 function addOrFilter(group,path,value,contain = false,no = false,and = null)

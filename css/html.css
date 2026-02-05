@@ -44,6 +44,30 @@
             background: rgba(255, 255, 255, 0.8); /* 可选：增加背景色提高可读性 */
             padding: 15px;
             width: 70%;
+			transition-duration: 0.4s;
+        }
+		
+		.top-trigger {
+            position: fixed;
+            left: 20px;
+            top: 100%;
+            /* transform: translateY(-50%); */
+            background-color: rgba(243,243,243,0.95);
+            color: black;
+            width: 40px;
+            height: 30px;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            cursor: pointer;
+            z-index: 995;
+            text-align: center;
+            line-height: 40px;
+            font-size: 20px;
+			transition-duration: 0.4s;
+        }
+		
+		.top-trigger:hover {
+		  background-color: rgba(200,200,200,1);
         }
 
         /* 响应式调整列数 */
@@ -58,6 +82,10 @@
                 grid-template-columns: repeat(2, 1fr); /* 平板端 2 列 */
             }
         }
+		
+		.image-grid {
+			transition-duration: 0.4s;
+		}
 
 /*
         @media (max-width: 480px) {
