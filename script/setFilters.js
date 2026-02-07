@@ -236,6 +236,7 @@ function onSearchChanged(val)
 		addOrFilter("Search","json.text.zh-Hant",val,true);
 		addOrFilter("Search","json.text.en-EN",val,true);
 		addOrFilter("Search","importId",val,true);
+		addOrFilter("Search","json.id",val,true);
 	}
 }
 
