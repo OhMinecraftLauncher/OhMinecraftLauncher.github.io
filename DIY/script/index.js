@@ -1,7 +1,7 @@
 const types =  ["步兵","坦克","炮兵","战斗机","轰炸机","指令","反制"];
 const factions =  ["germany","britain","japan","soviet","usa","france","italy","poland","finland","neutral","china"];
 const raritys =  ["普通","限定","特殊","精英"];
-const sets =  ["基础","海战","血与铁","秘密行动","冬季战争","战友","战区","世纪大战","军团","突破","忠诚"];
+const sets =  ["基础","国土阵线","海战","血与铁","秘密行动","冬季战争","战友","战区","世纪大战","军团","突破","忠诚"];
 
 var cur_type = 0;
 var cur_rarity = 0;
@@ -9,7 +9,7 @@ var cur_set = 0;
 var cur_faction = 0;
 
 //const CDN_URL = "";
-const CDN_URL = "https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/";
+const CDN_URL = "https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/";
 
 const rarity = document.getElementById("rarity");
 const type = document.getElementById("type");
@@ -20,6 +20,7 @@ const set = document.getElementById("set");
 const body = document.getElementById("body");
 const picture_input = document.getElementById("picture-input");
 const picture = document.getElementById("picture");
+const picture_img = document.getElementById("picture-img");
 const b_text = document.getElementById("b-text");
 const boldBtn = document.getElementById("boldBtn");
 const IFSBtn = document.getElementById("IFSBtn");
@@ -52,6 +53,7 @@ function onTypeClick()
 		type_board.className = "type-board-order";
 		picture.className = "picture-order";
 		title.className = "title-order";
+		b_text.className = "text-order";
 		title.style.color = "#4e4e47";
 		TIFSBtn.className = "BTBtn TIFSBtn-order";
 		TDFSBtn.className = "BTBtn TDFSBtn-order";
@@ -73,6 +75,7 @@ function onTypeClick()
 		type_board.className = "type-board-unit";
 		picture.className = "picture-unit";
 		title.className = "title-unit";
+		b_text.className = "text-unit";
 		TIFSBtn.className = "BTBtn TIFSBtn-unit";
 		TDFSBtn.className = "BTBtn TDFSBtn-unit";
 		title_body.style.display = "block";
@@ -168,30 +171,6 @@ function onFactionClick()
 	}
 }
 
-function onPictureClick()
-{
-	picture_input.click();
-}
-
-function onPictureInputChange(val)
-{
-	var reader = new FileReader();
-    // 转换成功后的操作，img.src即为转换后的DataURL
-    reader.onload = function(e) {
-        if (reader.readyState === 2) { //加载完毕后赋值
-            //picture_img.src = e.target.result;
-			//picture.style.back
-            picture.style.backgroundImage = `url(${e.target.result})`;
-            picture.style.backgroundSize = 'contain';
-            picture.style.backgroundRepeat = 'no-repeat';
-            picture.style.backgroundPosition = 'center';
-            picture.style.backgroundColor = '#ffffff';
-			picture.style.display = "flex";
-        }
-    }
-    reader.readAsDataURL(val);
-}
-
 b_text.addEventListener('keydown', function(e) {
 	// Ctrl+B 快捷键
 	if (e.ctrlKey && e.key === 'b') {
@@ -199,32 +178,6 @@ b_text.addEventListener('keydown', function(e) {
 		document.execCommand('bold', false, null);
 	}
 });
-
-/*
-b_text.addEventListener('mouseout', function(e) {
-	const ip = IFSBtn.getBoundingClientRect();
-	const bp = boldBtn.getBoundingClientRect();
-	if (e.x >= bp.left - 5 && e.x <= bp.right + 5 && e.y >= ip.top - 5 && e.y <= bp.bottom + 5)
-	{
-		boldBtn.style.display = "flex";
-		IFSBtn.style.display = "flex";
-		DFSBtn.style.display = "flex";
-	}
-	else
-	{
-		boldBtn.style.display = "none";
-		IFSBtn.style.display = "none";
-		DFSBtn.style.display = "none";
-	}
-});
-
-function onBTextMouseIn()
-{
-	boldBtn.style.display = "flex";
-	IFSBtn.style.display = "flex";
-	DFSBtn.style.display = "flex";
-}
-*/
 
 function onEditBClick()
 {

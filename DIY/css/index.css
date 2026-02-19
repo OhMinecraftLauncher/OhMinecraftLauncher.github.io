@@ -94,6 +94,36 @@
 	align-items: center;
 }
 
+#picture:hover
+{
+	background-color: green;
+}
+
+/* 相框容器 */
+        #picture {
+            aspect-ratio: 800 / 600;
+            overflow: hidden;
+            cursor: grab;
+            touch-action: none;       /* 禁止浏览器手势，全部由js控制 */
+			transition: all 0.3s ease;
+        }
+        #picture:active {
+            cursor: grabbing;
+        }
+        /* 下层可移动图片 */
+        #picture-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            transform-origin: 0 0;
+            pointer-events: none;      /* 事件穿透，由容器统一处理 */
+            will-change: transform;
+			display: none;
+			//transition: all 0.3s ease;
+        }
+
 .picture-order
 {
     position: absolute;
@@ -101,7 +131,7 @@
     left: 11px;
 	width: 478px;
 	height: 475px;
-	display: none;
+	display: block;
 }
 
 .picture-unit
@@ -111,21 +141,7 @@
     left: 11px;
 	width: 478px;
 	height: 428px;
-	display: none;
-}
-
-#picture-select
-{
-    position: absolute;
-    top: 100px;
-    left: 12px;
-	width: 476px;
-	height: 350px;
-}
-
-#picture-select:hover
-{
-	border: 2px solid green;
+	display: block;
 }
 
 #body
@@ -135,6 +151,7 @@
     left: 0px;
 	width: 100%;
 	height: 100%;
+	pointer-events: none;
 }
 
 #title-body
@@ -151,69 +168,67 @@
 
 @font-face {
     font-family: 'SHSC';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Normal.otf');
+    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Normal.otf');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'SHSC';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Medium.otf');
+    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Medium.otf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'SHSCB';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Bold.otf');
+    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Bold.otf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'FG';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-MediumCond.ttf');
+    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-MediumCond.ttf');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'FG';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-DemiCond.ttf');
+    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-DemiCond.ttf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'RB';
-    src: url('https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/Roboto-Black.ttf');
+    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/Roboto-Black.ttf');
 	font-weight: bold;
 	font-style: normal;
 }
 
-/*
 .text-order
 {
     position: absolute;
-    top: 510px;
-    left: 11px;
-	width: 478px;
-	height: 155px;
+    top: 570px;
+    left: 20px;
+	width: 460px;
+	height: 95px;
 	text-align: center;
 	background-color: rgba(0,0,0,0);
 	outline: none;
 	border: 0;
 	resize: none;
-	font-family: "DengXian","狮黑",Arial,"Microsoft YaHei",sans-serif;
-	line-height: 35px;
+	font-family: "FG", "SHSC";
 	font-size: 30px;
 	color: #4c4c43;
+	line-height: 1.1;
 }
 .text-order:hover
 {
 	border: 2px solid green;
 }
-*/
 
 .text-unit
 {
@@ -235,6 +250,11 @@
 .text-unit:hover
 {
 	border: 2px solid green;
+}
+
+#b-text
+{
+	transition: all 0.2s ease;
 }
 
 img

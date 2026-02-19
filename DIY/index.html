@@ -8,14 +8,17 @@
 		<link rel="stylesheet" type="text/css" href="css/tips.css">
 		<script src="script/index.js" defer></script>
 		<script src="script/tips.js" defer></script>
-		<script src="https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/script/html2canvas.min.js" defer></script>
+		<script src="https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/script/html2canvas.min.js" defer></script>
 		<script src="script/stackblur.min.js"></script>
+		<script src="script/img.js"></script>
 	</head>
 	<body>
 		<div id="main">
-			<div id="picture" class="picture-unit"></div>
+			<div id="picture" class="picture-unit">
+				<img id="picture-img" alt="img" src="" draggable="false"/>
+			</div>
 			<div id="title-body"></div>
-			<img id="body" src="https://cdn.jsdmirror.com/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/DIY/images/body/底-单位.png" alt="底"/>
+			<img id="body" src="https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/DIY/images/body/底-单位.png" alt="底"/>
 			<img id="K" class="K-1" src="images/body/K.png" alt="K"/>
 			<div id="type-board" class="type-board-unit" onclick="onTypeClick()">
 				<img id="type" src="images/type/步兵.png" alt="类型"/>
@@ -25,7 +28,6 @@
 			<div id="faction-container">
 				<img id="faction" src="images/faction/germany.png" alt="国家" onclick="onFactionClick()"/>
 			</div>
-			<div id="picture-select" onclick="onPictureClick()"></div>
 			<div id="b-text" class="text-unit" contenteditable="true"></div>
 			<div id="kredit" contenteditable="true" oninput="onKreditInput()"></div>
 			<div id="opredit" class="opredit-1" contenteditable="true" oninput="onOpeditInput()"></div>
@@ -40,7 +42,6 @@
 		</div>
 		<button id="EditButton" class="action-btn edit-btn" onclick="onEditBClick()">隐藏编辑按钮</button>
 		<button id="SaveButton" class="action-btn save-btn" onclick="onSaveBClick()">导出卡图</button>
-	<input type="file" accept="image/*" id="picture-input" onchange="onPictureInputChange(this.files[0])" style="display: none;"/>
 	
     <div id="temporary-message"></div>
 	
