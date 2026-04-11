@@ -1,6 +1,6 @@
 const types =  ["步兵","坦克","炮兵","战斗机","轰炸机","指令","反制"];
 const factions =  ["germany","britain","japan","soviet","usa","france","italy","poland","finland","neutral","china"];
-const raritys =  ["普通","限定","特殊","精英"];
+const raritys =  ["普通","限定","特殊","精英","衍生"];
 const sets =  ["基础","国土阵线","海战","血与铁","秘密行动","冬季战争","战友","战区","世纪大战","军团","突破","忠诚"];
 
 var cur_type = 0;
