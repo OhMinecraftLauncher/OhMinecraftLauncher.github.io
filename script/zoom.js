@@ -215,7 +215,7 @@ function openZoomModal(data)
 	}
 	zoom_main_img.appendChild(img);
 	zoom_main_text.innerHTML = 
-	"<strong>标题：</strong>" + decodeUnicode(j.json.title["zh-Hans"]) + "<br>" +
+	"<strong>标题：</strong>" + decodeUnicode(j.json.title["zh-Hans"] === undefined ? "无" : j.json.title["zh-Hans"]) + "<br>" +
 	"<strong>内容：</strong>" + decodeUnicode(j.json.text["zh-Hans"] === undefined ? "无" : j.json.text["zh-Hans"]) + "<br>" + 
 	"<strong>国家：</strong>" + FactionEnglishToChinese(j.json.faction) + "<br>" + 
 	(j.json.exile === undefined ? "" : "<strong>流亡：</strong>" + FactionEnglishToChinese(j.json.exile) + "<br>") + 

@@ -311,6 +311,9 @@ function loadDeck()
 			case "Finland":
 				bodycolor = "#babaab";
 				break;
+			case "Anzac":
+				bodycolor = "#79592a";
+				break;
 		}
 		var countcolor = "#3d3d3a";
 		switch (j.json.rarity)

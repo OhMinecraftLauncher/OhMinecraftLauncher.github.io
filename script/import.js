@@ -45,7 +45,7 @@
 					{
 						throw new Error("错误的主国");
 					}
-					let ally_regex = /^[1-9]+$/;
+					let ally_regex = /^[1-9a]+$/;
 					if (!ally_regex.test(inputValue_spiltbyone[3]))
 					{
 						throw new Error("错误的盟国");

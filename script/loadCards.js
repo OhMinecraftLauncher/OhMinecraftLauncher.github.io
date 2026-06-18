@@ -11,8 +11,8 @@ var orFilters = [];
 let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
-let CardsJsonFileName = "Cards_v48.json";
-const TARGET_VERSION = 20;
+let CardsJsonFileName = "Cards_v51.json";
+const TARGET_VERSION = 21;
 
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
@@ -38,6 +38,7 @@ let contentLength =
 	v46_1:3660286,
 	v47:3653632,
 	v48:3714296,
+	v51:4031032
 };
 
 /**
@@ -455,6 +456,137 @@ function removeAllFilters()
  * @param {Array} andFilters - 与筛选器数组，每个元素是 {path: 键路径, value: 匹配值}
  * @returns {Array} 筛选后的数组
  */
+ function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
+    if (!Array.isArray(arr)) return [];
+
+    // 获取键路径对应的值（支持点号和数组索引）
+    const getValueByPath = (obj, path) => {
+        const tokens = path.split(/\.|\[|\]/).filter(token => token !== '');
+        let current = obj;
+        for (const token of tokens) {
+            if (current === null || current === undefined) return undefined;
+            current = /^\d+$/.test(token) ? current[parseInt(token, 10)] : current[token];
+        }
+        return current;
+    };
+
+    /**
+     * 匹配单个条件（不包含 and 子条件）
+     * @param {*} value                 - 待检查的值（如 pathValue）
+     * @param {Object} filter           - 筛选条件对象，包含 { no, contain, value }
+     * @param {Array|null} arrayForIteration - 用于遍历的数组（若需要）
+     * @param {*} iterationFilterValue  - 遍历数组时比较的值（默认等于 filter.value）
+     * @returns {boolean} 是否匹配
+     */
+    const matchValue = (value, filter, arrayForIteration, iterationFilterValue) => {
+        // 先计算直接包含（value.includes）
+        const directInclude = (typeof value === 'string' || Array.isArray(value)) 
+            ? value.includes(filter.value) 
+            : false;
+
+        let anyElementInclude = false;
+        let allElementsInclude = false;
+
+        if (Array.isArray(arrayForIteration)) {
+            // 注意：直接调用 item.includes，若 item 无 includes 方法会抛出异常（与原始行为一致）
+            anyElementInclude = arrayForIteration.some(item => 
+                (typeof item === 'string' || Array.isArray(item)) && item.includes(iterationFilterValue)
+            );
+            allElementsInclude = arrayForIteration.every(item => 
+                (typeof item === 'string' || Array.isArray(item)) && item.includes(iterationFilterValue)
+            );
+        }
+
+        if (!filter.no) {
+            // no === false 或 undefined
+            if (!filter.contain) {
+                return value === filter.value;
+            } else {
+                return directInclude || anyElementInclude;
+            }
+        } else {
+            // no === true
+            if (!filter.contain) {
+                return value !== filter.value;
+            } else {
+                // 保留原始逻辑：先看直接包含，若直接包含为 false 则返回 true；
+                // 若直接包含为 true，则仅在 arrayForIteration 是数组且并非所有元素都包含时返回 true
+                if (!directInclude) return true;
+                if (Array.isArray(arrayForIteration) && !allElementsInclude) return true;
+                return false;
+            }
+        }
+    };
+
+    // ---------- 处理 orFilters（分组 OR，组间 AND） ----------
+    const orGroups = {};
+    orFilters.forEach(filter => {
+        if (!orGroups[filter.group]) orGroups[filter.group] = [];
+        orGroups[filter.group].push(filter);
+    });
+
+    let result = [...arr];
+
+    for (const groupId in orGroups) {
+        const groupFilters = orGroups[groupId];
+        let groupResults = [];
+
+        groupFilters.forEach(filter => {
+            const filtered = arr.filter(item => {
+                const pathValue = getValueByPath(item, filter.path);
+                if (pathValue === undefined) return false;
+
+                // 主条件匹配
+                const mainPassed = matchValue(
+                    pathValue,
+                    filter,
+                    Array.isArray(pathValue) ? pathValue : null,
+                    filter.value
+                );
+                if (!mainPassed) return false;
+
+                // 若有 and 子条件，则继续匹配（注意：传入外层 pathValue 和 filter.value）
+                if (filter.and !== undefined && filter.and !== null) {
+                    const andPathValue = getValueByPath(item, filter.and.path);
+                    if (andPathValue === undefined) return false;
+                    const andPassed = matchValue(
+                        andPathValue,
+                        filter.and,
+                        pathValue,          // 外层 pathValue 作为遍历数组
+                        filter.value        // 外层 filter.value 用于遍历比较
+                    );
+                    return andPassed;
+                }
+
+                return true;
+            });
+
+            groupResults = [...new Set([...groupResults, ...filtered])];
+        });
+
+        // 组间取交集（AND）
+        result = result.filter(item => groupResults.includes(item));
+    }
+
+    // ---------- 处理 andFilters（所有条件必须满足） ----------
+    if (andFilters.length > 0) {
+        result = result.filter(item => {
+            return andFilters.every(filter => {
+                const pathValue = getValueByPath(item, filter.path);
+                if (pathValue === undefined) return false;
+                return matchValue(
+                    pathValue,
+                    filter,
+                    Array.isArray(pathValue) ? pathValue : null,
+                    filter.value
+                );
+            });
+        });
+    }
+
+    return result;
+}
+ /*
 function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
     if (!Array.isArray(arr)) return [];
     
@@ -680,6 +812,7 @@ function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
     
     return result;
 }
+*/
 
 // getValueByPath 函数实现（与之前相同）
 function getValueByPath(obj, path) {
@@ -708,7 +841,7 @@ function loadNextBatch() {
 
     const batch = currentCards.slice(currentIndex, currentIndex + BATCH_SIZE);
     batch.forEach(card => {
-        if (!card.imageUrl || !card.json?.title?.["zh-Hans"]) return;
+        if (!card.imageUrl/* || !card.json?.title?.["zh-Hans"]*/) return;
 		
 		const div = document.createElement("div");
 		div.className = "card-container";
@@ -758,7 +891,14 @@ function loadNextBatch() {
 
     // 4. Unicode 解码（处理 \uXXXX 格式）
     function decodeUnicode(str) {
-        return str.replace(/\\u[\dA-Fa-f]{4}/g, match => 
-            String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16))
-        );
+		try
+		{
+			return str.replace(/\\u[\dA-Fa-f]{4}/g, match => 
+				String.fromCharCode(parseInt(match.replace(/\\u/g, ""), 16))
+			);
+		}
+		catch
+		{
+			return "";
+		}
     }

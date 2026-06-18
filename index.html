@@ -43,7 +43,7 @@
         <div class="sentinel"></div>  <!-- 哨兵移到网格外 -->
     </div>
     <div class="fixed-top" id="fixed-top">
-		<h1>简易Kards卡组编辑器<a href="javascript:void(0)" onclick="onTitleVerClick()">v1.4.8</a></h1>
+		<h1>简易Kards卡组编辑器<a href="javascript:void(0)" onclick="onTitleVerClick()">v1.5</a></h1>
         <span>主国：</span>
         <select id="Main" onchange="onMainChanged(this.value)">
           <option value="0">---</option>
@@ -65,6 +65,7 @@
           <option value="7">意大利</option>
           <option value="8">波兰</option>
           <option value="9">芬兰</option>
+          <option value="a">澳新军团</option>
         </select>
 		<br>
         <span>国家：</span>
@@ -79,6 +80,7 @@
           <option value="7">意大利</option>
           <option value="8">波兰</option>
           <option value="9">芬兰</option>
+          <option value="a">澳新军团</option>
         </select>
         <span>花费：</span>
 		<input id="ReditsInput" type="number" min="-1" max="20" onchange="onReditsChanged(this.value)"/>
@@ -112,6 +114,7 @@
         <select id="SSet" onchange="onSSetChanged(this.value)">
 		  <option value="All">全部</option>
           <option value="Base">基础</option>
+          <option value="OceaniaStorm">澳新军团</option>
           <option value="Homefront">国土阵线</option>
           <option value="NavalWarfare">海战</option>
           <option value="BloodAndIron">血与铁</option>
@@ -126,7 +129,7 @@
         </select>
 		<button type="button" onclick="onSetAttrButtonClicked()">属性</button>
 		<span>搜索：</span>
-		<input id="Search" type="text" style="width: 160px" onchange="onSearchChanged(this.value)" placeholder="搜索标题和卡面描述文本">
+		<input id="Search" type="text" style="width: 150px" onchange="onSearchChanged(this.value)" placeholder="卡牌标题、描述、ID">
 		<button class="action-btn delete-btn" type="button" onclick="onSearchClick()">清空</button>
 		<br>
 		<button id="showArraysBtn" class="action-btn edit-btn" type="button">查看筛选器列表</button>
@@ -220,6 +223,12 @@
             <div class="modal-body">
 				<h2>更新日志</h2>
 				<div style="text-align: left;">
+					<h4>2026.06.18 v1.5</h4>
+					<div style="margin-left: 20px;">
+						<span>S* 的 1939 终于更新了 澳新风暴 版本卡牌</span><br>
+						<span>同步更新了 澳新风暴 套装筛选器</span><br>
+						<span>同步更新了 澳新军团 盟国</span>
+					</div>
 					<h4>2026.03.13 v1.4.8</h4>
 					<div style="margin-left: 20px;">
 						<span>更新了 国土阵线-早期战争 版本卡牌</span><br>
@@ -426,7 +435,8 @@
 			  <option value="v46">v46</option>
 			  <option value="v46_1">v46_1</option>
 			  <option value="v47">v47</option>
-			  <option value="v48" selected>v48</option>
+			  <option value="v48">v48</option>
+			  <option value="v51" selected>v51</option>
 			</select>
 			<h3 id="Deck_Card_Count">1 / 40</h3>
 			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">

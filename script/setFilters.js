@@ -100,6 +100,11 @@ function onAllyChanged(val)
 			addOrFilter("Country","json.exile","Finland",false,false,allyandfilter);
 			oldally = "Finland";
 			break;
+		case "a":
+			addOrFilter("Country","json.faction","Anzac",false,false,allyandfilter);
+			addOrFilter("Country","json.exile","Anzac",false,false,allyandfilter);
+			oldally = "Anzac";
+			break;
 	}
 }
 
@@ -145,6 +150,10 @@ function onFacChanged(val)
 		case "9":
 			addOrFilter("Fac","json.faction","Finland");
 			addOrFilter("Fac","json.exile","Finland");
+			break;
+		case "a":
+			addOrFilter("Fac","json.faction","Anzac");
+			addOrFilter("Fac","json.exile","Anzac");
 			break;
 	}
 }
