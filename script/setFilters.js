@@ -304,7 +304,7 @@ function onAttributesClicked(val)
 		}
 		else
 		{
-			addAndFilter("json.attributes",val.name,true,false,false);
+			addAndFilter("json.attributes",val.name,true,false,false,true);
 		}
 	}
 	else

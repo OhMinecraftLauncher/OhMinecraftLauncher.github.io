@@ -12,7 +12,7 @@ let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
 let CardsJsonFileName = "Cards_v51.json";
-const TARGET_VERSION = 21;
+const TARGET_VERSION = 22;
 
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
@@ -374,16 +374,16 @@ function RefreshContainerTopMargin()
 	*/
 }
 
-function addOrFilter(group,path,value,contain = false,no = false,and = null)
+function addOrFilter(group,path,value,contain = false,no = false,and = null,onlyo = false)
 {
-	orFilters.push({"group":group,"path":path,"value":value,"contain":contain,"no":no,"and":and});
+	orFilters.push({"group":group,"path":path,"value":value,"contain":contain,"no":no,"and":and,"onlyo":onlyo});
 	loadFilters();
 }
 
-function addAndFilter(path,value,contain = false,no = false,remove = true)
+function addAndFilter(path,value,contain = false,no = false,remove = true,onlyo = false)
 {
 	if (remove) removeAndFilter(path);
-	andFilters.push({"path":path,"value":value,"contain":contain,"no":no});
+	andFilters.push({"path":path,"value":value,"contain":contain,"no":no,"onlyo":onlyo});
 	loadFilters();
 }
 
@@ -402,7 +402,7 @@ function removeAndFilter(path,value = null)
 	loadFilters();
 }
 
-function removeOrFilterByFilter(group,path,value,contain = false,no = false,and = null)
+function removeOrFilterByFilter(group,path,value,contain = false,no = false,and = null,onlyo = false)
 {
 	var IsAlreadyRemoved = false;
 	orFilters = orFilters.filter((item) => 
@@ -410,7 +410,7 @@ function removeOrFilterByFilter(group,path,value,contain = false,no = false,and 
 		if (IsAlreadyRemoved) return true;
 		else
 		{
-			if (item.group === group && item.path === path && item.value === value && item.contain === contain && item.no === no && item.and === and)
+			if (item.group === group && item.path === path && item.value === value && item.contain === contain && item.no === no && item.and === and && item.onlyo == onlyo)
 			{
 				IsAlreadyRemoved = true;
 				return false;
@@ -502,7 +502,7 @@ function removeAllFilters()
             if (!filter.contain) {
                 return value === filter.value;
             } else {
-                return directInclude || anyElementInclude;
+				return directInclude || (filter.onlyo ? false : anyElementInclude);
             }
         } else {
             // no === true

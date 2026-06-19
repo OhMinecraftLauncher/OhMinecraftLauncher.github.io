@@ -1,7 +1,7 @@
 const types =  ["步兵","坦克","炮兵","战斗机","轰炸机","指令","反制"];
-const factions =  ["germany","britain","japan","soviet","usa","france","italy","poland","finland","neutral","china"];
+const factions =  ["germany","britain","japan","soviet","usa","france","italy","poland","finland","anzac","neutral","china"];
 const raritys =  ["普通","限定","特殊","精英","衍生"];
-const sets =  ["基础","国土阵线","海战","血与铁","秘密行动","冬季战争","战友","战区","世纪大战","军团","突破","忠诚"];
+const sets =  ["基础","澳新风暴","国土阵线","海战","血与铁","秘密行动","冬季战争","战友","战区","世纪大战","军团","突破","忠诚"];
 
 var cur_type = 0;
 var cur_rarity = 0;
@@ -141,6 +141,9 @@ function onFactionClick()
 			break;
 		case "finland":
 			bodycolor = "#babaab";
+			break;
+		case "anzac":
+			bodycolor = "#785525";
 			break;
 		case "neutral":
 			bodycolor = "#3b3c40";
@@ -323,7 +326,7 @@ function decreaseTitleFontSize()
 function onSaveBClick()
 {
 	showTemporaryMessage("正在导出卡图，请稍后......");
-	html2canvas(main,{useCORS:true}).then(canvas => {
+	html2canvas(main,{useCORS:true, backgroundColor: null}).then(canvas => {
 		if (window.confirm("是否进行模糊处理（若进行模糊处理，可以抗锯齿，更接近原版，但会损失一些清晰度）？")) StackBlur.canvasRGB(canvas, 0, 0, canvas.width, canvas.height, 1);
 		var link = document.createElement("a");
 		var imgData = canvas.toDataURL({format: 'png', quality:1});

@@ -19,7 +19,7 @@ function onDeckShowClick()
 		}
 		document.getElementById("deck-show-card-count").innerHTML = count + " / 39";
 		document.getElementById("deck-show-importcode").innerHTML = exportcode + "（主国：" + FactionEnglishToChinese(oldmain) + " 盟国：" + FactionEnglishToChinese(oldally) + "）";
-		Object.keys(cCards).forEach((key) => {
+		Object.keys(cCards).sort(function(a, b){return JSON.parse(a).json.kredits - JSON.parse(b).json.kredits}).forEach((key) => {
 			const card = JSON.parse(key);
 			for (var i = 1;i <= cCards[key];i++)
 			{
