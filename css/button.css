@@ -1,24 +1,29 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 1px solid rgba(178, 119, 59, 0.22);
+    border-radius: 999px;
+    color: #191714;
+    text-align: center;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.78);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+}
 
-		.button {
-		  border: none;
-		  color: white;
-		  padding: 16px 32px;
-		  text-align: center;
-		  text-decoration: none;
-		  display: inline-block;
-		  font-size: 16px;
-		  transition-duration: 0.4s;
-		  cursor: pointer;
-		}
+.exportbutton {
+    width: 100%;
+    color: #fff;
+    border-color: rgba(178, 119, 59, 0.5);
+    background: linear-gradient(135deg, #b2773b, #7d4f24);
+    box-shadow: 0 12px 26px rgba(125, 79, 36, 0.22);
+}
 
-		.exportbutton {
-		  background-color: white;
-		  color: black;
-		  margin: auto;
-		  border: 2px solid #4CAF50;
-		}
-
-		.exportbutton:hover {
-		  background-color: #4CAF50;
-		  color: white;
-		}
+.exportbutton:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #c88946, #8d5a2b);
+}

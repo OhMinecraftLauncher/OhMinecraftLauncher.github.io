@@ -38,104 +38,125 @@
 </head>
 
 <body>
-    <div class="cards-container">  <!-- 新增外层容器 -->
-        <div class="image-grid" id="image-container"></div>
-        <div class="sentinel"></div>  <!-- 哨兵移到网格外 -->
-    </div>
-    <div class="fixed-top" id="fixed-top">
-		<h1>简易Kards卡组编辑器<a href="javascript:void(0)" onclick="onTitleVerClick()">v1.5.1</a></h1>
-        <span>主国：</span>
-        <select id="Main" onchange="onMainChanged(this.value)">
-          <option value="0">---</option>
-          <option value="1">德国</option>
-          <option value="2">英国</option>
-          <option value="3">日本</option>
-          <option value="4">苏联</option>
-          <option value="5">美国</option>
-        </select>
-        <span>盟国：</span>
-        <select id="Ally" onchange="onAllyChanged(this.value)">
-          <option value="0">---</option>
-          <option value="1">德国</option>
-          <option value="2">英国</option>
-          <option value="3">日本</option>
-          <option value="4">苏联</option>
-          <option value="5">美国</option>
-          <option value="6">法国</option>
-          <option value="7">意大利</option>
-          <option value="8">波兰</option>
-          <option value="9">芬兰</option>
-          <option value="a">澳新军团</option>
-        </select>
-		<br>
-        <span>国家：</span>
-        <select id="Fac" onchange="onFacChanged(this.value)">
-          <option value="0">---</option>
-          <option value="1">德国</option>
-          <option value="2">英国</option>
-          <option value="3">日本</option>
-          <option value="4">苏联</option>
-          <option value="5">美国</option>
-          <option value="6">法国</option>
-          <option value="7">意大利</option>
-          <option value="8">波兰</option>
-          <option value="9">芬兰</option>
-          <option value="a">澳新军团</option>
-        </select>
-        <span>花费：</span>
-		<input id="ReditsInput" type="number" min="-1" max="20" onchange="onReditsChanged(this.value)"/>
-        <span>卡池：</span>
-        <select id="Reserved" onchange="onReservedChanged(this.value)">
-          <option value="0">全部</option>
-          <option value="1">活跃</option>
-          <option value="2">预备</option>
-          <option value="3">衍生</option>
-        </select>
-		<span>稀有度：</span>
-        <select id="Rarity" onchange="onRarityChanged(this.value)">
-		  <option value="All">全部</option>
-          <option value="Standard">普通</option>
-          <option value="Limited">限定</option>
-          <option value="Special">特殊</option>
-          <option value="Elite">精英</option>
-        </select>
-		<span>类型：</span>
-        <select id="Type" onchange="onTypeChanged(this.value)">
-		  <option value="All">全部</option>
-          <option value="infantry">步兵</option>
-          <option value="tank">坦克</option>
-          <option value="artillery">炮兵</option>
-          <option value="fighter">战斗机</option>
-          <option value="bomber">轰炸机</option>
-          <option value="order">指令</option>
-          <option value="countermeasure">反制</option>
-        </select>
-		<span>套装：</span>
-        <select id="SSet" onchange="onSSetChanged(this.value)">
-		  <option value="All">全部</option>
-          <option value="Base">基础</option>
-          <option value="OceaniaStorm">澳新军团</option>
-          <option value="Homefront">国土阵线</option>
-          <option value="NavalWarfare">海战</option>
-          <option value="BloodAndIron">血与铁</option>
-          <option value="CovertOps">秘密行动</option>
-          <option value="WinterWar">冬季战争</option>
-          <option value="BrothersInArms">战友</option>
-          <option value="TheatersOfWar">战区</option>
-          <option value="WorldAtWar">世纪大战</option>
-          <option value="Legions">军团</option>
-          <option value="Breakthrough">突破</option>
-          <option value="Allegiance">忠诚</option>
-        </select>
-		<button type="button" onclick="onSetAttrButtonClicked()">属性</button>
-		<span>搜索：</span>
-		<input id="Search" type="text" style="width: 150px" onchange="onSearchChanged(this.value)" placeholder="卡牌标题、描述、ID">
-		<button class="action-btn delete-btn" type="button" onclick="onSearchClick()">清空</button>
-		<br>
-		<button id="showArraysBtn" class="action-btn edit-btn" type="button">查看筛选器列表</button>
-		<button class="action-btn delete-btn" type="button" onclick="onRemoveAllFilterClick()">清空所有筛选器</button>
-		<div class="top-trigger" id="top-trigger" onclick="onTopClick()">^</div>
-    </div>
+    <main class="app-main">
+        <section class="cards-container" aria-label="卡牌列表">
+            <div class="image-grid" id="image-container"></div>
+            <div class="sentinel"></div>
+        </section>
+    </main>
+
+    <header class="fixed-top app-toolbar" id="fixed-top">
+        <div class="toolbar-title-row">
+            <div>
+                <h1>简易Kards卡组编辑器 <a href="javascript:void(0)" onclick="onTitleVerClick()">v1.5.1</a></h1>
+                <p class="toolbar-subtitle">快速筛选、构筑并导出你的 KARDS 卡组</p>
+            </div>
+        </div>
+
+        <div class="filter-panel">
+            <label class="field-pill">主国
+                <select id="Main" onchange="onMainChanged(this.value)">
+                  <option value="0">---</option>
+                  <option value="1">德国</option>
+                  <option value="2">英国</option>
+                  <option value="3">日本</option>
+                  <option value="4">苏联</option>
+                  <option value="5">美国</option>
+                </select>
+            </label>
+            <label class="field-pill">盟国
+                <select id="Ally" onchange="onAllyChanged(this.value)">
+                  <option value="0">---</option>
+                  <option value="1">德国</option>
+                  <option value="2">英国</option>
+                  <option value="3">日本</option>
+                  <option value="4">苏联</option>
+                  <option value="5">美国</option>
+                  <option value="6">法国</option>
+                  <option value="7">意大利</option>
+                  <option value="8">波兰</option>
+                  <option value="9">芬兰</option>
+                  <option value="a">澳新军团</option>
+                </select>
+            </label>
+            <label class="field-pill">国家
+                <select id="Fac" onchange="onFacChanged(this.value)">
+                  <option value="0">---</option>
+                  <option value="1">德国</option>
+                  <option value="2">英国</option>
+                  <option value="3">日本</option>
+                  <option value="4">苏联</option>
+                  <option value="5">美国</option>
+                  <option value="6">法国</option>
+                  <option value="7">意大利</option>
+                  <option value="8">波兰</option>
+                  <option value="9">芬兰</option>
+                  <option value="a">澳新军团</option>
+                </select>
+            </label>
+            <label class="field-pill compact">花费
+                <input id="ReditsInput" type="number" min="-1" max="20" onchange="onReditsChanged(this.value)"/>
+            </label>
+            <label class="field-pill">卡池
+                <select id="Reserved" onchange="onReservedChanged(this.value)">
+                  <option value="0">全部</option>
+                  <option value="1">活跃</option>
+                  <option value="2">预备</option>
+                  <option value="3">衍生</option>
+                </select>
+            </label>
+            <label class="field-pill">稀有度
+                <select id="Rarity" onchange="onRarityChanged(this.value)">
+                  <option value="All">全部</option>
+                  <option value="Standard">普通</option>
+                  <option value="Limited">限定</option>
+                  <option value="Special">特殊</option>
+                  <option value="Elite">精英</option>
+                </select>
+            </label>
+            <label class="field-pill">类型
+                <select id="Type" onchange="onTypeChanged(this.value)">
+                  <option value="All">全部</option>
+                  <option value="infantry">步兵</option>
+                  <option value="tank">坦克</option>
+                  <option value="artillery">炮兵</option>
+                  <option value="fighter">战斗机</option>
+                  <option value="bomber">轰炸机</option>
+                  <option value="order">指令</option>
+                  <option value="countermeasure">反制</option>
+                </select>
+            </label>
+            <label class="field-pill wide">套装
+                <select id="SSet" onchange="onSSetChanged(this.value)">
+                  <option value="All">全部</option>
+                  <option value="Base">基础</option>
+                  <option value="OceaniaStorm">澳新军团</option>
+                  <option value="Homefront">国土阵线</option>
+                  <option value="NavalWarfare">海战</option>
+                  <option value="BloodAndIron">血与铁</option>
+                  <option value="CovertOps">秘密行动</option>
+                  <option value="WinterWar">冬季战争</option>
+                  <option value="BrothersInArms">战友</option>
+                  <option value="TheatersOfWar">战区</option>
+                  <option value="WorldAtWar">世纪大战</option>
+                  <option value="Legions">军团</option>
+                  <option value="Breakthrough">突破</option>
+                  <option value="Allegiance">忠诚</option>
+                </select>
+            </label>
+            <label class="field-pill search-field">搜索
+                <input id="Search" type="text" onchange="onSearchChanged(this.value)" placeholder="卡牌标题、描述、ID">
+            </label>
+        </div>
+
+        <div class="toolbar-actions">
+            <button type="button" onclick="onSetAttrButtonClicked()">属性筛选</button>
+            <button id="showArraysBtn" class="action-btn edit-btn" type="button">筛选器列表</button>
+            <button class="action-btn delete-btn" type="button" onclick="onSearchClick()">清空搜索</button>
+            <button class="action-btn delete-btn" type="button" onclick="onRemoveAllFilterClick()">清空所有筛选器</button>
+        </div>
+        <div class="top-trigger" id="top-trigger" onclick="onTopClick()">⌃</div>
+    </header>
 	
 	    <!-- 手机上的侧边栏触发器 -->
     <div class="sidebar-trigger" id="sidebarTrigger">
@@ -410,54 +431,63 @@
 	
 	<div class="modal" id="modal" style="display: block;"></div>
 	
-	<div class="sidebar" id="sidebar">
+	<aside class="sidebar" id="sidebar" aria-label="卡组面板">
 		<div class="sidebar-content">
-			<button class="button exportbutton" onclick="onExportClick()">生成卡组导入码</button>
-			<br>
-			<button style="margin-top: 5px" class="button exportbutton" onclick="onImportClicked()">从导入码导入卡组</button>
-			<br>
-			<input id="allowError" type="checkbox" onclick="onAllowErrorClicked(this)">允许不正确的卡组
-			<br>
-			<span>CDN：</span>
-			<select id="CDN_Sel" onchange="onCDNSelChanged(this.value)" style="margin-bottom: 5px">
-			  <option value="0">jsd-proxy.ygxz.in</option>
-			  <option value="1">cdn.smartcis.cn</option>
-			  <option value="2">cdn.bili33.top</option>
-			  <option value="3" selected>gcore.jsdelivr.net</option>
-			  <option value="4">testingcf.jsdelivr.net</option>
-			  <option value="5">cdn.jsdelivr.net</option>
-			  <option value="6">无CDN</option>
-			</select>
-			<br>
-			<span id="cdn_info">正在检测...</span>
-			<br>
-			<button type="button" onclick="refreshAll()" style="margin-top: 5px">刷新</button>
-			<button type="button" onclick="reloadAll()" style="margin-top: 5px">重新加载</button>
-			<br>
-			<span>版本：</span>
-			<select id="Version_Sel" onchange="onVersionSelChanged(this.value)" style="margin-top: 5px">
-			  <option value="v41">v41</option>
-			  <option value="v42">v42</option>
-			  <option value="v45">v45</option>
-			  <option value="v46">v46</option>
-			  <option value="v46_1">v46_1</option>
-			  <option value="v47">v47</option>
-			  <option value="v48">v48</option>
-			  <option value="v51" selected>v51</option>
-			</select>
-			<h3 id="Deck_Card_Count">1 / 40</h3>
-			<div class="deck-card-board" style="height: 23px; background-color: #d0cbbd;">
-				<span style="margin: auto;">
-					总部
-				</span>
+            <div class="deck-hero">
+                <span class="eyebrow">Deck Builder</span>
+                <h2>当前卡组</h2>
+                <h3 id="Deck_Card_Count">1 / 40</h3>
+            </div>
+
+            <div class="sidebar-actions">
+                <button class="button exportbutton" onclick="onExportClick()">生成导入码</button>
+                <button class="button exportbutton" onclick="onImportClicked()">导入卡组</button>
+            </div>
+
+            <label class="toggle-row"><input id="allowError" type="checkbox" onclick="onAllowErrorClicked(this)">允许不正确的卡组</label>
+
+            <div class="sidebar-settings">
+                <label>CDN
+                    <select id="CDN_Sel" onchange="onCDNSelChanged(this.value)">
+                      <option value="0">jsd-proxy.ygxz.in</option>
+                      <option value="1">cdn.smartcis.cn</option>
+                      <option value="2">cdn.bili33.top</option>
+                      <option value="3" selected>gcore.jsdelivr.net</option>
+                      <option value="4">testingcf.jsdelivr.net</option>
+                      <option value="5">cdn.jsdelivr.net</option>
+                      <option value="6">无CDN</option>
+                    </select>
+                </label>
+                <span id="cdn_info">正在检测...</span>
+                <div class="setting-buttons">
+                    <button type="button" onclick="refreshAll()">刷新</button>
+                    <button type="button" onclick="reloadAll()">重新加载</button>
+                </div>
+                <label>版本
+                    <select id="Version_Sel" onchange="onVersionSelChanged(this.value)">
+                      <option value="v41">v41</option>
+                      <option value="v42">v42</option>
+                      <option value="v45">v45</option>
+                      <option value="v46">v46</option>
+                      <option value="v46_1">v46_1</option>
+                      <option value="v47">v47</option>
+                      <option value="v48">v48</option>
+                      <option value="v51" selected>v51</option>
+                    </select>
+                </label>
+            </div>
+
+			<div class="deck-card-board hq-card">
+				<span>总部</span>
 			</div>
-			<div id="deck">
-			</div>
-			<button id="ShowData" style="margin-top: 5px; display: none;" class="action-btn edit-btn" type="button" onclick="onDataShowClick()">查看卡组数据</button>
-			<button id="ShowDeck" style="margin-top: 5px; display: none;" class="action-btn save-btn" type="button" onclick="onDeckShowClick()">生成卡组图片</button>
-			<button id="RemoveDeck" style="margin-top: 5px; display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
+			<div id="deck"></div>
+            <div class="deck-footer-actions">
+                <button id="ShowData" style="display: none;" class="action-btn edit-btn" type="button" onclick="onDataShowClick()">卡组数据</button>
+                <button id="ShowDeck" style="display: none;" class="action-btn save-btn" type="button" onclick="onDeckShowClick()">生成图片</button>
+                <button id="RemoveDeck" style="display: none;" class="action-btn delete-btn" type="button" onclick="onDeckRemoveClick()">清空</button>
+            </div>
 		</div>
-	</div>
+	</aside>
     
     <div id="zoom-container" class="zoom">
 		<img id="zoom" style="height: 30px;width: 30px;touch-action: none;user-select: none;" draggable="true" ondragstart="drag(event)" src="images/icon/zoom.svg" alt="放大镜">

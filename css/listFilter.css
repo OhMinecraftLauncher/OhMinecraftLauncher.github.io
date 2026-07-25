@@ -1,165 +1,148 @@
-        #arrayDisplayModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            max-width: 80%;
-            max-height: 80vh;
-            overflow: auto;
-        }
-        
-        #arrayDisplayModal h2 {
-            margin-top: 0;
-            color: #333;
-        }
-        
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-        }
-        
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        
-        .modal-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-        
-        .action-btn {
-            padding: 5px 10px;
-            margin: 0 2px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .edit-btn {
-            background-color: #2196F3;
-            color: white;
-        }
-        
-        .edit-btn:hover {
-            background-color: #0b7dda;
-        }
-        
-        .delete-btn {
-            background-color: #f44336;
-            color: white;
-        }
-        
-        .delete-btn:hover {
-            background-color: #da190b;
-        }
-        
-        .edit-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1001;
-            width: 300px;
-        }
-        
-        .edit-modal h3 {
-            margin-top: 0;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .form-actions {
-            text-align: right;
-            margin-top: 20px;
-        }
-        
-        .form-actions button {
-            padding: 8px 15px;
-            margin-left: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .save-btn {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .cancel-btn {
-            background-color: #f44336;
-            color: white;
-        }
+#arrayDisplayModal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    max-width: 92vw;
+    width: min(92vw, 980px);
+    text-align: left;
+}
 
-        .save-btn:hover {
-            background-color: #228700;
-            color: white;
-        }
-        
-        .cancel-btn:hover {
-            background-color: #981700;
-            color: white;
-        }
-		
-		.add-filter-buttons {
+#arrayDisplayModal h2,
+#arrayDisplayModal h3,
+.edit-modal h3 {
+    margin-top: 0;
+    color: var(--text);
+    letter-spacing: -0.03em;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+th,
+td {
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 10px;
+    text-align: left;
+    font-size: 13px;
+}
+
+th {
+    color: var(--muted);
+    background: rgba(244, 241, 234, 0.86);
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.46);
+}
+
+tr:last-child td {
+    border-bottom: 0;
+}
+
+.modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(25, 23, 20, 0.5);
+    backdrop-filter: blur(6px);
+    z-index: 999;
+}
+
+.action-btn {
+    padding: 7px 12px;
+    margin: 0 2px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.edit-btn,
+.save-btn,
+.add-btn {
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+}
+
+.edit-btn:hover,
+.save-btn:hover,
+.add-btn:hover {
+    color: white;
+    background: linear-gradient(135deg, #c88946, #8d5a2b);
+}
+
+.delete-btn,
+.cancel-btn {
+    color: white;
+    background: linear-gradient(135deg, #bf5a52, var(--danger));
+}
+
+.delete-btn:hover,
+.cancel-btn:hover {
+    color: white;
+    background: linear-gradient(135deg, #ce6860, #983730);
+}
+
+.edit-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    width: min(92vw, 380px);
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 38px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.add-filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     margin-bottom: 20px;
 }
 
 .add-btn {
-    padding: 8px 15px;
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.add-btn:hover {
-    background-color: #e68a00;
+    margin-right: 0;
 }

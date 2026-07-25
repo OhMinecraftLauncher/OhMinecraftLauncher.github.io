@@ -1,18 +1,23 @@
-/* 补充样式（如果需要的样式在已有CSS中没有） */
-        .modal-input {
-            width: 80%;
-            height: 300px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-            resize: none; 
-        }
-        
-        .modal-actions {
-            margin-top: 20px;
-        }
-        
-        .modal-actions button {
-            margin: 0 10px;
-        }
+.modal-input {
+    width: 100%;
+    min-height: 260px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.74);
+    font-size: 15px;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    margin: 0;
+}

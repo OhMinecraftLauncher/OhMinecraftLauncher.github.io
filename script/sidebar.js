@@ -67,8 +67,11 @@ updateBadge(count);
         });
 		
 		function adjustSidebarHeight() {
-		const windowHeight = window.innerHeight;
-		sidebar.style.height = `${windowHeight}px`;
+		if (window.innerWidth > 1200) {
+			sidebar.style.height = "";
+		} else {
+			sidebar.style.height = `${Math.max(window.innerHeight - 36, 320)}px`;
+		}
 }
 
 // 初始调整

@@ -1,19 +1,36 @@
 #loading-container {
-	margin: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-	width:100%;
-	height: 30px;
-	background:#f1f1f1;
-	position: fixed;
-	z-index: 1004;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 1004;
+    width: min(520px, calc(100vw - 36px));
+    min-height: 96px;
+    transform: translate(-50%, -50%);
+    padding: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 22px;
+    background: rgba(250, 248, 243, 0.94);
+    box-shadow: 0 24px 70px rgba(10, 8, 6, 0.25);
 }
 
 #progress-bar {
-	height:4px;
-	width:0%;
-	background:#4CAF50;
+    height: 6px;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), #d6a05f);
+}
+
+#loading-text {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+#loading-container button {
+    position: absolute !important;
+    right: 12px !important;
+    top: 12px !important;
+    width: 28px;
+    min-height: 28px;
+    padding: 0;
 }

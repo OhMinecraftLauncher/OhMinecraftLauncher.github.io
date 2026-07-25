@@ -1,14 +1,17 @@
 #deck-show-grid {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
-    gap: 10px; /* 图片间距 */
+    gap: 10px;
     width: 100%;
-	margin-top: 50px;
+    margin-top: 36px;
 }
-		
+
 #capture {
-	position: absolute;
-	left: -9999px;
-	top: 0px;
-	width: 1200px;
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    width: 1200px;
+    padding: 32px;
+    color: #191714;
+    background: #f4f1ea;
 }

@@ -1,37 +1,36 @@
+.copy-container {
+    display: flex;
+    margin: 20px 0;
+    align-items: center;
+    justify-content: center;
+}
 
-        /* 补充样式 */
-        .copy-container {
-            display: flex;
-            margin: 20px 0;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .copy-input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px 0 0 4px;
-            width: 70%;
-            max-width: 400px;
-            background-color: #f5f5f5;
-            font-family: monospace;
-        }
-        
-        .copy-btn {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .copy-btn:hover {
-            background-color: #45a049;
-        }
-        
-        .modal-text {
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
+.copy-input {
+    width: 70%;
+    max-width: 420px;
+    min-height: 42px;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px 0 0 999px;
+    background: rgba(255, 255, 255, 0.74);
+    font-family: "Cascadia Mono", Consolas, monospace;
+}
+
+.copy-btn {
+    min-height: 42px;
+    padding: 10px 16px;
+    border-radius: 0 999px 999px 0;
+    color: white;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+}
+
+.copy-btn:hover {
+    color: white;
+    background: linear-gradient(135deg, #c88946, #8d5a2b);
+}
+
+.modal-text {
+    margin-bottom: 20px;
+    color: var(--muted);
+    line-height: 1.6;
+}
