@@ -11,8 +11,8 @@ var orFilters = [];
 let isJsonLoading = true;           // 防止重复加载
 let isLoading = false;           // 防止重复加载
 const BATCH_SIZE = 20;           // 每次加载的图片数量
-let CardsJsonFileName = "Cards_v51.json";
-const TARGET_VERSION = 22;
+let CardsJsonFileName = "Cards_v53.json";
+const TARGET_VERSION = 23;
 
 
 //const CDN_URL = "https://cdn.statically.io/gh/ohminecraftlauncher/ohminecraftlauncher.github.io/master";
@@ -38,7 +38,8 @@ let contentLength =
 	v46_1:3660286,
 	v47:3653632,
 	v48:3714296,
-	v51:4031032
+	v51:4031032,
+	v53:4178107
 };
 
 /**
