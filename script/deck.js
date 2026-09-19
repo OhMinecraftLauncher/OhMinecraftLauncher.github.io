@@ -65,7 +65,7 @@ function checkDeck()
 					return;
 				}
 				var k = JSON.parse(key);
-				if (k.json.set === "OnlySpawnable")
+				if (readCardsJsonByPath(k, "json.set") === "OnlySpawnable")
 				{
 					throw new Error("HaveSpab");
 				}
@@ -73,22 +73,22 @@ function checkDeck()
 				var IsAllyCard = false;
 				if (oldmain !== "")
 				{
-					if (oldmain === k.json.faction)
+					if (oldmain === readCardsJsonByPath(k, "json.faction"))
 					{
 						IsMainCard = true;
 					}
-					if (oldmain === k.json.exile)
+					if (oldmain === readCardsJsonByPath(k, "json.exile"))
 					{
 						IsMainCard = true;
 					}
 				}
 				if (oldally !== "")
 				{
-					if (oldally === k.json.faction)
+					if (oldally === readCardsJsonByPath(k, "json.faction"))
 					{
 						IsAllyCard = true;
 					}
-					if (oldally === k.json.exile)
+					if (oldally === readCardsJsonByPath(k, "json.exile"))
 					{
 						IsAllyCard = true;
 					}
@@ -109,7 +109,7 @@ function checkDeck()
 				{
 					throw new Error("MuchAlly");
 				}
-				switch (k.json.rarity)
+				switch (readCardsJsonByPath(k, "json.rarity"))
 				{
 					case "Standard":
 						if (cCards[key] >= 5)
@@ -134,25 +134,25 @@ function checkDeck()
 						{
 							throw new Error("MuchACard");
 						}
-						if ((oldmain !== "") && (k.json.faction !== oldmain))
+						if ((oldmain !== "") && (readCardsJsonByPath(k, "json.faction") !== oldmain))
 						{
 							throw new Error("NotMEli");
 						}
 						/*
 						var IsinElFacArr = false;
 						elite_factions.forEach((el_fac) => {
-							if (el_fac === k.json.faction)
+							if (el_fac === readCardsJsonByPath(k, "json.faction"))
 							{
 								IsinElFacArr = true;
 							}
-							if (el_fac === k.json.exile)
+							if (el_fac === readCardsJsonByPath(k, "json.exile"))
 							{
 								IsinElFacArr = true;
 							}
 						})
 						if (!IsinElFacArr)
 						{
-							elite_factions.push(k.json.faction);
+							elite_factions.push(readCardsJsonByPath(k, "json.faction"));
 						}
 						*/
 						break;
@@ -160,18 +160,18 @@ function checkDeck()
 				/*
 				var IsinFacArr = false;
 				factions.forEach((fac) => {
-					if (fac === k.json.faction)
+					if (fac === readCardsJsonByPath(k, "json.faction"))
 					{
 						IsinFacArr = true;
 					}
-					if (fac === k.json.exile)
+					if (fac === readCardsJsonByPath(k, "json.exile"))
 					{
 						IsinFacArr = true;
 					}
 				});
 				if (!IsinFacArr)
 				{
-					factions.push(k.json.faction);
+					factions.push(readCardsJsonByPath(k, "json.faction"));
 				}
 				if (factions.length >= 3)
 				{
@@ -258,7 +258,7 @@ function loadDeck()
 	}
 	Object.keys(cCards).sort((a,b) =>
 	{
-		return JSON.parse(a).json.kredits - JSON.parse(b).json.kredits;
+		return readCardsJsonByPath(a, "json.kredits", 0) - readCardsJsonByPath(b, "json.kredits", 0);
 	}).forEach((item) => 
 	{
 		if (cCards[item] <= 0)
@@ -282,7 +282,7 @@ function loadDeck()
 		};
 		j = JSON.parse(item);
 		var bodycolor = "#3b3c40";
-		switch (j.json.faction)
+		switch (readCardsJsonByPath(j, "json.faction", ""))
 		{
 			case "Germany":
 				bodycolor = "#5e6965";
@@ -316,7 +316,7 @@ function loadDeck()
 				break;
 		}
 		var countcolor = "#3d3d3a";
-		switch (j.json.rarity)
+		switch (readCardsJsonByPath(j, "json.rarity"))
 		{
 			case "Standard":
 				countcolor = "#707170";
@@ -333,23 +333,23 @@ function loadDeck()
 		}
 			deck_card_board.innerHTML = 
 				"<div class=\"deck-card-kredits-board\"><span class=\"deck-card-kredits-text\">" + 
-				j.json.kredits +
+				readCardsJsonByPath(j, "json.kredits", 0) +
 				(
-					j.json.operationCost === undefined ? 
+					readCardsJsonByPath(j, "json.operationCost") === undefined ? 
 					"<sup><span class=\"K-text\">K</span></sup>"
 					: 
 					("<span class=\"deck-card-kredits-subp\"><sup><span class=\"K-text\">K</span></sup><sub><span class=\"op-text\">" + 
-					j.json.operationCost + 
+					readCardsJsonByPath(j, "json.operationCost") + 
 					"</span> </sub></span>")
 				) + 
-				"</span></div><div class=\"deck-card-body-board\" style=\"background-color: " + bodycolor + "\"><span class=\"deck-card-body-text\" style=\"width: " + (j.json.reserved ? "120" : "143") + "px\">" + 
-				j.json.title["zh-Hans"] + 
-				"</span>" + (j.json.reserved ? "<img src=\"images/icon/reserved.svg\">" : "") + "<img src=\"" + 
-				"images/icon/" + j.json.faction.toLowerCase() + ".svg" + 
+				"</span></div><div class=\"deck-card-body-board\" style=\"background-color: " + bodycolor + "\"><span class=\"deck-card-body-text\" style=\"width: " + (readCardsJsonByPath(j, "json.reserved") ? "120" : "143") + "px\">" + 
+				readCardsJsonByPath(j, "json.title[\"zh-Hans\"]", "") + 
+				"</span>" + (readCardsJsonByPath(j, "json.reserved") ? "<img src=\"images/icon/reserved.svg\">" : "") + "<img src=\"" + 
+				"images/icon/" + readCardsJsonByPath(j, "json.faction", "").toLowerCase() + ".svg" + 
 				"\"></div><div class=\"deck-card-thumb\"><img src=\"" + 
-				CDN_URL + j.thumbUrl + 
+				CDN_URL + readCardsJsonByPath(j, "thumbUrl", "") + 
 				"\" alt=\"" + 
-				j.json.title["zh-Hans"] + 
+				readCardsJsonByPath(j, "json.title[\"zh-Hans\"]", "") + 
 				"\"></div><div class=\"deck-card-count-board\" style=\"background-color: " + countcolor + "\">" + 
 				"x" + cCards[item] + 
 				"</div>";
@@ -390,19 +390,19 @@ function Export()
 				key_Card_count -= 4;
 				if (key_Card_count === -3)
 				{
-					one = one + k.importId;
+					one = one + readCardsJsonByPath(k, "importId", "");
 				}
 				else if (key_Card_count === -2)
 				{
-					two = two + k.importId;
+					two = two + readCardsJsonByPath(k, "importId", "");
 				}
 				else if (key_Card_count === -1)
 				{
-					three = three + k.importId;
+					three = three + readCardsJsonByPath(k, "importId", "");
 				}
 				else if (key_Card_count >= 0)
 				{
-					four = four + k.importId;
+					four = four + readCardsJsonByPath(k, "importId", "");
 				}
 			}
 		});

@@ -196,12 +196,13 @@ document.addEventListener("DOMContentLoaded", function() {
         })
 		*/
         .then(data => {
-            if (!data.cards || !Array.isArray(data.cards)) {
+            const cards = readCardsJsonByPath(data, "cards");
+            if (!cards || !Array.isArray(cards)) {
                 throw new Error("JSON 格式错误：缺少 cards 数组");
             }
             j = data;
-            allCards = data.cards;
-            currentCards = data.cards;
+            allCards = cards;
+            currentCards = cards;
             initIntersectionObserver(); // 初始化观察器
             loadNextBatch();          // 首次加载
 			isJsonLoading = false;
@@ -302,12 +303,13 @@ function reloadAll()
 	isLoading = false;
 	fetchWithProgress(CDN_URL + "/" + CardsJsonFileName)
         .then(data => {
-            if (!data.cards || !Array.isArray(data.cards)) {
+            const cards = readCardsJsonByPath(data, "cards");
+            if (!cards || !Array.isArray(cards)) {
                 throw new Error("JSON 格式错误：缺少 cards 数组");
             }
             j = data;
-            allCards = data.cards;
-            currentCards = data.cards;
+            allCards = cards;
+            currentCards = cards;
             initIntersectionObserver(); // 初始化观察器
             //loadNextBatch();          // 首次加载
 			isJsonLoading = false;
@@ -453,17 +455,6 @@ function removeAllFilters()
  function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
     if (!Array.isArray(arr)) return [];
 
-    // 获取键路径对应的值（支持点号和数组索引）
-    const getValueByPath = (obj, path) => {
-        const tokens = path.split(/\.|\[|\]/).filter(token => token !== '');
-        let current = obj;
-        for (const token of tokens) {
-            if (current === null || current === undefined) return undefined;
-            current = /^\d+$/.test(token) ? current[parseInt(token, 10)] : current[token];
-        }
-        return current;
-    };
-
     /**
      * 匹配单个条件（不包含 and 子条件）
      * @param {*} value                 - 待检查的值（如 pathValue）
@@ -527,7 +518,7 @@ function removeAllFilters()
 
         groupFilters.forEach(filter => {
             const filtered = arr.filter(item => {
-                const pathValue = getValueByPath(item, filter.path);
+                const pathValue = readCardsJsonByPath(item, filter.path);
                 if (pathValue === undefined) return false;
 
                 // 主条件匹配
@@ -541,7 +532,7 @@ function removeAllFilters()
 
                 // 若有 and 子条件，则继续匹配（注意：传入外层 pathValue 和 filter.value）
                 if (filter.and !== undefined && filter.and !== null) {
-                    const andPathValue = getValueByPath(item, filter.and.path);
+                    const andPathValue = readCardsJsonByPath(item, filter.and.path);
                     if (andPathValue === undefined) return false;
                     const andPassed = matchValue(
                         andPathValue,
@@ -566,7 +557,7 @@ function removeAllFilters()
     if (andFilters.length > 0) {
         result = result.filter(item => {
             return andFilters.every(filter => {
-                const pathValue = getValueByPath(item, filter.path);
+                const pathValue = readCardsJsonByPath(item, filter.path);
                 if (pathValue === undefined) return false;
                 return matchValue(
                     pathValue,
@@ -580,237 +571,10 @@ function removeAllFilters()
 
     return result;
 }
- /*
-function filterWithComplexConditions(arr, orFilters = [], andFilters = []) {
-    if (!Array.isArray(arr)) return [];
-    
-    // 获取键路径对应的值
-    const getValueByPath = (obj, path) => {
-        const tokens = path.split(/\.|\[|\]/).filter(token => token !== '');
-        let current = obj;
-        
-        for (const token of tokens) {
-            if (current === null || current === undefined) return undefined;
-            current = /^\d+$/.test(token) ? current[parseInt(token, 10)] : current[token];
-        }
-        return current;
-    };
-    
-    // 处理或筛选器组
-    const orGroups = {};
-    orFilters.forEach(filter => {
-        if (!orGroups[filter.group]) {
-            orGroups[filter.group] = [];
-        }
-        orGroups[filter.group].push(filter);
-    });
-    
-    // 初始结果为全集
-    let result = [...arr];
-    
-    // 处理每个或筛选器组
-    for (const groupId in orGroups) {
-        const groupFilters = orGroups[groupId];
-        let groupResults = [];
-        
-        // 计算组内每个筛选器的结果并合并（或关系）
-        groupFilters.forEach(filter => {
-            const filtered = arr.filter(item => {
-                const pathValue = getValueByPath(item, filter.path);
-				if (pathValue === undefined) return false;
-				var filter_result = false;
-				if (!filter.no)
-				{
-					if (!filter.contain) filter_result = (pathValue === filter.value);
-					else
-					{
-						filter_result = pathValue.includes(filter.value);
-						if (!filter_result && Array.isArray(pathValue))
-						{
-							try
-							{
-								pathValue.forEach((pathValue_item) => {
-									if (pathValue_item.includes(filter.value))
-									{
-										filter_result = true;
-										throw new Error("ELOP");
-									}
-								});
-							}
-							catch (e)
-							{
-								if (e.message !== "ELOP") throw e;
-							}
-						}
-					}
-				}
-				else
-				{
-					if (!filter.contain) filter_result = (pathValue !== filter.value);
-					else 
-					{
-						filter_result = (!pathValue.includes(filter.value));
-						if (!filter_result && Array.isArray(pathValue))
-						{
-							try
-							{
-								pathValue.forEach((pathValue_item) => {
-									if (!pathValue_item.includes(filter.value))
-									{
-										filter_result = true;
-										throw new Error("ELOP");
-									}
-								});
-							}
-							catch (e)
-							{
-								if (e.message !== "ELOP") throw e;
-							}
-						}
-					}
-				}
-				if (!filter_result)
-				{
-					return false;
-				}
-				else if (filter.and === undefined || filter.and === null)
-				{
-					return true;
-				}
-				else
-				{
-					const pathValue_and = getValueByPath(item, filter.and.path);
-					if (pathValue_and === undefined) return false;
-					if (!filter.and.no)
-					{
-						if (!filter.and.contain) return pathValue_and === filter.and.value;
-						else 
-						{
-							var filter_and_result = pathValue_and.includes(filter.and.value);
-							if (!filter_and_result && Array.isArray(pathValue))
-							{
-								try
-								{
-									pathValue.forEach((pathValue_item) => {
-										if (pathValue_item.includes(filter.value))
-										{
-											filter_and_result = true;
-											throw new Error("ELOP");
-										}
-									});
-								}
-								catch (e)
-								{
-									if (e.message !== "ELOP") throw e;
-								}
-							}
-							return filter_and_result;
-						}
-					}
-					else
-					{
-						if (!filter.and.contain) return pathValue_and !== filter.and.value;
-						else 
-						{
-							var filter_and_result = !pathValue_and.includes(filter.and.value);
-							if (!filter_and_result && Array.isArray(pathValue))
-							{
-								try
-								{
-									pathValue.forEach((pathValue_item) => {
-										if (!pathValue_item.includes(filter.value))
-										{
-											filter_and_result = true;
-											throw new Error("ELOP");
-										}
-									});
-								}
-								catch (e)
-								{
-									if (e.message !== "ELOP") throw e;
-								}
-							}
-							return filter_and_result;
-						}
-					}
-				}
-            });
-            groupResults = [...new Set([...groupResults, ...filtered])];
-        });
-        
-        // 与当前结果取交集（组间是与关系）
-        result = result.filter(item => groupResults.includes(item));
-    }
-    
-    // 处理与筛选器（必须满足所有条件）
-    if (andFilters.length > 0) {
-        result = result.filter(item => {
-            return andFilters.every(filter => {
-                const pathValue = getValueByPath(item, filter.path);
-				if (pathValue === undefined) return false;
-				if (!filter.no)
-				{
-					if (!filter.contain) return pathValue === filter.value;
-					else
-					{
-						var and_result = pathValue.includes(filter.value);
-						if (!and_result && Array.isArray(pathValue))
-						{
-							try
-							{
-								pathValue.forEach((pathValue_item) => {
-									if (pathValue_item.includes(filter.value))
-									{
-										and_result = true;
-										throw new Error("ELOP");
-									}
-								});
-							}
-							catch (e)
-							{
-								if (e.message !== "ELOP") throw e;
-							}
-						}
-						return and_result;
-					}
-				}
-				else
-				{
-					if (!filter.contain) return pathValue !== filter.value;
-					else
-					{ 
-						var and_result = !pathValue.includes(filter.value);
-						if (!and_result && Array.isArray(pathValue))
-						{
-							try
-							{
-								pathValue.forEach((pathValue_item) => {
-									if (!pathValue_item.includes(filter.value))
-									{
-										and_result = true;
-										throw new Error("ELOP");
-									}
-								});
-							}
-							catch (e)
-							{
-								if (e.message !== "ELOP") throw e;
-							}
-						}
-						return and_result;
-					}
-				}
-            });
-        });
-    }
-    
-    return result;
-}
-*/
 
 // getValueByPath 函数实现（与之前相同）
 function getValueByPath(obj, path) {
-    const tokens = path.split(/\.|\[|\]/).filter(token => token !== '');
+    const tokens = path.split(/\.|\[|\]/).filter(token => token !== '').map(token => token.replace(/^['"]|['"]$/g, ''));
     let current = obj;
     
     for (const token of tokens) {
@@ -829,13 +593,39 @@ function getValueByPath(obj, path) {
     return current;
 }
 
+/**
+ * 统一读取 Cards.json 数据。
+ * @param {string|Object} source - Cards.json 根对象、单张卡对象，或序列化后的单张卡 JSON 字符串
+ * @param {string} path - JSON path，例如 cards[0].json.title["zh-Hans"]、json.kredits、imageUrl
+ * @param {*} defaultValue - 路径不存在或 source 解析失败时返回的默认值
+ * @returns {*} JSON path 对应的值
+ */
+function readCardsJsonByPath(source, path, defaultValue = undefined) {
+    if (source === null || source === undefined || path === null || path === undefined) {
+        return defaultValue;
+    }
+
+    let target = source;
+    if (typeof target === "string") {
+        try {
+            target = JSON.parse(target);
+        }
+        catch {
+            return defaultValue;
+        }
+    }
+
+    const value = getValueByPath(target, path);
+    return value === undefined ? defaultValue : value;
+}
+
 function loadNextBatch() {
     if (isLoading || currentIndex >= currentCards.length) return;
     isLoading = true;
 
     const batch = currentCards.slice(currentIndex, currentIndex + BATCH_SIZE);
     batch.forEach(card => {
-        if (!card.imageUrl/* || !card.json?.title?.["zh-Hans"]*/) return;
+        if (!readCardsJsonByPath(card, "imageUrl", "")/* || !card.json?.title?.["zh-Hans"]*/) return;
 		
 		const div = document.createElement("div");
 		div.className = "card-container";
@@ -850,8 +640,8 @@ function loadNextBatch() {
 		};
 		
         const img = document.createElement("img");
-        img.src = CDN_URL + card.imageUrl;
-        img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+        img.src = CDN_URL + readCardsJsonByPath(card, "imageUrl", "");
+        img.alt = decodeUnicode(readCardsJsonByPath(card, "json.title[\"zh-Hans\"]", ""));
 		img.name = JSON.stringify(card);
 		img.className = "card-img"
 		img.addEventListener("click",function () {onCardsBeClicked(this.name);});
@@ -864,7 +654,7 @@ function loadNextBatch() {
 		};
 		div.appendChild(img);
 		
-		if (card.json.reserved)
+		if (readCardsJsonByPath(card, "json.reserved"))
 		{
 			const reserved_board = document.createElement("div");
 			reserved_board.className = "reserved-board";

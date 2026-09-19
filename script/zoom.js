@@ -189,8 +189,8 @@ function openZoomModal(data)
 {
 	var j = JSON.parse(data);
 	var img = document.createElement("img");
-	img.src = CDN_URL + j.imageUrl;
-    img.alt = decodeUnicode(j.json.title["zh-Hans"]);
+	img.src = CDN_URL + readCardsJsonByPath(j, "imageUrl", "");
+    img.alt = decodeUnicode(readCardsJsonByPath(j, "json.title[\"zh-Hans\"]", ""));
 	img.name = data;
 	img.ondragover = function() {
 		allowDrop(event);
@@ -215,31 +215,31 @@ function openZoomModal(data)
 	}
 	zoom_main_img.appendChild(img);
 	zoom_main_text.innerHTML = 
-	"<strong>标题：</strong>" + decodeUnicode(j.json.title["zh-Hans"] === undefined ? "无" : j.json.title["zh-Hans"]) + "<br>" +
-	"<strong>内容：</strong>" + decodeUnicode(j.json.text["zh-Hans"] === undefined ? "无" : j.json.text["zh-Hans"]) + "<br>" + 
-	"<strong>国家：</strong>" + FactionEnglishToChinese(j.json.faction) + "<br>" + 
-	(j.json.exile === undefined ? "" : "<strong>流亡：</strong>" + FactionEnglishToChinese(j.json.exile) + "<br>") + 
-	"<strong>稀有度：</strong>" + RarityEngToZh(j.json.rarity) + "<br>" + 
-	"<strong>类型：</strong>" + TypeEngToZh(j.json.type) + "<br>" +
-	"<strong>导入代码：</strong>" + (j.importId === "" ? "无" : j.importId) + "<br>" + 
-	"<strong>花费：</strong>" + j.json.kredits + "<br>" +
-	(j.json.operationCost === undefined ? "" : "<strong>行动花费：</strong>" + j.json.operationCost + "<br>") + 
-	(j.json.attack === undefined ? "" : "<strong>攻击力：</strong>" + j.json.attack + "<br>") + 
-	(j.json.defense === undefined ? "" : "<strong>防御力：</strong>" + j.json.defense + "<br>");
-	if (j.json.attributes !== undefined)
+	"<strong>标题：</strong>" + decodeUnicode(readCardsJsonByPath(j, "json.title[\"zh-Hans\"]", "无")) + "<br>" +
+	"<strong>内容：</strong>" + decodeUnicode(readCardsJsonByPath(j, "json.text[\"zh-Hans\"]", "无")) + "<br>" + 
+	"<strong>国家：</strong>" + FactionEnglishToChinese(readCardsJsonByPath(j, "json.faction", "")) + "<br>" + 
+	(readCardsJsonByPath(j, "json.exile") === undefined ? "" : "<strong>流亡：</strong>" + FactionEnglishToChinese(readCardsJsonByPath(j, "json.exile")) + "<br>") + 
+	"<strong>稀有度：</strong>" + RarityEngToZh(readCardsJsonByPath(j, "json.rarity")) + "<br>" + 
+	"<strong>类型：</strong>" + TypeEngToZh(readCardsJsonByPath(j, "json.type")) + "<br>" +
+	"<strong>导入代码：</strong>" + (readCardsJsonByPath(j, "importId", "") === "" ? "无" : readCardsJsonByPath(j, "importId", "")) + "<br>" + 
+	"<strong>花费：</strong>" + readCardsJsonByPath(j, "json.kredits", 0) + "<br>" +
+	(readCardsJsonByPath(j, "json.operationCost") === undefined ? "" : "<strong>行动花费：</strong>" + readCardsJsonByPath(j, "json.operationCost") + "<br>") + 
+	(readCardsJsonByPath(j, "json.attack") === undefined ? "" : "<strong>攻击力：</strong>" + readCardsJsonByPath(j, "json.attack") + "<br>") + 
+	(readCardsJsonByPath(j, "json.defense") === undefined ? "" : "<strong>防御力：</strong>" + readCardsJsonByPath(j, "json.defense") + "<br>");
+	if (readCardsJsonByPath(j, "json.attributes") !== undefined)
 	{
-		j.json.attributes.forEach((item) => {
+		readCardsJsonByPath(j, "json.attributes").forEach((item) => {
 			if (item.includes("Veteran"))
 			{
 				var cre_id = item.split(':')[1];
 				try
 				{
 					allCards.forEach((card) => {
-						if (card.cardId === cre_id)
+						if (readCardsJsonByPath(card, "cardId") === cre_id)
 						{
 							var cre_img = document.createElement("img");
-							cre_img.src = CDN_URL + card.imageUrl;
-							cre_img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+							cre_img.src = CDN_URL + readCardsJsonByPath(card, "imageUrl", "");
+							cre_img.alt = decodeUnicode(readCardsJsonByPath(card, "json.title[\"zh-Hans\"]", ""));
 							cre_img.name = JSON.stringify(card);
 							cre_img.ondragover = function() {
 								allowDrop(event);
@@ -265,18 +265,18 @@ function openZoomModal(data)
 			}
 		});
 	}
-	if (j.json.can_create !== undefined)
+	if (readCardsJsonByPath(j, "json.can_create") !== undefined)
 	{
-		j.json.can_create.forEach((item) =>
+		readCardsJsonByPath(j, "json.can_create").forEach((item) =>
 		{
 			try
 			{
 				allCards.forEach((card) => {
-					if (card.cardId === item)
+					if (readCardsJsonByPath(card, "cardId") === item)
 					{
 						var cre_img = document.createElement("img");
-						cre_img.src = CDN_URL + card.imageUrl;
-						cre_img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+						cre_img.src = CDN_URL + readCardsJsonByPath(card, "imageUrl", "");
+						cre_img.alt = decodeUnicode(readCardsJsonByPath(card, "json.title[\"zh-Hans\"]", ""));
 						cre_img.name = JSON.stringify(card);
 						cre_img.ondragover = function() {
 							allowDrop(event);
@@ -303,14 +303,14 @@ function openZoomModal(data)
 	}
 	allCards.forEach((card) =>
 	{
-		if (card.json.can_create !== undefined)
+		if (readCardsJsonByPath(card, "json.can_create") !== undefined)
 		{
-			card.json.can_create.forEach((item) => {
-				if (item === j.json.id)
+			readCardsJsonByPath(card, "json.can_create").forEach((item) => {
+				if (item === readCardsJsonByPath(j, "json.id"))
 				{
 					var becre_img = document.createElement("img");
-					becre_img.src = CDN_URL + card.imageUrl;
-					becre_img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+					becre_img.src = CDN_URL + readCardsJsonByPath(card, "imageUrl", "");
+					becre_img.alt = decodeUnicode(readCardsJsonByPath(card, "json.title[\"zh-Hans\"]", ""));
 					becre_img.name = JSON.stringify(card);
 					becre_img.ondragover = function() {
 						allowDrop(event);

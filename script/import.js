@@ -67,7 +67,7 @@
 								Card_count++;
 								inputValue_cCards.forEach((cCard_impcode) => {
 									allCards.forEach((card) => {
-										if (card.importId === cCard_impcode)
+										if (readCardsJsonByPath(card, "importId") === cCard_impcode)
 										{
 											if (cCards[JSON.stringify(card)] === undefined)
 											{

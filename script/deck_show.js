@@ -19,23 +19,23 @@ function onDeckShowClick()
 		}
 		document.getElementById("deck-show-card-count").innerHTML = count + " / 39";
 		document.getElementById("deck-show-importcode").innerHTML = exportcode + "（主国：" + FactionEnglishToChinese(oldmain) + " 盟国：" + FactionEnglishToChinese(oldally) + "）";
-		Object.keys(cCards).sort(function(a, b){return JSON.parse(a).json.kredits - JSON.parse(b).json.kredits}).forEach((key) => {
+		Object.keys(cCards).sort(function(a, b){return readCardsJsonByPath(a, "json.kredits", 0) - readCardsJsonByPath(b, "json.kredits", 0)}).forEach((key) => {
 			const card = JSON.parse(key);
 			for (var i = 1;i <= cCards[key];i++)
 			{
-				if (!card.imageUrl || !card.json?.title?.["zh-Hans"]) return;
+				if (!readCardsJsonByPath(card, "imageUrl", "") || !readCardsJsonByPath(card, "json.title[\"zh-Hans\"]")) return;
 				
 				const div = document.createElement("div");
 				div.className = "card-container";
 				
 				const img = document.createElement("img");
-				img.src = CDN_URL + card.imageUrl;
-				img.alt = decodeUnicode(card.json.title["zh-Hans"]);
+				img.src = CDN_URL + readCardsJsonByPath(card, "imageUrl", "");
+				img.alt = decodeUnicode(readCardsJsonByPath(card, "json.title[\"zh-Hans\"]", ""));
 				img.addEventListener("click",function () {onCardsBeClicked(this.name);});
 				img.loading = "lazy";
 				div.appendChild(img);
 				
-				if (card.json.reserved && showReCor)
+				if (readCardsJsonByPath(card, "json.reserved") && showReCor)
 				{
 					const reserved_board = document.createElement("div");
 					reserved_board.className = "reserved-board";

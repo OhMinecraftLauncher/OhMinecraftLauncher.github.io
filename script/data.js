@@ -18,17 +18,17 @@ function onDataShowClick()
 			return;
 		}
 		const k = JSON.parse(key);
-		if (data[k.json[data_show_type]] === undefined)
+		if (data[readCardsJsonByPath(k, "json." + data_show_type)] === undefined)
 		{
-			data[k.json[data_show_type]] = [];
+			data[readCardsJsonByPath(k, "json." + data_show_type)] = [];
 		}
-		if (data[k.json[data_show_type]][(k.json.kredits <= 7 ? k.json.kredits : 7)] === undefined)
+		if (data[readCardsJsonByPath(k, "json." + data_show_type)][(readCardsJsonByPath(k, "json.kredits", 0) <= 7 ? readCardsJsonByPath(k, "json.kredits", 0) : 7)] === undefined)
 		{
-			data[k.json[data_show_type]][(k.json.kredits <= 7 ? k.json.kredits : 7)] = cCards[key];
+			data[readCardsJsonByPath(k, "json." + data_show_type)][(readCardsJsonByPath(k, "json.kredits", 0) <= 7 ? readCardsJsonByPath(k, "json.kredits", 0) : 7)] = cCards[key];
 		}
 		else
 		{
-			data[k.json[data_show_type]][(k.json.kredits <= 7 ? k.json.kredits : 7)] += cCards[key];
+			data[readCardsJsonByPath(k, "json." + data_show_type)][(readCardsJsonByPath(k, "json.kredits", 0) <= 7 ? readCardsJsonByPath(k, "json.kredits", 0) : 7)] += cCards[key];
 		}
 	});
 	var chart_series = {
