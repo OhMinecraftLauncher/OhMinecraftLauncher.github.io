@@ -168,42 +168,42 @@
 
 @font-face {
     font-family: 'SHSC';
-    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Normal.otf');
+    src: url('https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Normal.otf');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'SHSC';
-    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Medium.otf');
+    src: url('https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Medium.otf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'SHSCB';
-    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Bold.otf');
+    src: url('https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/SourceHanSansCN-Bold.otf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'FG';
-    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-MediumCond.ttf');
+    src: url('https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-MediumCond.ttf');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'FG';
-    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-DemiCond.ttf');
+    src: url('https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/FranklinGothic-DemiCond.ttf');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
     font-family: 'RB';
-    src: url('https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/Roboto-Black.ttf');
+    src: url('https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/font/Roboto-Black.ttf');
 	font-weight: bold;
 	font-style: normal;
 }

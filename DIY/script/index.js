@@ -9,7 +9,7 @@ var cur_set = 0;
 var cur_faction = 0;
 
 //const CDN_URL = "";
-const CDN_URL = "https://jsd-proxy.ygxz.in/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/";
+const CDN_URL = "https://gcore.jsdelivr.net/gh/ohminecraftlauncher/ohminecraftlauncher.github.io@master/DIY/";
 
 const rarity = document.getElementById("rarity");
 const type = document.getElementById("type");
